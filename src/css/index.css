@@ -24,3 +24,7 @@ a {
 .opacity-hover:hover {
   opacity: 1;
 }
+
+.stretch {
+  grid-area: 1 / 1 / 3 / end;
+}

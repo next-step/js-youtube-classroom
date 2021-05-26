@@ -1,0 +1,15 @@
+#snack-bar {
+  visibility: hidden;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  border-radius: 10px;
+  position: fixed;
+  background-color: #363636;
+  padding: 10px 20px;
+  min-width: 120px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  bottom: 20px;
+  z-index: 99;
+}

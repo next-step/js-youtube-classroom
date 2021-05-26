@@ -1,5 +1,6 @@
 .chip {
   padding: 0 12px;
+  margin: 0 3px;
   background-color: #efefef;
   border-radius: 100px;
   display: inline-flex;
