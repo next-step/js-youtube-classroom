@@ -75,7 +75,7 @@ live-server 폴더명
 
 <br>
 
-## 👏 Contributing
+## 👏🏼 Contributing
 
 만약 미션 수행 중에 개선사항이 보인다면, 언제든 자유롭게 PR을 보내주세요.
 
