@@ -1,5 +1,9 @@
 import {observable} from "~_core/Observer";
 
+document.body.addEventListener('click', (e: MouseEvent) => {
+
+})
+
 export class Component<State, Props> {
 
   protected $state?: State;
@@ -11,6 +15,7 @@ export class Component<State, Props> {
     this.setup();
     this.$state = observable(this.$state);
     this.render();
+    this.setEvent();
     this.mounted();
   }
 
@@ -19,6 +24,16 @@ export class Component<State, Props> {
   public updated () {}
   public template () {
     return '';
+  }
+  public setEvent () {}
+  public addEvent (eventType: 'click', selector: string, callback: Function) {
+    this.$target.addEventListener(eventType, (e) => {
+      const target = e.target as HTMLElement;
+      const currentTarget = e.currentTarget as HTMLElement;
+      const checked = target.closest(selector) || [ ...currentTarget.querySelectorAll(selector) ].includes(target);
+      if (!checked) return;
+      callback(e);
+    })
   }
 
   public render () {
