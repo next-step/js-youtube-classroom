@@ -1,0 +1,19 @@
+{
+  "name": "step1",
+  "version": "1.0.0",
+  "description": "블랙커피 스터디 레벨 3 - Step1",
+  "scripts": {
+    "build": "parcel build ./src/index.html",
+    "dev": "parcel ./src/index.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5",
+    "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "src": "^1.1.2"
+  }
+}
