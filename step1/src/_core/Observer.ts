@@ -7,6 +7,9 @@ export function observe (fn: Function) {
 }
 
 export function observable<T> (obj: T): T {
+
+  if (!(obj instanceof Object)) return obj;
+
   Object.entries(obj).forEach(([ key, value ]) => {
     const observers: Set<Function> = new Set();
     let _value = value;

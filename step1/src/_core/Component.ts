@@ -4,7 +4,7 @@ document.body.addEventListener('click', (e: MouseEvent) => {
 
 })
 
-export class Component<State, Props> {
+export class Component<State = {}, Props = {}> {
 
   protected $state?: State;
 
@@ -13,7 +13,7 @@ export class Component<State, Props> {
     protected readonly $props?: Props,
   ) {
     this.setup();
-    this.$state = observable(this.$state);
+    this.$state = observable<State>(this.$state!);
     this.render();
     this.setEvent();
     this.mounted();
