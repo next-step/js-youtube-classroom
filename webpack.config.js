@@ -45,5 +45,3 @@ module.exports = {
     port: 8080,
   },
 };
-
-// index.html 파일이 제대로 server가 안되네!
