@@ -105,3 +105,5 @@ dist
 
 
 .prettierignore
+
+public/index.js

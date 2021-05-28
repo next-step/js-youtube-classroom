@@ -5,7 +5,6 @@ const $searchButton = document.querySelector("#search-button");
 const $modalClose = document.querySelector(".modal-close");
 const $modal = document.querySelector(".modal");
 
-console.log(process.env.HI);
 const onModalShow = () => {
   $modal?.classList.add("open");
 };
