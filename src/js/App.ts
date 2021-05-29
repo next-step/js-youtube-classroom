@@ -1,5 +1,8 @@
 import Component from "@/libs/component";
+import Header from "@/components/Header";
+
 class App extends Component {
+  $headerComponent: Component | null = null;
   constructor($root: Element) {
     super();
     this.$root = $root;
@@ -16,8 +19,10 @@ class App extends Component {
     return;
   }
 
-  init() {
-    this.mount();
+  mountChildComponent(): void {
+    if (!this.$root) return;
+    this.$headerComponent = new Header(this.$root);
+    this.$headerComponent.render();
   }
 }
 

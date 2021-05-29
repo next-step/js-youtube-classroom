@@ -4,7 +4,7 @@ import App from "@/App";
 const render = ($target: Element | null) => {
   if ($target) {
     const app = new App($target);
-    app.init();
+    app.render();
   }
 };
 
