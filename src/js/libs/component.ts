@@ -1,12 +1,15 @@
 class Component {
   $root: Element = document.createElement("div");
   $target: Element = document.createElement("div");
+  state: unknown;
   init() {}
   bindEvents() {}
   mount() {}
   mountChildComponent() {}
-  setState() {}
-
+  setState(nextState: unknown) {
+    this.state = nextState;
+    this.mount();
+  }
   render() {
     this.init();
     this.mount();
