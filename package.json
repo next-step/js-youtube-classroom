@@ -19,5 +19,12 @@
   "homepage": "https://github.com/HaJunRyu/js-youtube-classroom#readme",
   "dependencies": {
     "modules": "^0.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.27.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-html": "^6.1.2",
+    "eslint-plugin-import": "^2.23.3",
+    "parcel-bundler": "^1.12.5"
   }
 }
