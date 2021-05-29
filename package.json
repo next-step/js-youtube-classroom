@@ -18,9 +18,12 @@
   },
   "homepage": "https://github.com/HaJunRyu/js-youtube-classroom#readme",
   "dependencies": {
+    "@babel/runtime": "^7.14.0",
     "modules": "^0.4.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.3",
+    "@babel/plugin-transform-runtime": "^7.14.3",
     "eslint": "^7.27.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-html": "^6.1.2",
