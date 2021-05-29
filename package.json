@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "dev": "webpack serve",
+    "dev": "webpack serve --open",
     "test": "npx cypress open",
     "pre-commit": "lint-staged"
   },
@@ -26,9 +26,9 @@
     "eslint": "^7.27.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
+    "html-webpack-plugin": "^5.3.1",
     "husky": "^6.0.0",
     "lint-staged": "^11.0.0",
-    "live-server": "^1.2.1",
     "prettier": "^2.3.0",
     "style-loader": "^2.0.0",
     "ts-loader": "^9.2.2",

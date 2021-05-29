@@ -3,10 +3,12 @@ const webpack = require("webpack");
 const dotenv = require("dotenv").config({
   path: path.join(__dirname, ".env"),
 });
+const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   mode: "development",
   entry: "./src/js/index.ts",
+  devtool: "inline-source-map",
   output: {
     path: path.resolve(__dirname, "public"),
     filename: "index.js",
@@ -36,12 +38,8 @@ module.exports = {
     new webpack.DefinePlugin({
       "process.env": dotenv.parsed,
     }),
+    new HtmlWebPackPlugin({
+      template: "./public/index.html",
+    }),
   ],
-  devServer: {
-    contentBase: path.join(__dirname, "public"),
-    publicPath: "/public",
-    host: "localhost",
-    overlay: true,
-    port: 8080,
-  },
 };
