@@ -1,17 +1,11 @@
 import "../css/index.css";
-import "@/App";
+import App from "@/App";
 
-const $searchButton = document.querySelector("#search-button");
-const $modalClose = document.querySelector(".modal-close");
-const $modal = document.querySelector(".modal");
-
-const onModalShow = () => {
-  $modal?.classList.add("open");
+const render = ($target: Element | null) => {
+  if ($target) {
+    const app = new App($target);
+    app.init();
+  }
 };
 
-const onModalClose = () => {
-  $modal?.classList.remove("open");
-};
-
-$searchButton?.addEventListener("click", onModalShow);
-$modalClose?.addEventListener("click", onModalClose);
+render(document.getElementById("app"));
