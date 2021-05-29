@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "parcel watch index.html",
+    "start": "parcel index.html",
     "build": "parcel build bundle.js -d build/"
   },
   "repository": {
