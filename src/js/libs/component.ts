@@ -1,6 +1,6 @@
 class Component {
-  $root: Element | null = null;
-  $target: Element | null = null;
+  $root: Element = document.createElement("div");
+  $target: Element = document.createElement("div");
   init() {}
   bindEvents() {}
   mount() {}

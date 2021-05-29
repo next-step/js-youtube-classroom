@@ -20,7 +20,6 @@ class App extends Component {
   }
 
   mountChildComponent(): void {
-    if (!this.$root) return;
     this.$headerComponent = new Header(this.$root);
     this.$headerComponent.render();
   }
