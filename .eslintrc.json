@@ -21,6 +21,7 @@
     "no-shadow": "off",
     "vars-on-top": "off",
     "no-underscore-dangle": "off", // var _foo;
+    "import/no-unresolved": "off",
     "comma-dangle": "off",
     "camelcase": "off",
     "object-curly-newline": "off",
