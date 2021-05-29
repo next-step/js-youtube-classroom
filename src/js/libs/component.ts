@@ -5,10 +5,7 @@ class Component {
   bindEvents() {}
   mount() {}
   mountChildComponent() {}
-
-  setState() {
-    this.render();
-  }
+  setState() {}
 
   render() {
     this.init();

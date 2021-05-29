@@ -8,6 +8,7 @@
         "paths": {
             "@/*":["src/js/*"]
         },
+        "types": ["cypress"],
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames":true
     }
