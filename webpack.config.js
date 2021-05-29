@@ -39,7 +39,8 @@ module.exports = {
       "process.env": dotenv.parsed,
     }),
     new HtmlWebPackPlugin({
-      template: "./public/index.html",
+      template: path.join(__dirname, "public/index.html"),
+      inject: false,
     }),
   ],
 };
