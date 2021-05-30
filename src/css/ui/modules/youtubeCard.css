@@ -7,18 +7,19 @@
 }
 
 .clip {
-  height: 219px;
+  height: 260px;
   cursor: pointer;
   text-decoration: none;
+  position: relative;
 }
 
 .clip .preview-container {
   width: 100%;
   height: 120px;
-  position: relative;
 }
 
 .clip .preview-container img {
+  position: relative;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -32,9 +33,9 @@
   bottom: 0;
 }
 
-.clip .content-container {
+/* .clip .content-container {
   position: relative;
-}
+} */
 
 .clip .content-container h3 {
   display: -webkit-box;
@@ -60,4 +61,26 @@
   display: inline-block;
   margin: 0;
   color: #606060;
+}
+
+.content-container .saveBtnContainer {
+  position: absolute;
+  right: 0;
+  bottom: 16px;
+}
+
+.not-found-container {
+  margin-top: 30px;
+  text-align: center;
+  grid-column: 1 / -1;
+}
+
+.not-found-img {
+  margin-bottom: 30px;
+}
+
+@media (max-width: 600px) {
+  .not-found-img {
+    width: 100%;
+  }
 }

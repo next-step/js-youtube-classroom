@@ -25,6 +25,7 @@
   background: #fff;
   border-radius: 5px;
   position: relative;
+  height: 640px;
 }
 
 .modal-close {
