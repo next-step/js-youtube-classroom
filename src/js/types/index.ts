@@ -15,3 +15,7 @@ export interface SearchModalProps {
   isModalOpen: boolean;
   onCloseModal: () => void;
 }
+
+export interface SearchModalState {
+  searchKewyord: string;
+}

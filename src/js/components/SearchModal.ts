@@ -4,11 +4,11 @@ import { SearchModalProps } from "@/types/index";
 import template from "@/templates/SearchModal";
 
 class SearchModal extends Component {
-  state: SearchModalProps;
+  props: SearchModalProps;
   constructor($root: Element, props: SearchModalProps) {
     super();
     this.$root = $root;
-    this.state = props;
+    this.props = props;
   }
 
   init() {
@@ -20,14 +20,18 @@ class SearchModal extends Component {
   bindEvents() {
     const $modalCloseButton = $(".modal-close");
     $modalCloseButton &&
-      $modalCloseButton.addEventListener("click", this.state.onCloseModal);
+      $modalCloseButton.addEventListener("click", this.props.onCloseModal);
   }
 
-  setState(nextState: SearchModalProps) {
-    this.state = nextState;
-    this.state.isModalOpen
+  updateProps(nextProps: SearchModalProps) {
+    this.props = nextProps;
+    this.props.isModalOpen
       ? this.$root.classList.add("open")
       : this.$root.classList.remove("open");
+  }
+
+  mountChildComponent() {
+    // 서치 내부 컨텐츠
   }
 
   mount() {

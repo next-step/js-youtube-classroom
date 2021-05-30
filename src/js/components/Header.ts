@@ -4,11 +4,11 @@ import { Navigations, HeaderProps } from "@/types/index";
 import template from "@/templates/Header";
 
 class Header extends Component {
-  state: HeaderProps;
+  props: HeaderProps;
   constructor($root: Element, props: HeaderProps) {
     super();
     this.$root = $root;
-    this.state = props;
+    this.props = props;
   }
 
   init() {
@@ -22,12 +22,12 @@ class Header extends Component {
       const target = e.target as HTMLButtonElement;
       const id = target.id as Navigations;
       if (!NAVIGATION_ID[id]) return;
-      return this.state.onChange(id);
+      return this.props.onChange(id);
     });
   }
 
   mount() {
-    this.$target.innerHTML = template(this.state.filter);
+    this.$target.innerHTML = template(this.props.filter);
   }
 }
 

@@ -25,12 +25,12 @@ class App extends Component {
   setState(nextState: AppState): void {
     this.state = nextState;
     this.$headerComponent &&
-      this.$headerComponent.setState({
+      this.$headerComponent.updateProps({
         filter: this.state.filter,
         onChange: this.handleChangeFilter.bind(this),
       });
     this.$searchModalComponent &&
-      this.$searchModalComponent.setState({
+      this.$searchModalComponent.updateProps({
         isModalOpen: this.state.isModalOpen,
         onCloseModal: this.handleCloseModal.bind(this),
       });
@@ -64,10 +64,11 @@ class App extends Component {
   }
 
   handleChangeFilter(id: Navigations): void {
-    if (id === "search-button") {
-      return this.setState({ ...this.state, isModalOpen: true });
-    }
-    this.setState({ ...this.state, filter: id });
+    const nextState =
+      id === "search-button"
+        ? { ...this.state, isModalOpen: true }
+        : ({ ...this.state, filter: id } as AppState);
+    this.setState(nextState);
   }
 
   handleCloseModal(): void {
