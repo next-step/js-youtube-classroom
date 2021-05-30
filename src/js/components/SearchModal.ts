@@ -1,14 +1,21 @@
 import Component from "@/libs/component";
 import { $ } from "@/utils/dom";
-import { SearchModalProps } from "@/types/index";
+import { SearchModalProps, SearchModalState } from "@/types/index";
 import template from "@/templates/SearchModal";
+import SearchBar from "@/components/SearchBar";
 
 class SearchModal extends Component {
   props: SearchModalProps;
+  state: SearchModalState;
+  $searchBarComponent: Component | null = null;
   constructor($root: Element, props: SearchModalProps) {
     super();
     this.$root = $root;
     this.props = props;
+    this.state = {
+      searchKewyord: "",
+      recentHistory: [],
+    };
   }
 
   init() {
@@ -31,12 +38,17 @@ class SearchModal extends Component {
   }
 
   mountChildComponent() {
-    // 서치 내부 컨텐츠
+    this.$searchBarComponent = new SearchBar(this.$target, {
+      onSubmitSearch: this.handleSubmitSearch.bind(this),
+    });
+    this.$searchBarComponent.render();
   }
 
   mount() {
     this.$target.innerHTML = template;
   }
+
+  handleSubmitSearch(e: Event) {}
 }
 
 export default SearchModal;

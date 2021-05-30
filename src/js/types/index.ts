@@ -18,4 +18,9 @@ export interface SearchModalProps {
 
 export interface SearchModalState {
   searchKewyord: string;
+  recentHistory: string[];
+}
+
+export interface SearchBarProps {
+  onSubmitSearch: (e: Event) => void;
 }
