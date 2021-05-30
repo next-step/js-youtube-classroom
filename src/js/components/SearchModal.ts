@@ -8,6 +8,8 @@ import SearchResult from "@/components/SearchResult";
 import searchHistoryDB from "@/libs/searchHistoryDB";
 import getAPI from "@/api/index";
 
+// 지금 문제점은 PRops를 전체를 다시 줘야하는다는것이당.. 넘 복잡하다
+
 class SearchModal extends Component {
   props: SearchModalProps;
   state: SearchModalState;
@@ -21,6 +23,8 @@ class SearchModal extends Component {
     this.state = {
       searchKewyord: "",
       searchHistory: searchHistoryDB.get(),
+      isLoading: false,
+      lastKey: "",
     };
   }
 
@@ -66,6 +70,7 @@ class SearchModal extends Component {
     this.$searchResultComponent = new SearchResult(this.$target, {
       datas: [""],
       storedVideoCount: 1,
+      isLoading: false,
     });
     this.$searchResultComponent.render();
   }
@@ -97,8 +102,8 @@ class SearchModal extends Component {
 
   async getVideos(keyword: string) {
     try {
-      const videos = await getAPI(keyword);
-      console.log(videos);
+      const response = await getAPI(keyword, this.state.lastKey);
+      console.log(response);
     } catch (error) {
       // 추후 Alert 띄워주기
     }

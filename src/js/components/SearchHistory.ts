@@ -15,8 +15,8 @@ class SearchHistory extends Component {
       const target = e.target as Element;
       if (!target) return;
       if (target.classList.contains("history")) {
-        const value = target.textContent ?? "".trim();
-        return this.props.onClickHistory(value);
+        const value = target.textContent ?? "";
+        return this.props.onClickHistory(value.trim());
       }
     });
   }

@@ -19,6 +19,8 @@ export interface SearchModalProps {
 export interface SearchModalState {
   searchKewyord: string;
   searchHistory: string[];
+  isLoading: boolean;
+  lastKey: "";
 }
 
 export interface SearchBarProps {
@@ -32,5 +34,13 @@ export interface SearchHistoryProps {
 
 export interface SearchResultProps {
   datas: unknown[];
+  isLoading: boolean;
   storedVideoCount: number;
+}
+
+export interface Snippet {
+  publishedAt: string;
+  title: string;
+  channelTitle: string;
+  channelId: string;
 }
