@@ -1,9 +1,12 @@
 import Component from "@/libs/component";
 import Header from "@/components/Header";
+import SearchModal from "@/components/SearchModal";
+import { $ } from "@/utils/dom";
 import { AppState, Navigations } from "@/types/index";
 
 class App extends Component {
   $headerComponent: Component | null = null;
+  $searchModalComponent: Component | null = null;
   state: AppState;
   constructor($root: Element) {
     super();
@@ -11,6 +14,7 @@ class App extends Component {
     this.state = {
       filter: "later",
       videoList: [],
+      isModalOpen: false,
     };
   }
 
@@ -24,6 +28,11 @@ class App extends Component {
       this.$headerComponent.setState({
         filter: this.state.filter,
         onChange: this.handleChangeFilter.bind(this),
+      });
+    this.$searchModalComponent &&
+      this.$searchModalComponent.setState({
+        isModalOpen: this.state.isModalOpen,
+        onCloseModal: this.handleCloseModal.bind(this),
       });
   }
 
@@ -44,10 +53,29 @@ class App extends Component {
       onChange: this.handleChangeFilter.bind(this),
     });
     this.$headerComponent.render();
+    const $modalRoot = $(".modal");
+    if ($modalRoot) {
+      this.$searchModalComponent = new SearchModal($modalRoot, {
+        isModalOpen: this.state.isModalOpen,
+        onCloseModal: this.handleCloseModal.bind(this),
+      });
+      this.$searchModalComponent.render();
+    }
   }
 
   handleChangeFilter(id: Navigations): void {
-    const nextState = { ...this.state, filter: id } as AppState;
+    if (id === "search-button") {
+      return this.setState({ ...this.state, isModalOpen: true });
+    }
+    this.setState({ ...this.state, filter: id });
+  }
+
+  handleCloseModal(): void {
+    const nextState = {
+      ...this.state,
+      filter: "later",
+      isModalOpen: false,
+    } as AppState;
     this.setState(nextState);
   }
 }
