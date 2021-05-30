@@ -1,32 +1,30 @@
 import {observable} from "~_core/Observer";
 
-export class Component<State = {}, Props = {}> {
+export abstract class Component<State = {}, Props = {}> {
 
   protected $state?: State;
+  protected $components: Record<string, Component | Component[]> = {};
   private isRoot = false;
 
   constructor(
     protected readonly $target: HTMLElement,
     protected readonly $props: Props = {} as Props,
   ) {
-    this.setup();
     this.$state = observable<State>(this.$state!);
     this.render();
     this.setEvent();
     this.mounted();
   }
 
-  private setup () {}
-  public setRoot () {
+  public setRoot() {
     this.isRoot = true;
   }
-  protected mounted () {}
-  protected updated () {}
-  protected initChildComponent(el: HTMLElement, componentName: string) {}
-  protected template () {
-    return '';
-  }
-  protected setEvent () {}
+  protected mounted() {};
+  protected updated() {};
+  protected initChildComponent(el: HTMLElement, componentName: string) { }
+  protected abstract template(): string;
+  protected setEvent() {}
+
   protected addEvent (eventType: 'click', selector: string, callback: Function) {
     this.$target.addEventListener(eventType, (e) => {
       const target = e.target as HTMLElement;
@@ -37,23 +35,46 @@ export class Component<State = {}, Props = {}> {
     })
   }
 
-  protected render () {
+  private render() {
     const $target: HTMLElement = this.isRoot
                                     ? this.$target.cloneNode(true) as HTMLElement
                                     : this.$target;
 
     $target.innerHTML = this.template();
     $target.querySelectorAll('[data-component]')
-           .forEach((el) => {
-             if (el instanceof HTMLElement) {
-               this.initChildComponent(el, el.dataset.component!)
-             }
-           });
+           .forEach(el => this.setupChildComponent(el));
+    this.setupChildComponent($target);
 
     if (this.isRoot) {
       this.$target.replaceWith($target);
     }
 
     this.updated();
+  }
+
+  private setupChildComponent(el: Element) {
+    if (!(el instanceof HTMLElement)) return;
+    if (!this.initChildComponent) return;
+
+    const name: string = el.dataset.component!;
+    const childComponent = this.initChildComponent(el, name) as Component | undefined;
+    if (!childComponent) return;
+
+    const {$components} = this;
+    if (!$components[name]) {
+      $components[name] = childComponent;
+      return;
+    }
+    if ($components[name] instanceof Component) {
+      $components[name] = [
+        $components[name] as Component,
+        childComponent
+      ];
+      return;
+    }
+    if (Array.isArray($components[name])) {
+      ($components[name] as Component[]).push(childComponent);
+      return;
+    }
   }
 }

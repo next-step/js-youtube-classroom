@@ -5,7 +5,7 @@ interface HeaderProps {
 }
 
 export class Header extends Component<{}, HeaderProps> {
-  protected template(): string {
+  public template(): string {
     return `
       <h1 class="text-center font-bold">👩🏻‍💻 나만의 유튜브 강의실 👨🏻‍💻</h1>
       <nav class="d-flex justify-center">
@@ -18,7 +18,7 @@ export class Header extends Component<{}, HeaderProps> {
     `;
   }
 
-  protected setEvent() {
+  public setEvent() {
     this.addEvent('click', '#search-button', () => {
       this.$props.modalOpen();
     })
