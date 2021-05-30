@@ -18,12 +18,8 @@ export class YoutubeSearchModal extends Component<State> {
     }
   }
 
-  private get itemCount() {
-    return this.$state.items.length;
-  }
-
   protected template(): string {
-    const { itemCount } = this;
+    const { items } = this.$state;
 
     return `
       <div class="modal-inner p-8">
@@ -42,10 +38,12 @@ export class YoutubeSearchModal extends Component<State> {
         <section class="mt-2" data-component="RecentSearches"></section>
         <section>
           <div class="d-flex justify-end text-gray-700">
-            저장된 영상 갯수: ${itemCount}개
+            저장된 영상 갯수: ${items.length}개
           </div>
           <section class="video-wrapper">
-            <article class="clip" data-component="VideoClip"></article>
+            ${items.map((item, key) => `
+              <article class="clip" data-component="VideoClip" data-key="${key}"></article>
+            `).join('')}
           </section>
         </section>
       </div>
@@ -56,11 +54,14 @@ export class YoutubeSearchModal extends Component<State> {
     if (componentName === 'RecentSearches') {
       return new RecentSearches(el, {
         items: this.$state.recentSearchKeys,
+        search: q => this.search(q),
       });
     }
     if (componentName === 'VideoClip') {
+      const itemKey = Number(el.dataset.key)
       return new VideoClip(el, {
-        type: VideoClipType.SEARCH
+        type: VideoClipType.SEARCH,
+        item: this.$state.items[itemKey],
       });
     }
   }
@@ -73,14 +74,18 @@ export class YoutubeSearchModal extends Component<State> {
     this.$target.classList.remove('open');
   }
 
+  public async search (q: string) {
+    this.$state.items = await youtubeService.search(q);
+    this.$state.recentSearchKeys = youtubeService.getRecentSearchKeys();
+  }
+
   protected setEvent() {
     this.addEvent('click', '.modal-close', () => this.close());
 
     this.addEvent('submit', '.searchFrm', async (event: Event) => {
       event.preventDefault();
       const { q } = event.target as HTMLFormElement;
-      this.$state.items = await youtubeService.search(q.value);
-      this.$state.recentSearchKeys = youtubeService.getRecentSearchKeys();
+      this.search(q.value);
     })
   }
 }

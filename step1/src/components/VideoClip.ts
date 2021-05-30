@@ -1,4 +1,5 @@
 import {Component} from "~_core/Component";
+import {YoutubeClipItem} from "~domain";
 
 export enum VideoClipType {
   SEARCH = 'SEARCH',
@@ -6,7 +7,8 @@ export enum VideoClipType {
 }
 
 interface VideoClipProps {
-  type: VideoClipType
+  type: VideoClipType;
+  item: YoutubeClipItem;
 }
 
 export class VideoClip extends Component<{}, VideoClipProps> {
