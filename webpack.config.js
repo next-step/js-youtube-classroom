@@ -36,7 +36,7 @@ module.exports = {
   target: "web",
   plugins: [
     new webpack.DefinePlugin({
-      "process.env": dotenv.parsed,
+      "process.env": JSON.stringify(dotenv.parsed),
     }),
     new HtmlWebPackPlugin({
       template: path.join(__dirname, "public/index.html"),
