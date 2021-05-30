@@ -10,6 +10,17 @@ class SearchHistory extends Component {
     this.props = props;
   }
 
+  bindEvents() {
+    this.$target.addEventListener("click", (e: Event) => {
+      const target = e.target as Element;
+      if (!target) return;
+      if (target.classList.contains("history")) {
+        const value = target.textContent ?? "".trim();
+        return this.props.onClickHistory(value);
+      }
+    });
+  }
+
   init() {
     this.$target = document.createElement("section");
     this.$target.className = "mt-2";

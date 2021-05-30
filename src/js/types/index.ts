@@ -27,7 +27,7 @@ export interface SearchBarProps {
 
 export interface SearchHistoryProps {
   histories: string[];
-  onClickHistory: (e: Event) => void;
+  onClickHistory: (value: string) => void;
 }
 
 export interface SearchResultProps {

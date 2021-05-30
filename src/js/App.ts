@@ -74,7 +74,6 @@ class App extends Component {
   handleCloseModal(): void {
     const nextState = {
       ...this.state,
-      filter: "later",
       isModalOpen: false,
     } as AppState;
     this.setState(nextState);

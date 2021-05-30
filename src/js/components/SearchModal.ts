@@ -6,6 +6,7 @@ import SearchBar from "@/components/SearchBar";
 import SearchHistory from "@/components/SearchHistory";
 import SearchResult from "@/components/SearchResult";
 import searchHistoryDB from "@/libs/searchHistoryDB";
+import getAPI from "@/api/index";
 
 class SearchModal extends Component {
   props: SearchModalProps;
@@ -78,15 +79,30 @@ class SearchModal extends Component {
     const $target = e.target as Element;
     const $input = $("input", $target) as HTMLInputElement;
     if (!$target || !$input) return;
-
     const value = $input.value;
-    $input.value = "";
     searchHistoryDB.set(value);
-    const nextState = { ...this.state, searchHistory: searchHistoryDB.get() };
+    const nextState = {
+      ...this.state,
+      searchKeyword: value,
+      searchHistory: [value, ...this.state.searchHistory.slice(0, 2)],
+    };
     this.setState(nextState);
+    return this.getVideos(value);
   }
 
-  handleClickHistory(e: Event) {}
+  handleClickHistory(value: string) {
+    if (value === this.state.searchKewyord) return;
+    return this.getVideos(value);
+  }
+
+  async getVideos(keyword: string) {
+    try {
+      const videos = await getAPI(keyword);
+      console.log(videos);
+    } catch (error) {
+      // 추후 Alert 띄워주기
+    }
+  }
 }
 
 export default SearchModal;
