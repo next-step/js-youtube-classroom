@@ -18,7 +18,7 @@ class Header extends Component {
   }
 
   bindEvents() {
-    this.$target.addEventListener("click", (e) => {
+    this.$target.addEventListener("click", (e: Event) => {
       const target = e.target as HTMLButtonElement;
       const id = target.id as Navigations;
       if (!NAVIGATION_ID[id]) return;

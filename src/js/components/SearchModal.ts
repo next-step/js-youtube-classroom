@@ -5,6 +5,7 @@ import template from "@/templates/SearchModal";
 import SearchBar from "@/components/SearchBar";
 import SearchHistory from "@/components/SearchHistory";
 import SearchResult from "@/components/SearchResult";
+import searchHistoryDB from "@/libs/searchHistoryDB";
 
 class SearchModal extends Component {
   props: SearchModalProps;
@@ -18,7 +19,7 @@ class SearchModal extends Component {
     this.props = props;
     this.state = {
       searchKewyord: "",
-      recentHistory: [],
+      searchHistory: searchHistoryDB.get(),
     };
   }
 
@@ -41,13 +42,23 @@ class SearchModal extends Component {
       : this.$root.classList.remove("open");
   }
 
+  setState(nextState: SearchModalState) {
+    this.state = nextState;
+    this.$searchHistoryComponent &&
+      this.$searchHistoryComponent.updateProps({
+        histories: this.state.searchHistory,
+        onClickHistory: this.handleClickHistory.bind(this),
+      });
+    // this.$searchResultComponent && this.$searchResultComponent.updateProps({});
+  }
+
   mountChildComponent() {
     this.$searchBarComponent = new SearchBar(this.$target, {
       onSubmitSearch: this.handleSubmitSearch.bind(this),
     });
     this.$searchBarComponent.render();
     this.$searchHistoryComponent = new SearchHistory(this.$target, {
-      histories: ["??", "우왕"],
+      histories: this.state.searchHistory,
       onClickHistory: this.handleClickHistory.bind(this),
     });
     this.$searchHistoryComponent.render();
@@ -62,7 +73,18 @@ class SearchModal extends Component {
     this.$target.innerHTML = template;
   }
 
-  handleSubmitSearch(e: Event) {}
+  handleSubmitSearch(e: Event) {
+    e.preventDefault();
+    const $target = e.target as Element;
+    const $input = $("input", $target) as HTMLInputElement;
+    if (!$target || !$input) return;
+
+    const value = $input.value;
+    $input.value = "";
+    searchHistoryDB.set(value);
+    const nextState = { ...this.state, searchHistory: searchHistoryDB.get() };
+    this.setState(nextState);
+  }
 
   handleClickHistory(e: Event) {}
 }

@@ -18,7 +18,7 @@ export interface SearchModalProps {
 
 export interface SearchModalState {
   searchKewyord: string;
-  recentHistory: string[];
+  searchHistory: string[];
 }
 
 export interface SearchBarProps {
