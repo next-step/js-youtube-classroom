@@ -1,6 +1,7 @@
 import {Component} from "~_core/Component";
 import {Header} from "~components/Header";
 import {YoutubeSearchModal} from "~components/YoutubeSearchModal";
+import {VideoClip, VideoClipType} from "~components/VideoClip";
 
 export class App extends Component {
   template () {
@@ -10,39 +11,7 @@ export class App extends Component {
           <header class="my-4" data-component="Header"></header>
           <main class="mt-10">
             <section class="video-wrapper">
-              <article class="clip">
-                <div class="preview-container">
-                  <iframe
-                    width="100%"
-                    height="118"
-                    src="https://www.youtube.com/embed/Ngj3498Tm_0"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen
-                  ></iframe>
-                </div>
-                <div class="content-container pt-2 px-1">
-                  <h3>아두이노 무드등</h3>
-                  <div>
-                    <a
-                      href="https://www.youtube.com/channel/UC-mOekGSesms0agFntnQang"
-                      target="_blank"
-                      class="channel-name mt-1"
-                    >
-                      메이커준
-                    </a>
-                    <div class="meta">
-                      <p>2021년 3월 2일</p>
-                    </div>
-                    <div>
-                      <span class="opacity-hover">✅</span>
-                      <span class="opacity-hover">👍</span>
-                      <span class="opacity-hover">💬</span>
-                      <span class="opacity-hover">🗑️</span>
-                    </div>
-                  </div>
-                </div>
-              </article>
+              <article class="clip" data-component="VideoClip"></article>
             </section>
           </main>
         </div>
@@ -51,12 +20,9 @@ export class App extends Component {
     `;
   }
 
-  public initChildComponent(
-    target: HTMLElement,
-    componentName: string
-  ): Component | undefined {
+  public initChildComponent(el: HTMLElement, componentName: string) {
     if (componentName === 'Header') {
-      return new Header(target, {
+      return new Header(el, {
         modalOpen: () => {
           const $modal = this.$components.YoutubeSearchModal as YoutubeSearchModal;
           $modal.open();
@@ -65,7 +31,13 @@ export class App extends Component {
     }
 
     if (componentName === 'YoutubeSearchModal') {
-      return new YoutubeSearchModal(target);
+      return new YoutubeSearchModal(el);
+    }
+
+    if (componentName === 'VideoClip') {
+      return new VideoClip(el, {
+        type: VideoClipType.CONTENT
+      });
     }
   }
 }

@@ -10,17 +10,15 @@ export abstract class Component<State = {}, Props = {}> {
     protected readonly $target: HTMLElement,
     protected readonly $props: Props = {} as Props,
   ) {
+    this.setup();
     this.$state = observable<State>(this.$state!);
     this.render();
     this.setEvent();
     this.mounted();
   }
-
-  public setRoot() {
-    this.isRoot = true;
-  }
-  protected mounted() {};
-  protected updated() {};
+  protected setup() {}
+  protected mounted() {}
+  protected updated() {}
   protected initChildComponent(el: HTMLElement, componentName: string) { }
   protected abstract template(): string;
   protected setEvent() {}
@@ -77,4 +75,6 @@ export abstract class Component<State = {}, Props = {}> {
       return;
     }
   }
+
+  public setRoot() { this.isRoot = true; }
 }
