@@ -24,3 +24,15 @@ a {
 .opacity-hover:hover {
   opacity: 1;
 }
+
+span.middle {
+  display: inline-block;
+  vertical-align: middle;
+  width: 0;
+  height: 100%;
+}
+
+span.middle + * {
+  display: inline-block;
+  vertical-align: middle;
+}
