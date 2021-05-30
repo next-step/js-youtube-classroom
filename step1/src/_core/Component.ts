@@ -2,7 +2,7 @@ import {observable} from "~_core/Observer";
 
 export abstract class Component<State = {}, Props = {}> {
 
-  protected $state?: State;
+  protected $state: State = {} as State;
   protected $components: Record<string, Component | Component[]> = {};
   private isRoot = false;
 
@@ -23,7 +23,7 @@ export abstract class Component<State = {}, Props = {}> {
   protected abstract template(): string;
   protected setEvent() {}
 
-  protected addEvent (eventType: 'click', selector: string, callback: Function) {
+  protected addEvent (eventType: string, selector: string, callback: Function) {
     this.$target.addEventListener(eventType, (e) => {
       const target = e.target as HTMLElement;
       const currentTarget = e.currentTarget as HTMLElement;

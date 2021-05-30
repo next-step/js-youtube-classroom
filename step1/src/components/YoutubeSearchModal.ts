@@ -1,12 +1,27 @@
 import {Component} from "~_core/Component";
 import {RecentSearches} from "~components/RecentSearches";
 import {VideoClip, VideoClipType} from "~components/VideoClip";
+import {youtubeService} from "~services/youtubeService";
 
-export class YoutubeSearchModal extends Component {
+interface State {
+  items: any[]
+}
 
+export class YoutubeSearchModal extends Component<State> {
 
+  public setup() {
+    this.$state = {
+      items: []
+    }
+  }
+
+  private get itemCount() {
+    return this.$state.items.length;
+  }
 
   protected template(): string {
+    const { itemCount } = this;
+
     return `
       <div class="modal-inner p-8">
         <button class="modal-close">
@@ -17,14 +32,14 @@ export class YoutubeSearchModal extends Component {
         <header>
           <h2 class="text-center">🔎 유튜브 검색</h2>
         </header>
-        <form class="d-flex">
-          <input type="text" class="w-100 mr-2 pl-2" placeholder="검색" />
-          <button type="button" class="btn bg-cyan-500">검색</button>
+        <form class="d-flex searchFrm">
+          <input type="text" name="q" class="w-100 mr-2 pl-2" placeholder="검색" />
+          <button type="submit" class="btn bg-cyan-500">검색</button>
         </form>
         <section class="mt-2" data-component="RecentSearches"></section>
         <section>
           <div class="d-flex justify-end text-gray-700">
-            저장된 영상 갯수: 50개
+            저장된 영상 갯수: ${itemCount}개
           </div>
           <section class="video-wrapper">
             <article class="clip" data-component="VideoClip"></article>
@@ -55,5 +70,11 @@ export class YoutubeSearchModal extends Component {
 
   protected setEvent() {
     this.addEvent('click', '.modal-close', () => this.close());
+
+    this.addEvent('submit', '.searchFrm', (event: Event) => {
+      event.preventDefault();
+      const { q } = event.target as HTMLFormElement;
+      youtubeService.search(q).then(console.log);
+    })
   }
 }
