@@ -3,11 +3,13 @@ import { $ } from "@/utils/dom";
 import { SearchModalProps, SearchModalState } from "@/types/index";
 import template from "@/templates/SearchModal";
 import SearchBar from "@/components/SearchBar";
+import SearchHistory from "@/components/SearchHistory";
 
 class SearchModal extends Component {
   props: SearchModalProps;
   state: SearchModalState;
   $searchBarComponent: Component | null = null;
+  $searchHistoryComponent: Component | null = null;
   constructor($root: Element, props: SearchModalProps) {
     super();
     this.$root = $root;
@@ -42,6 +44,11 @@ class SearchModal extends Component {
       onSubmitSearch: this.handleSubmitSearch.bind(this),
     });
     this.$searchBarComponent.render();
+    this.$searchHistoryComponent = new SearchHistory(this.$target, {
+      histories: ["??", "우왕"],
+      onClickHistory: this.handleClickHistory.bind(this),
+    });
+    this.$searchHistoryComponent.render();
   }
 
   mount() {
@@ -49,6 +56,8 @@ class SearchModal extends Component {
   }
 
   handleSubmitSearch(e: Event) {}
+
+  handleClickHistory(e: Event) {}
 }
 
 export default SearchModal;

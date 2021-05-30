@@ -24,3 +24,12 @@ export interface SearchModalState {
 export interface SearchBarProps {
   onSubmitSearch: (e: Event) => void;
 }
+
+export interface SearchHistoryProps {
+  histories: string[];
+  onClickHistory: (e: Event) => void;
+}
+
+export interface SearchResultProps {
+  datas: unknown[];
+}
