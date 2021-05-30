@@ -1,16 +1,13 @@
 import {observable} from "~_core/Observer";
 
-document.body.addEventListener('click', (e: MouseEvent) => {
-
-})
-
 export class Component<State = {}, Props = {}> {
 
   protected $state?: State;
+  private isRoot = false;
 
   constructor(
     protected readonly $target: HTMLElement,
-    protected readonly $props?: Props,
+    protected readonly $props: Props = {} as Props,
   ) {
     this.setup();
     this.$state = observable<State>(this.$state!);
@@ -19,14 +16,18 @@ export class Component<State = {}, Props = {}> {
     this.mounted();
   }
 
-  public setup () {}
-  public mounted () {}
-  public updated () {}
-  public template () {
+  private setup () {}
+  public setRoot () {
+    this.isRoot = true;
+  }
+  protected mounted () {}
+  protected updated () {}
+  protected initChildComponent(el: HTMLElement, componentName: string) {}
+  protected template () {
     return '';
   }
-  public setEvent () {}
-  public addEvent (eventType: 'click', selector: string, callback: Function) {
+  protected setEvent () {}
+  protected addEvent (eventType: 'click', selector: string, callback: Function) {
     this.$target.addEventListener(eventType, (e) => {
       const target = e.target as HTMLElement;
       const currentTarget = e.currentTarget as HTMLElement;
@@ -36,10 +37,23 @@ export class Component<State = {}, Props = {}> {
     })
   }
 
-  public render () {
-    const $target: HTMLElement = this.$target.cloneNode() as HTMLElement;
+  protected render () {
+    const $target: HTMLElement = this.isRoot
+                                    ? this.$target.cloneNode(true) as HTMLElement
+                                    : this.$target;
+
     $target.innerHTML = this.template();
-    this.$target.replaceWith($target);
+    $target.querySelectorAll('[data-component]')
+           .forEach((el) => {
+             if (el instanceof HTMLElement) {
+               this.initChildComponent(el, el.dataset.component!)
+             }
+           });
+
+    if (this.isRoot) {
+      this.$target.replaceWith($target);
+    }
+
     this.updated();
   }
 }

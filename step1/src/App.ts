@@ -1,20 +1,12 @@
 import {Component} from "~_core/Component";
+import {Header} from "~components/Header";
 
 export class App extends Component {
-  template () {
+  protected template () {
     return `
       <div class="d-flex justify-center mt-5 w-100">
         <div class="w-100">
-          <header class="my-4">
-            <h2 class="text-center font-bold">👩🏻‍💻 나만의 유튜브 강의실 👨🏻‍💻</h2>
-            <nav class="d-flex justify-center">
-              <button class="btn bg-cyan-100 mx-1">👁️ 볼 영상</button>
-              <button class="btn mx-1">✅ 본 영상</button>
-              <button id="search-button" class="btn mx-1">
-                🔍 동영상 검색
-              </button>
-            </nav>
-          </header>
+          <header class="my-4" data-component="Header"></header>
           <main class="mt-10">
             <section class="video-wrapper">
               <article class="clip">
@@ -116,20 +108,22 @@ export class App extends Component {
     `;
   }
 
-  public setEvent() {
-    const $searchButton: HTMLElement = document.querySelector("#search-button")!;
-    const $modalClose: HTMLElement = document.querySelector(".modal-close")!;
-    const $modal: HTMLElement = document.querySelector(".modal")!;
+  protected initChildComponent(
+    target: HTMLElement,
+    componentName: string
+  ) {
+    if (componentName === 'Header') {
+      new Header(target, {
+        modalOpen: () => {
+          this.$target.querySelector('.modal')!.classList.add('open');
+        }
+      });
+    }
+  }
 
-    const onModalShow = () => {
-      $modal.classList.add("open");
-    };
-
-    const onModalClose = () => {
-      $modal.classList.remove("open");
-    };
-
-    $searchButton.addEventListener("click", onModalShow);
-    $modalClose.addEventListener("click", onModalClose);
+  protected setEvent() {
+    this.addEvent('click', '.modal-close', () => {
+      this.$target.querySelector(".modal")!.classList.remove("open");
+    })
   }
 }
