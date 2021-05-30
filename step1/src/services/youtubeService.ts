@@ -31,14 +31,16 @@ class YoutubeService {
     })
   }
 
-  private async request (q: string): Promise<any> {
+  private async request(q: string): Promise<any> {
     return this.client!.youtube.search.list({
       q: q,
-      part: 'snippet'
+      part: 'snippet',
+      order: 'viewCount',
+      maxResults: 50,
     });
   }
 
-  public async search (q: string): Promise<YoutubeClipItem[]> {
+  public async search(q: string): Promise<YoutubeClipItem[]> {
     if (this.cache[q]) {
       return this.cache[q];
     }
@@ -49,6 +51,10 @@ class YoutubeService {
     const items = result.items as unknown as YoutubeClipItem[];
     this.addCache(q, items);
     return items;
+  }
+
+  public getRecentSearchKeys(): string[] {
+    return Object.keys(this.cache);
   }
 }
 

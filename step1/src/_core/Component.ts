@@ -34,6 +34,7 @@ export abstract class Component<State = {}, Props = {}> {
   }
 
   private render() {
+    // requestAnimationFrame(() => {
     const $target: HTMLElement = this.isRoot
                                     ? this.$target.cloneNode(true) as HTMLElement
                                     : this.$target;
@@ -48,6 +49,7 @@ export abstract class Component<State = {}, Props = {}> {
     }
 
     this.updated();
+    // });
   }
 
   private setupChildComponent(el: Element) {

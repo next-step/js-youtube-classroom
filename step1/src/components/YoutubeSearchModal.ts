@@ -6,7 +6,7 @@ import {YoutubeClipItem} from "~domain";
 
 interface State {
   items: YoutubeClipItem[];
-  recentSearchKeys: [];
+  recentSearchKeys: string[];
 }
 
 export class YoutubeSearchModal extends Component<State> {
@@ -14,7 +14,7 @@ export class YoutubeSearchModal extends Component<State> {
   public setup() {
     this.$state = {
       items: [],
-      recentSearchKeys: [],
+      recentSearchKeys: youtubeService.getRecentSearchKeys(),
     }
   }
 
@@ -80,6 +80,7 @@ export class YoutubeSearchModal extends Component<State> {
       event.preventDefault();
       const { q } = event.target as HTMLFormElement;
       this.$state.items = await youtubeService.search(q.value);
+      this.$state.recentSearchKeys = youtubeService.getRecentSearchKeys();
     })
   }
 }

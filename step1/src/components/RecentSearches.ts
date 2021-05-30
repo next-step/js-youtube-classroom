@@ -12,7 +12,7 @@ export class RecentSearches extends Component<{}, Props> {
       <span class="text-gray-700">최근 검색어: </span>
       ${items.map(item => `
         <a class="chip">${item}</a>
-      `).join()}
+      `).join('')}
       ${items.length === 0 ? '<span>최근 검색어가 없습니다.</span>' : ''}
     `;
   }

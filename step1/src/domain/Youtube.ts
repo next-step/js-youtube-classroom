@@ -2,9 +2,19 @@ export interface YoutubeClient {
   init: (option: { apiKey: string }) => Promise<void>,
   youtube: {
     search: {
-      list: (option: {q: string, part: string}) => Promise<void>
+      list: (option: YoutubeSearchRequestOptions) => Promise<any>
     }
   }
+}
+
+/**
+ * @link {https://developers.google.com/youtube/v3/docs/search/list?hl=ko}
+ */
+export interface YoutubeSearchRequestOptions {
+  q: string;
+  part: string;
+  order: string;
+  maxResults: number;
 }
 
 export interface YoutubeClipItem {
