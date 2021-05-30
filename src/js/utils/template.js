@@ -1,9 +1,9 @@
 const getDateInKorean = dateString => {
   const [year, month, date] = dateString.split('-');
-  return `${year}년 ${month}월 ${date}일`;
+  return `${year}년 ${month}월 ${date.slice(0, 2)}일`;
 };
 
-const getSearchedYoutubeCardTemplate = ({ id, snippet }) => {
+export const getSearchedYoutubeCardTemplate = ({ id, snippet }) => {
   const { videoId } = id;
   const { title, channelTitle, channelId, publishedAt } = snippet;
   const date = getDateInKorean(publishedAt);
@@ -40,4 +40,11 @@ const getSearchedYoutubeCardTemplate = ({ id, snippet }) => {
 </article>`;
 };
 
-export default getSearchedYoutubeCardTemplate;
+export const getYoutubeCardSkeleton = () => `<div class="skeleton">
+<div class="image"></div>
+<p class="line"></p>
+<p class="line"></p>
+<p class="line"></p>
+<p class="line"></p>
+<div class="btn"></div>
+</div>`;

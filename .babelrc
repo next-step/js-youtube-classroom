@@ -14,6 +14,16 @@
 			{
 				"corejs": 3
 			}
-		]
+		],
+		["module-resolver", {
+			"root": "./src",
+			"alias": {
+				"js": "./src/js",
+				"api": "./src/js/api",
+				"searchModal": "./src/js/searchModal",
+				"utils": "./src/js/utils"
+			}
+
+		}]
 	]
 }
