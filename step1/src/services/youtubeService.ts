@@ -36,7 +36,7 @@ class YoutubeService {
       q: q,
       part: 'snippet',
       order: 'viewCount',
-      maxResults: 50,
+      maxResults: 5,
     });
   }
 

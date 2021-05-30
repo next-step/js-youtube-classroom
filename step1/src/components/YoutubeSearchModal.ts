@@ -44,6 +44,7 @@ export class YoutubeSearchModal extends Component<State> {
             ${items.map((item, key) => `
               <article class="clip" data-component="VideoClip" data-key="${key}"></article>
             `).join('')}
+            ${items.length === 0 ? '유튜브 동영상을 검색해주세요' : ''}
           </section>
         </section>
       </div>
