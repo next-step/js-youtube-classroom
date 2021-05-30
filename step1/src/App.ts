@@ -58,23 +58,14 @@ export class App extends Component {
     if (componentName === 'Header') {
       return new Header(target, {
         modalOpen: () => {
-          this.$target.querySelector('.modal')!.classList.add('open');
+          const $modal = this.$components.YoutubeSearchModal as YoutubeSearchModal;
+          $modal.open();
         }
       });
     }
 
     if (componentName === 'YoutubeSearchModal') {
-      return new YoutubeSearchModal(target, {
-        modalClose: () => {
-          this.$target.querySelector('.modal')!.classList.add('open');
-        }
-      });
+      return new YoutubeSearchModal(target);
     }
-  }
-
-  public setEvent() {
-    this.addEvent('click', '.modal-close', () => {
-      this.$target.querySelector(".modal")!.classList.remove("open");
-    })
   }
 }

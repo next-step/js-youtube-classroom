@@ -62,4 +62,16 @@ export class YoutubeSearchModal extends Component {
       </div>
     `;
   }
+
+  public open () {
+    this.$target.classList.add('open');
+  }
+
+  public close () {
+    this.$target.classList.remove('open');
+  }
+
+  protected setEvent() {
+    this.addEvent('click', '.modal-close', () => this.close());
+  }
 }
