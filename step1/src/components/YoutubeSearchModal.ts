@@ -2,16 +2,19 @@ import {Component} from "~_core/Component";
 import {RecentSearches} from "~components/RecentSearches";
 import {VideoClip, VideoClipType} from "~components/VideoClip";
 import {youtubeService} from "~services/youtubeService";
+import {YoutubeClipItem} from "~domain";
 
 interface State {
-  items: any[]
+  items: YoutubeClipItem[];
+  recentSearchKeys: [];
 }
 
 export class YoutubeSearchModal extends Component<State> {
 
   public setup() {
     this.$state = {
-      items: []
+      items: [],
+      recentSearchKeys: [],
     }
   }
 
@@ -51,7 +54,9 @@ export class YoutubeSearchModal extends Component<State> {
 
   protected initChildComponent(el: HTMLElement, componentName: string) {
     if (componentName === 'RecentSearches') {
-      return new RecentSearches(el);
+      return new RecentSearches(el, {
+        items: this.$state.recentSearchKeys,
+      });
     }
     if (componentName === 'VideoClip') {
       return new VideoClip(el, {
@@ -71,10 +76,10 @@ export class YoutubeSearchModal extends Component<State> {
   protected setEvent() {
     this.addEvent('click', '.modal-close', () => this.close());
 
-    this.addEvent('submit', '.searchFrm', (event: Event) => {
+    this.addEvent('submit', '.searchFrm', async (event: Event) => {
       event.preventDefault();
       const { q } = event.target as HTMLFormElement;
-      youtubeService.search(q).then(console.log);
+      this.$state.items = await youtubeService.search(q.value);
     })
   }
 }

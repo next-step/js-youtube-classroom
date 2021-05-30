@@ -22,7 +22,7 @@ export function observable<T> (obj: T): T {
 
       set (newValue) {
         _value = newValue;
-        observers.forEach(fn => fn());
+        observers.forEach(fn => fn?.());
       },
     })
   });

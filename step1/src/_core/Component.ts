@@ -1,4 +1,4 @@
-import {observable} from "~_core/Observer";
+import {observable, observe} from "~_core/Observer";
 
 export abstract class Component<State = {}, Props = {}> {
 
@@ -12,7 +12,7 @@ export abstract class Component<State = {}, Props = {}> {
   ) {
     this.setup();
     this.$state = observable<State>(this.$state!);
-    this.render();
+    observe(() => this.render());
     this.setEvent();
     this.mounted();
   }
