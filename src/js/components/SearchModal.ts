@@ -4,12 +4,14 @@ import { SearchModalProps, SearchModalState } from "@/types/index";
 import template from "@/templates/SearchModal";
 import SearchBar from "@/components/SearchBar";
 import SearchHistory from "@/components/SearchHistory";
+import SearchResult from "@/components/SearchResult";
 
 class SearchModal extends Component {
   props: SearchModalProps;
   state: SearchModalState;
   $searchBarComponent: Component | null = null;
   $searchHistoryComponent: Component | null = null;
+  $searchResultComponent: Component | null = null;
   constructor($root: Element, props: SearchModalProps) {
     super();
     this.$root = $root;
@@ -49,6 +51,11 @@ class SearchModal extends Component {
       onClickHistory: this.handleClickHistory.bind(this),
     });
     this.$searchHistoryComponent.render();
+    this.$searchResultComponent = new SearchResult(this.$target, {
+      datas: [""],
+      storedVideoCount: 1,
+    });
+    this.$searchResultComponent.render();
   }
 
   mount() {

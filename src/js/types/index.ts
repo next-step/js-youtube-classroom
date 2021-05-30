@@ -32,4 +32,5 @@ export interface SearchHistoryProps {
 
 export interface SearchResultProps {
   datas: unknown[];
+  storedVideoCount: number;
 }
