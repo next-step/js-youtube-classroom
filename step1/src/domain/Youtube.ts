@@ -2,7 +2,7 @@ export interface YoutubeClient {
   init: (option: { apiKey: string }) => Promise<void>,
   youtube: {
     search: {
-      list: (option: YoutubeSearchRequestOptions) => Promise<any>
+      list: (option: YoutubeSearchRequestOptions) => Promise<YoutubeSearchResult>
     }
   }
 }
@@ -15,6 +15,20 @@ export interface YoutubeSearchRequestOptions {
   part: string;
   order: string;
   maxResults: number;
+}
+
+export interface YoutubeSearchResult {
+  result: {
+    nextPageToken?: string;
+    prevPageToken?: string;
+    etag: string;
+    kind: string;
+    pageInfo: {
+      totalResults: number;
+      resultsPerPage: 10
+    }
+    items: YoutubeClipItem[];
+  }
 }
 
 export interface YoutubeClipItem {

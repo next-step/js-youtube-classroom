@@ -1,5 +1,5 @@
 import { YOUTUBE_API_KEY } from "~services/secret";
-import { YoutubeClient, YoutubeClipItem } from "~domain";
+import {YoutubeClient, YoutubeClipItem, YoutubeSearchResult} from "~domain";
 import {RecentSearchesItems, recentSearchesRepository} from "~repositories";
 
 class YoutubeService {
@@ -31,12 +31,12 @@ class YoutubeService {
     })
   }
 
-  private async request(q: string): Promise<any> {
+  private async request(q: string): Promise<YoutubeSearchResult> {
     return this.client!.youtube.search.list({
       q: q,
       part: 'snippet',
       order: 'viewCount',
-      maxResults: 5,
+      maxResults: 10,
     });
   }
 
