@@ -1,0 +1,26 @@
+{
+  "name": "js-youtube-classroom",
+  "version": "1.0.0",
+  "description": "<p align=\"middle\" >   <img width=\"200px;\" src=\"./src/images/readme/laptop_with_youtube_logo.png\"/> </p> <h2 align=\"middle\">level1 - 나만의 유튜브 강의실</h2> <p align=\"middle\">자바스크립트와 외부 API를 이용해 구현 하는 나만의 유튜브 강의실</p> <p align=\"middle\">   <img src=\"https://img.shields.io/badge/version-1.0.0-blue?style=flat-square\" alt=\"template version\"/>   <img src=\"https://img.shields.io/badge/language-html-red.svg?style=flat-square\"/>   <img src=\"https://img.shields.io/badge/language-css-blue.svg?style=flat-square\"/>   <img src=\"https://img.shields.io/badge/language-js-yellow.svg?style=flat-square\"/>   <img src=\"https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square\"/> </p>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bcround/js-youtube-classroom.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bcround/js-youtube-classroom/issues"
+  },
+  "homepage": "https://github.com/bcround/js-youtube-classroom#readme",
+  "devDependencies": {
+    "eslint": "^7.27.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-html": "^6.1.2",
+    "eslint-plugin-import": "^2.23.4"
+  }
+}
