@@ -7,7 +7,7 @@
 }
 
 .clip {
-  height: 219px;
+  min-height: 300px;
   cursor: pointer;
   text-decoration: none;
 }
