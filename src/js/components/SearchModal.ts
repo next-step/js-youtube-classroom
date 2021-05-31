@@ -4,6 +4,7 @@ import {
   SearchModalProps,
   SearchModalHandlers,
   SearchModalState,
+  SaveButton,
 } from "@/types/index";
 
 import SearchBar from "@/components/SearchBar";
@@ -73,16 +74,18 @@ class SearchModal extends Component {
 
   setState(nextState: SearchModalState) {
     this.state = nextState;
-    this.$searchHistoryComponent &&
-      this.$searchHistoryComponent.updateProps({
-        histories: this.state.searchHistory,
-      });
-    this.$searchResultComponent &&
-      this.$searchResultComponent.updateProps({
-        datas: this.state.datas,
-        isLoading: this.state.isLoading,
-        hasMore: this.state.hasMore,
-      });
+    this.$searchHistoryComponent?.updateProps({
+      histories: this.state.searchHistory,
+    });
+    this.$searchResultComponent?.updateProps({
+      datas: this.state.datas,
+      storedDatas: this.props.storedDatas,
+      isLoading: this.state.isLoading,
+      hasMore: this.state.hasMore,
+    });
+    this.$storedVideoCounterComponent?.updateProps({
+      storedVideoCount: this.props.storedDatas.size,
+    });
   }
 
   mountChildComponent() {
@@ -101,37 +104,27 @@ class SearchModal extends Component {
       },
       { onClickHistory: this.handleClickHistory.bind(this) }
     );
-    this.$searchResultComponent = new SearchResult($searchResult, {
-      datas: this.state.datas,
-      isLoading: this.state.isLoading,
-      hasMore: this.state.hasMore,
-    });
+    this.$searchResultComponent = new SearchResult(
+      $searchResult,
+      {
+        datas: this.state.datas,
+        isLoading: this.state.isLoading,
+        storedDatas: this.props.storedDatas,
+        hasMore: this.state.hasMore,
+      },
+      {
+        onClickButton: this.handleSaveVideo.bind(this),
+      }
+    );
     this.$storedVideoCounterComponent = new StoredVideoCounter(
       $storedVideoCounter,
-      { storedVideoCount: this.props.storedDatas.length }
+      { storedVideoCount: this.props.storedDatas.size }
     );
 
     this.$searchHistoryComponent.render();
     this.$searchBarComponent.render();
     this.$searchResultComponent.render();
     this.$storedVideoCounterComponent.render();
-  }
-
-  handleSubmitSearch(e: Event) {
-    e.preventDefault();
-    const $target = e.target as Element;
-    const $input = $("input", $target) as HTMLInputElement;
-    if (!$target || !$input) return;
-    const value = $input.value;
-    searchHistoryDB.set(value);
-    this.initState(value);
-    return this.getVideos(value);
-  }
-
-  handleClickHistory(value: string) {
-    if (value === this.state.searchKeyword) return;
-    this.initState(value);
-    return this.getVideos(value);
   }
 
   getMoreVideos() {
@@ -176,6 +169,43 @@ class SearchModal extends Component {
     } catch (error) {
       // 추후 Alert 띄워주기
     }
+  }
+
+  handleSubmitSearch(e: Event) {
+    e.preventDefault();
+    const $target = e.target as HTMLElement;
+    const $input = $("input", $target) as HTMLInputElement;
+    if (!$target || !$input) return;
+    const value = $input.value;
+    searchHistoryDB.set(value);
+    this.initState(value);
+    return this.getVideos(value);
+  }
+
+  handleClickHistory(value: string) {
+    if (value === this.state.searchKeyword) return;
+    this.initState(value);
+    return this.getVideos(value);
+  }
+
+  handleSaveVideo(id: string, type: SaveButton) {
+    const assginAction = {
+      save: () => {
+        const video = this.state.datas.find((item) => item.id === id);
+        if (!video) return;
+        this.handlers.onSaveVideo(video);
+        this.$storedVideoCounterComponent?.updateProps({
+          storedVideoCount: this.props.storedDatas.size,
+        });
+      },
+      unsaved: () => {
+        this.handlers.onRemoveVideo(id);
+        this.$storedVideoCounterComponent?.updateProps({
+          storedVideoCount: this.props.storedDatas.size,
+        });
+      },
+    };
+    return assginAction[type]();
   }
 }
 

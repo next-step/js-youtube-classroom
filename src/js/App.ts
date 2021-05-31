@@ -29,6 +29,7 @@ class App extends Component {
     this.$searchModalComponent &&
       this.$searchModalComponent.updateProps({
         isModalOpen: this.state.isModalOpen,
+        storedDatas: parseVideoData(this.state.videoList),
       });
   }
 
@@ -50,7 +51,11 @@ class App extends Component {
         isModalOpen: this.state.isModalOpen,
         storedDatas: parseVideoData(this.state.videoList),
       },
-      { onCloseModal: this.handleCloseModal.bind(this) }
+      {
+        onCloseModal: this.handleCloseModal.bind(this),
+        onSaveVideo: this.handleAddVideoDB.bind(this),
+        onRemoveVideo: this.handleRemoveVideoDB.bind(this),
+      }
     );
 
     this.$headerComponent.render();
@@ -75,22 +80,22 @@ class App extends Component {
 
   handleRemoveVideoDB(id: string): void {
     videoDB.remove(id);
-    // state 변경
+    this.setState({ ...this.state, videoList: videoDB.get() });
   }
 
   handleAddVideoDB(data: Item): void {
     videoDB.add({ data, filter: "later", liked: false });
-    // state 변경
+    this.setState({ ...this.state, videoList: videoDB.get() });
   }
 
   handleToggleVideoDB(id: string): void {
     videoDB.toggleLike(id);
-    // state 변경
+    this.setState({ ...this.state, videoList: videoDB.get() });
   }
 
   handleUpdateFilterVideoDB(id: string, filter: Filter): void {
     videoDB.updateFilter(id, filter);
-    // state 변경
+    this.setState({ ...this.state, videoList: videoDB.get() });
   }
 }
 

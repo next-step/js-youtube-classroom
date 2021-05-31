@@ -28,7 +28,7 @@ const videoArticle = (snippet: Snippet, id: string, isSaved?: boolean) => `
             <div class="d-flex justify-end">
                 ${
                   isSaved
-                    ? '<button class="btn" id="save">⬇️ 저장</button>'
+                    ? '<button class="btn" id="unsaved">↪️ 저장취소</button>'
                     : '<button class="btn" id="save">⬇️ 저장</button>'
                 }
             </div>
@@ -57,8 +57,10 @@ ${skeletonUI}
 ${skeletonUI}
 `;
 
-const template = (datas: Item[]) => `
-${datas.map((data) => videoArticle(data.snippet, data.id, true)).join("")}
+const template = (datas: Item[], storedDatas: Set<string>) => `
+${datas
+  .map((data) => videoArticle(data.snippet, data.id, storedDatas.has(data.id)))
+  .join("")}
 `;
 
 export default template;

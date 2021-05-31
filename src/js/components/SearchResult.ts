@@ -1,21 +1,42 @@
 import Component from "@/libs/component";
 import template, { emptyState, loadingState } from "@/templates/SearchResult";
-import { SearchResultProps } from "@/types/index";
+import { SearchResultProps, SearchResultHandlers } from "@/types/index";
 
 class SearchResult extends Component {
   props: SearchResultProps;
-  constructor($root: Element, props: SearchResultProps) {
+  handlers: SearchResultHandlers;
+
+  constructor(
+    $root: Element,
+    props: SearchResultProps,
+    handlers: SearchResultHandlers
+  ) {
     super();
     this.$root = $root;
     this.props = props;
+    this.handlers = handlers;
   }
 
   bindEvents() {
-    this.$root.addEventListener("click", (e) => {
-      console.log(e.target);
-      // target id 가 save라면..save
-      // Props로 받는 datas에는 isSaved도 있어야함.
-      // save에서 저장된게 100개라면 더이상 save되지 않는다.
+    this.$root.addEventListener("click", (e: Event) => {
+      const $button = e.target as HTMLElement;
+      const type = $button.id;
+      if (type !== "save" && type !== "unsaved") return;
+      const $target = $button.closest(".clip") as HTMLElement;
+      if (!$target) return;
+      const id = $target.dataset.id as string;
+      const assignAction = {
+        save: () => {
+          $button.id = "unsaved";
+          $button.innerText = "↪️ 저장취소";
+        },
+        unsaved: () => {
+          $button.id = "save";
+          $button.innerText = "⬇️ 저장";
+        },
+      };
+      assignAction[type]();
+      this.handlers.onClickButton(id, type);
     });
   }
 
@@ -25,7 +46,7 @@ class SearchResult extends Component {
     } else if (this.props.datas.length === 0 && !this.props.hasMore) {
       return (this.$root.innerHTML = emptyState);
     }
-    this.$root.innerHTML = template(this.props.datas);
+    this.$root.innerHTML = template(this.props.datas, this.props.storedDatas);
   }
 }
 

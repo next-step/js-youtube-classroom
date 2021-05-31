@@ -16,11 +16,13 @@ export interface HeaderHanlders {
 
 export interface SearchModalProps {
   isModalOpen: boolean;
-  storedDatas: string[];
+  storedDatas: Set<string>;
 }
 
 export interface SearchModalHandlers {
   onCloseModal: () => void;
+  onSaveVideo: (data: Item) => void;
+  onRemoveVideo: (id: string) => void;
 }
 
 export interface SearchModalState {
@@ -46,9 +48,16 @@ export interface SearchHistoryHandlers {
 
 export interface SearchResultProps {
   datas: Item[];
+  storedDatas: Set<string>;
   isLoading: boolean;
   hasMore: boolean;
 }
+
+export interface SearchResultHandlers {
+  onClickButton: (id: string, type: SaveButton) => void;
+}
+
+export type SaveButton = "save" | "unsaved";
 
 export interface StoredVideoCounterProps {
   storedVideoCount: number;
