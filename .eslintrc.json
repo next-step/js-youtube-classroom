@@ -39,6 +39,7 @@
     "prefer-arrow-callback": "error", // Require using arrow functions for callbacks
     "require-await": "off",
     "radix":"off",
+    "function-paren-newline":"off",
     "arrow-parens": ["error", "as-needed"], // a => {}
     "no-param-reassign": ["error", { "props": false }],
     "no-unused-expressions": ["error", {
