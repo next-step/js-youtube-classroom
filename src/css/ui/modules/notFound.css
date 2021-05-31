@@ -1,0 +1,10 @@
+.not-found {
+  grid-column: 2 / 4;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+.not-found img {
+  width: 200px;
+  height: 160px;
+}
