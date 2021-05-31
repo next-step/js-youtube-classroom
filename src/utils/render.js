@@ -1,3 +1,5 @@
+import notFoundImage from 'images/status/not_found.png';
+
 const convertTimeIntoSimpleFormat = time => {
   const dateArr = time.slice(0, time.indexOf('T')).split('-');
   const convertedTimeArr = dateArr.map(convertedTime => {
@@ -7,7 +9,7 @@ const convertTimeIntoSimpleFormat = time => {
   return `${convertedTimeArr[0]}년 ${convertedTimeArr[1]}월 ${convertedTimeArr[2]}일`;
 };
 
-const renderSearchedItems = (node, items) => {
+export const renderYoutubeItems = (node, items) => {
   node.innerHTML = items
     .map(item => {
       const {
@@ -48,4 +50,9 @@ const renderSearchedItems = (node, items) => {
     .join('');
 };
 
-export default renderSearchedItems;
+export const renderNotFoundMessage = node => {
+  node.innerHTML = `<div class="not-found">
+  <img src=${notFoundImage} alt="검색 결과 없음"/>
+  <p>검색 결과 없음</p>
+</div>`;
+};

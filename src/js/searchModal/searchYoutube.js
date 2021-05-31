@@ -1,6 +1,6 @@
 import api from 'apis/api';
 import showSkeleton from 'utils/skeleton';
-import renderSearchedItems from 'utils/render';
+import { renderYoutubeItems, renderNotFoundMessage } from 'utils/render';
 
 const $modalVideoWrapper = document.querySelector('.modal .video-wrapper');
 const $searchInput = document.querySelector('.modal form .w-100');
@@ -16,7 +16,9 @@ const search = async () => {
     data: { items },
   } = response;
 
-  renderSearchedItems($modalVideoWrapper, items);
+  items.length
+    ? renderYoutubeItems($modalVideoWrapper, items)
+    : renderNotFoundMessage($modalVideoWrapper);
 };
 
 const onEnterSearch = e => {
