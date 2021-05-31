@@ -13,7 +13,7 @@ class SearchResult extends Component {
   mount() {
     if (this.props.datas.length === 0 && this.props.isLoading) {
       return (this.$root.innerHTML = loadingState);
-    } else if (this.props.datas.length === 0) {
+    } else if (this.props.datas.length === 0 && !this.props.hasMore) {
       return (this.$root.innerHTML = emptyState);
     }
     this.$root.innerHTML = template(this.props.datas);

@@ -37,7 +37,7 @@ const videoArticle = (snippet: Snippet, id: string, isSaved?: boolean) => `
 </article>
 `;
 
-export const emptyState = "아무것도 없어요😭";
+export const emptyState = `<image src="src/images/status/not_found.png"/>`;
 const skeletonUI = `
 <article class="clip">
 <div class="skeleton">
@@ -71,45 +71,3 @@ export default template;
     저장된 영상 갯수: ${storedVideoCount} 개
     </div>`;
  */
-
-const sampleSnippet = {
-  publishedAt: "2021-05-10T09:02:33Z",
-  channelId: "UCEf_Bc-KVd7onSeifS3py9g",
-  title: "NCT DREAM 엔시티 드림 &#39;맛 (Hot Sauce)&#39; MV",
-  description:
-    "[Tracklist] 01 맛 (Hot Sauce) 02 Diggity 03 고래 (Dive Into You) 04 우리의 계절 (My Youth) 05 Rocket 06 Countdown (3, 2, 1) 07 ANL 08 주인공 (Irreplaceable) 09 ...",
-  thumbnails: {
-    default: {
-      url: "https://i.ytimg.com/vi/PkKnp4SdE-w/default.jpg",
-      width: 120,
-      height: 90,
-    },
-    medium: {
-      url: "https://i.ytimg.com/vi/PkKnp4SdE-w/mqdefault.jpg",
-      width: 320,
-      height: 180,
-    },
-    high: {
-      url: "https://i.ytimg.com/vi/PkKnp4SdE-w/hqdefault.jpg",
-      width: 480,
-      height: 360,
-    },
-  },
-  channelTitle: "SMTOWN",
-  liveBroadcastContent: "none",
-  publishTime: "2021-05-10T09:02:33Z",
-} as Snippet;
-
-const sampleDatas = [
-  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
-  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
-  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
-  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
-  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
-  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
-  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
-  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
-  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
-  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
-  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
-];

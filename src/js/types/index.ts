@@ -46,6 +46,7 @@ export interface SearchHistoryHandlers {
 export interface SearchResultProps {
   datas: Item[];
   isLoading: boolean;
+  hasMore: boolean;
 }
 
 export interface Snippet {

@@ -70,8 +70,8 @@ class SearchModal extends Component {
     this.$searchResultComponent &&
       this.$searchResultComponent.updateProps({
         datas: this.state.datas,
-        storedVideoCount: 1,
         isLoading: this.state.isLoading,
+        hasMore: this.state.hasMore,
       });
   }
 
@@ -91,8 +91,9 @@ class SearchModal extends Component {
       { onClickHistory: this.handleClickHistory.bind(this) }
     );
     this.$searchResultComponent = new SearchResult($searchResult, {
-      datas: [],
-      isLoading: false,
+      datas: this.state.datas,
+      isLoading: this.state.isLoading,
+      hasMore: this.state.hasMore,
     });
 
     this.$searchHistoryComponent.render();
