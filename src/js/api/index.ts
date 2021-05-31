@@ -1,14 +1,13 @@
 import { APIResult } from "@/types/index";
+import { MAX_DATA_NUMBER } from "@/constants/index";
 import parseAPIData from "@/utils/parseAPIData";
-const MAX_RESULT = 10;
-const PART = "snippet";
 
 const getAPI = async (
   keyword: string,
   lastKey: string
 ): Promise<APIResult | void> => {
   try {
-    const url = `${process.env.API_URL}?part=${PART}&maxResults=${MAX_RESULT}&q=${keyword}&key=${process.env.API_KEY}&pageToken=${lastKey}`;
+    const url = `${process.env.API_URL}?part=snippet&maxResults=${MAX_DATA_NUMBER}&q=${keyword}&key=${process.env.API_KEY}&pageToken=${lastKey}`;
     const response = await fetch(url);
     const data = await response.json();
     const nextPage = data.nextPageToken;

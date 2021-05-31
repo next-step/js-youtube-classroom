@@ -10,7 +10,7 @@ class StoredVideoCounter extends Component {
   }
 
   mount(): void {
-    this.$root.innerHTML = `저장된 영상 갯수: ${this.props.storedVideoCount} 개`;
+    this.$root.innerHTML = `저장된 영상 갯수: ${this.props.storedVideoCount} / 100개`;
   }
 }
 

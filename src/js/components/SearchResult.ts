@@ -1,6 +1,16 @@
 import Component from "@/libs/component";
 import template, { emptyState, loadingState } from "@/templates/SearchResult";
-import { SearchResultProps, SearchResultHandlers } from "@/types/index";
+import {
+  SearchResultProps,
+  SearchResultHandlers,
+  SaveButton,
+} from "@/types/index";
+import {
+  SEARCH_SELECTORS,
+  SAVE_BUTTON_ID,
+  SAVE_BUTTON_CAPTION,
+  UNSAVE_BUTTON_CAPTION,
+} from "@/constants/index";
 
 class SearchResult extends Component {
   props: SearchResultProps;
@@ -20,20 +30,25 @@ class SearchResult extends Component {
   bindEvents(): void {
     this.$root.addEventListener("click", (e: Event) => {
       const $button = e.target as HTMLElement;
-      const type = $button.id;
-      if (type !== "save" && type !== "unsaved") return;
-      if (type === "save" && this.props.storedDatas.size === 100) return;
-      const $target = $button.closest(".clip") as HTMLElement;
+      const type = $button.id as SaveButton;
+
+      if (!SAVE_BUTTON_ID[type]) return;
+      if (type === SAVE_BUTTON_ID.save && this.props.storedDatas.size === 100)
+        return;
+      const $target = $button.closest(
+        SEARCH_SELECTORS.SEARCH_ITEM
+      ) as HTMLElement;
       if (!$target) return;
+
       const id = $target.dataset.id as string;
       const assignAction = {
         save: () => {
-          $button.id = "unsaved";
-          $button.innerText = "↪️ 저장취소";
+          $button.id = SAVE_BUTTON_ID.save;
+          $button.innerText = UNSAVE_BUTTON_CAPTION;
         },
-        unsaved: () => {
-          $button.id = "save";
-          $button.innerText = "⬇️ 저장";
+        unsave: () => {
+          $button.id = SAVE_BUTTON_ID.unsave;
+          $button.innerText = SAVE_BUTTON_CAPTION;
         },
       };
       assignAction[type]();

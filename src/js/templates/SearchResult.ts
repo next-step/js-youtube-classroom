@@ -1,4 +1,5 @@
 import { Snippet, Item } from "@/types/index";
+import { SAVE_BUTTON_CAPTION, UNSAVE_BUTTON_CAPTION } from "@/constants/index";
 import parseDate from "@/utils/parseDate";
 
 const videoArticle = (snippet: Snippet, id: string, isSaved?: boolean) => `
@@ -28,8 +29,8 @@ const videoArticle = (snippet: Snippet, id: string, isSaved?: boolean) => `
             <div class="d-flex justify-end">
                 ${
                   isSaved
-                    ? '<button class="btn" id="unsaved">↪️ 저장취소</button>'
-                    : '<button class="btn" id="save">⬇️ 저장</button>'
+                    ? `<button class="btn" id="unsave">${UNSAVE_BUTTON_CAPTION}</button>`
+                    : `<button class="btn" id="save">${SAVE_BUTTON_CAPTION}</button>`
                 }
             </div>
         </div>

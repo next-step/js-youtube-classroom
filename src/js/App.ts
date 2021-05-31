@@ -5,6 +5,7 @@ import videoDB from "@/libs/videoDB";
 import parseVideoData from "@/utils/parseVideoData";
 import { $ } from "@/utils/dom";
 import { AppState, Navigations, Item, Filter } from "@/types/index";
+import { APP_SELECTORS, FILTER_ID, SEARCH_BUTTON_ID } from "@/constants/index";
 
 class App extends Component {
   $headerComponent: Component | null = null;
@@ -14,7 +15,7 @@ class App extends Component {
     super();
     this.$root = $root;
     this.state = {
-      filter: "later",
+      filter: FILTER_ID.later,
       videoList: videoDB.get(),
       isModalOpen: false,
     };
@@ -34,8 +35,8 @@ class App extends Component {
   }
 
   mountChildComponent(): void {
-    const $header = $("header", this.$root);
-    const $modal = $(".modal", this.$root);
+    const $header = $(APP_SELECTORS.HEADER, this.$root);
+    const $modal = $(APP_SELECTORS.MODAL, this.$root);
 
     this.$headerComponent = new Header(
       $header,
@@ -64,7 +65,7 @@ class App extends Component {
 
   handleChangeFilter(id: Navigations): void {
     const nextState =
-      id === "search-button"
+      id === SEARCH_BUTTON_ID
         ? { ...this.state, isModalOpen: true }
         : ({ ...this.state, filter: id } as AppState);
     this.setState(nextState);
@@ -84,7 +85,7 @@ class App extends Component {
   }
 
   handleAddVideoDB(data: Item): void {
-    videoDB.add({ data, filter: "later", liked: false });
+    videoDB.add({ data, filter: FILTER_ID.later, liked: false });
     this.setState({ ...this.state, videoList: videoDB.get() });
   }
 

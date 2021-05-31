@@ -1,5 +1,6 @@
 import Component from "@/libs/component";
 import template from "@/templates/SearchHistory";
+import { CLASS_NAMES } from "@/constants/index";
 import { SearchHistoryProps, SearchHistoryHandlers } from "@/types/index";
 
 class SearchHistory extends Component {
@@ -19,7 +20,7 @@ class SearchHistory extends Component {
   bindEvents(): void {
     this.$root.addEventListener("click", (e: Event) => {
       const target = e.target as HTMLElement;
-      if (!target || !target.classList.contains("history")) return;
+      if (!target || !target.classList.contains(CLASS_NAMES.HISTORY)) return;
       const value = target.textContent ?? "";
       this.handlers.onClickHistory(value.trim());
     });

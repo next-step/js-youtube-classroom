@@ -1,7 +1,7 @@
 export type Navigations = Filter | "search-button";
 
 export interface AppState {
-  filter: Navigations;
+  filter: Filter;
   videoList: ItemDB[];
   isModalOpen: boolean;
 }
@@ -57,7 +57,7 @@ export interface SearchResultHandlers {
   onClickButton: (id: string, type: SaveButton) => void;
 }
 
-export type SaveButton = "save" | "unsaved";
+export type SaveButton = "save" | "unsave";
 
 export interface StoredVideoCounterProps {
   storedVideoCount: number;
@@ -93,3 +93,7 @@ export interface ItemDB {
 }
 
 export type Filter = "watched" | "later";
+
+export interface StringObject<T> {
+  [key: string]: T;
+}

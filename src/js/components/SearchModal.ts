@@ -6,6 +6,11 @@ import {
   SearchModalState,
   SaveButton,
 } from "@/types/index";
+import {
+  MODAL_SELECTORS,
+  SEARCH_SELECTORS,
+  CLASS_NAMES,
+} from "@/constants/index";
 
 import SearchBar from "@/components/SearchBar";
 import SearchHistory from "@/components/SearchHistory";
@@ -46,21 +51,22 @@ class SearchModal extends Component {
   }
 
   init(): void {
-    this.$target = $(".modal-inner", this.$root);
+    this.$target = $(MODAL_SELECTORS.INNER, this.$root);
   }
 
   bindEvents(): void {
-    $(".modal-close", this.$target).addEventListener(
+    $(MODAL_SELECTORS.CLOSE, this.$target).addEventListener(
       "click",
       this.handlers.onCloseModal
     );
     this.$root.addEventListener("click", (e: Event) => {
-      const target = e.target as Element;
-      target.className === "modal open" && this.handlers.onCloseModal();
+      const target = e.target as HTMLElement;
+      target.classList.contains(CLASS_NAMES.MODAL_OPEN) &&
+        this.handlers.onCloseModal();
     });
     intersectionObserver(
       this.$root,
-      $(".observer"),
+      $(MODAL_SELECTORS.OBSERVER),
       this.getMoreVideos.bind(this)
     );
   }
@@ -68,8 +74,8 @@ class SearchModal extends Component {
   updateProps(nextProps: SearchModalProps): void {
     this.props = nextProps;
     this.props.isModalOpen
-      ? this.$root.classList.add("open")
-      : this.$root.classList.remove("open");
+      ? this.$root.classList.add(CLASS_NAMES.MODAL_OPEN)
+      : this.$root.classList.remove(CLASS_NAMES.MODAL_OPEN);
   }
 
   setState(nextState: SearchModalState): void {
@@ -89,10 +95,10 @@ class SearchModal extends Component {
   }
 
   mountChildComponent(): void {
-    const $searchBar = $("#search-form", this.$root);
-    const $searchHistory = $("#search-history", this.$root);
-    const $searchResult = $("#search-result", this.$root);
-    const $storedVideoCounter = $("#stored-counter", this.$root);
+    const $searchBar = $(SEARCH_SELECTORS.SEARCH_BAR, this.$root);
+    const $searchHistory = $(SEARCH_SELECTORS.SEARCH_HISTORY, this.$root);
+    const $searchResult = $(SEARCH_SELECTORS.SEARCH_RESULT, this.$root);
+    const $storedVideoCounter = $(SEARCH_SELECTORS.SEARCH_COUNTER, this.$root);
 
     this.$searchBarComponent = new SearchBar($searchBar, {
       onSubmitSearch: this.handleSubmitSearch.bind(this),
@@ -201,7 +207,7 @@ class SearchModal extends Component {
           storedVideoCount: this.props.storedDatas.size,
         });
       },
-      unsaved: () => {
+      unsave: () => {
         this.handlers.onRemoveVideo(id);
         this.$storedVideoCounterComponent?.updateProps({
           storedVideoCount: this.props.storedDatas.size,
