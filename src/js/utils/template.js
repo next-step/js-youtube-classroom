@@ -1,3 +1,5 @@
+import notFoundImageURL from 'images/status/not_found.png';
+
 const getDateInKorean = dateString => {
   const [year, month, date] = dateString.split('-');
   return `${year}년 ${month}월 ${date.slice(0, 2)}일`;
@@ -47,4 +49,9 @@ export const getYoutubeCardSkeleton = () => `<div class="skeleton">
 <p class="line"></p>
 <p class="line"></p>
 <div class="btn"></div>
+</div>`;
+
+export const getNoResultTemplate = () => `<div class="no-result">
+<img class="image" src="${notFoundImageURL}" alt="">
+<p class="text">검색한 결과가 없습니다ㅜㅜ</p>
 </div>`;

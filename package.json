@@ -21,7 +21,8 @@
     "@babel/runtime-corejs3": "^7.14.0",
     "axios": "^0.21.1",
     "modules": "^0.4.0",
-    "parcel-bundler": "^1.12.5"
+    "parcel-bundler": "^1.12.5",
+    "utils": "^0.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",

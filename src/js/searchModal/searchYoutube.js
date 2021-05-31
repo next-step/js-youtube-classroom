@@ -7,18 +7,25 @@ const $videoWrapper = document.querySelector('.modal .video-wrapper');
 
 const SKELETON_NUMBER = 10;
 
+const showNoResult = () => {
+  $videoWrapper.innerHTML = template.getNoResultTemplate();
+};
+
 const searhYoutube = async () => {
   showSkeleton($videoWrapper, SKELETON_NUMBER);
 
   const { value } = $searchInput;
   const response = await getSearchedData(value);
   const searchedItems = response.data.items;
+  const isNoResult = !searchedItems.length;
 
-  renderYoutubeCards(
-    $videoWrapper,
-    searchedItems,
-    template.getSearchedYoutubeCardTemplate
-  );
+  if (isNoResult) showNoResult();
+  else
+    renderYoutubeCards(
+      $videoWrapper,
+      searchedItems,
+      template.getSearchedYoutubeCardTemplate
+    );
 };
 
 const onSearchBtnClick = () => searhYoutube();

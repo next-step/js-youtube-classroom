@@ -1,0 +1,11 @@
+.no-result {
+  grid-area: 2/ 2 / span 2 / span 2;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.no-result .image {
+  width: 50%;
+  margin-bottom: 30px;
+}
