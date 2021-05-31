@@ -6,9 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <body>
-    <div id="app">
-    </div>
-    <div class="modal">
+    <div id="root">
+      <div class="d-flex justify-center mt-5 w-100">
+        <div class="w-100" id="app">
+          <header class="my-4">
+          </header>
+          <main class="mt-10">
+            <section class="video-wrapper">
+            </section>
+          </main>
+        </div>
+      </div>
+      <div class="modal">
+        <div class="modal-inner p-8">
+          <button class="modal-close">
+            <svg viewbox="0 0 40 40">
+              <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
+            </svg>
+          </button>
+          <header>
+            <h2 class="text-center">🔎 유튜브 검색</h2>
+          </header>
+          <form class="d-flex" id="search-form">
+            <input type="text" class="w-100 mr-2 pl-2" placeholder="검색" />
+            <button type="button" class="btn bg-cyan-500">검색</button>
+          </form>
+          <section class="mt-2" id="search-history">
+          </section>
+          <section id="search-result">
+          </section>
+        </div>
+      </div>
     </div>
     <script src="index.js"></script>
   </body>

@@ -29,7 +29,7 @@ const videoArticle = (snippet: Snippet, id: string, isSaved: boolean) => `
                 ${
                   isSaved
                     ? '<button class="btn">⬇️ 저장</button>'
-                    : "<span>저장됨</span>"
+                    : '<button class="btn">⬇️ 저장</button>'
                 }
             </div>
         </div>
@@ -65,6 +65,20 @@ const sampleSnippet = {
   publishTime: "2021-05-10T09:02:33Z",
 } as Snippet;
 
+const sampleDatas = [
+  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
+  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
+  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
+  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
+  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
+  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
+  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
+  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
+  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
+  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
+  { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
+];
+
 const template = (storedVideoCount: number, datas: unknown[]) => {
   const videoCount = `
     <div class="d-flex justify-end text-gray-700">
@@ -73,7 +87,10 @@ const template = (storedVideoCount: number, datas: unknown[]) => {
 
   const list = `
         <section class="video-wrapper">
-            ${videoArticle(sampleSnippet, "PkKnp4SdE-w", false)};
+        ${sampleDatas
+          .map((data) => videoArticle(data.snippet, data.id, data.isSaved))
+          .join("\n")}
+            <div class="observer"></div>
         </section>
     `;
 

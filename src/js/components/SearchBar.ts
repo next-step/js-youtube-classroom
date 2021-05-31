@@ -1,5 +1,4 @@
 import Component from "@/libs/component";
-import template from "@/templates/SearchBar";
 import { SearchBarProps } from "@/types/index";
 
 class SearchBar extends Component {
@@ -11,16 +10,7 @@ class SearchBar extends Component {
   }
 
   bindEvents() {
-    this.$target.addEventListener("submit", this.props.onSubmitSearch);
-  }
-  init() {
-    this.$target = document.createElement("form");
-    this.$target.className = "d-flex";
-    this.$root.appendChild(this.$target);
-  }
-
-  mount() {
-    this.$target.innerHTML = template;
+    this.$root.addEventListener("submit", this.props.onSubmitSearch);
   }
 }
 

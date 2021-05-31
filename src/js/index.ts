@@ -8,4 +8,4 @@ const render = ($target: Element | null) => {
   }
 };
 
-render(document.getElementById("app"));
+render(document.getElementById("root"));

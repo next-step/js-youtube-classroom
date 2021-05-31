@@ -36,31 +36,21 @@ class App extends Component {
       });
   }
 
-  mount(): void {
-    const $container = document.createElement("div");
-    $container.className = "d-flex justify-center mt-5 w-100";
-    this.$target = document.createElement("div");
-    this.$target.className = "w-100";
-
-    $container.appendChild(this.$target);
-    this.$root?.appendChild($container);
-    return;
-  }
-
   mountChildComponent(): void {
-    this.$headerComponent = new Header(this.$root, {
+    const $header = $("header", this.$root);
+    const $modal = $(".modal", this.$root);
+
+    this.$headerComponent = new Header($header, {
       filter: this.state.filter,
       onChange: this.handleChangeFilter.bind(this),
     });
+    this.$searchModalComponent = new SearchModal($modal, {
+      isModalOpen: this.state.isModalOpen,
+      onCloseModal: this.handleCloseModal.bind(this),
+    });
+
     this.$headerComponent.render();
-    const $modalRoot = $(".modal");
-    if ($modalRoot) {
-      this.$searchModalComponent = new SearchModal($modalRoot, {
-        isModalOpen: this.state.isModalOpen,
-        onCloseModal: this.handleCloseModal.bind(this),
-      });
-      this.$searchModalComponent.render();
-    }
+    this.$searchModalComponent.render();
   }
 
   handleChangeFilter(id: Navigations): void {

@@ -1,7 +1,6 @@
 import Component from "@/libs/component";
 import { $ } from "@/utils/dom";
 import { SearchModalProps, SearchModalState } from "@/types/index";
-import template from "@/templates/SearchModal";
 import SearchBar from "@/components/SearchBar";
 import SearchHistory from "@/components/SearchHistory";
 import SearchResult from "@/components/SearchResult";
@@ -29,15 +28,14 @@ class SearchModal extends Component {
   }
 
   init() {
-    this.$target = document.createElement("div");
-    this.$target.className = "modal-inner p-8";
-    this.$root.appendChild(this.$target);
+    this.$target = $(".modal-inner", this.$root);
   }
 
   bindEvents() {
-    const $modalCloseButton = $(".modal-close");
-    $modalCloseButton &&
-      $modalCloseButton.addEventListener("click", this.props.onCloseModal);
+    $(".modal-close", this.$target).addEventListener(
+      "click",
+      this.props.onCloseModal
+    );
   }
 
   updateProps(nextProps: SearchModalProps) {
@@ -58,25 +56,26 @@ class SearchModal extends Component {
   }
 
   mountChildComponent() {
-    this.$searchBarComponent = new SearchBar(this.$target, {
+    const $searchBar = $("#search-form", this.$root);
+    const $searchHistory = $("#search-history", this.$root);
+    const $searchResult = $("#search-result", this.$root);
+
+    this.$searchBarComponent = new SearchBar($searchBar, {
       onSubmitSearch: this.handleSubmitSearch.bind(this),
     });
-    this.$searchBarComponent.render();
-    this.$searchHistoryComponent = new SearchHistory(this.$target, {
+    this.$searchHistoryComponent = new SearchHistory($searchHistory, {
       histories: this.state.searchHistory,
       onClickHistory: this.handleClickHistory.bind(this),
     });
-    this.$searchHistoryComponent.render();
-    this.$searchResultComponent = new SearchResult(this.$target, {
+    this.$searchResultComponent = new SearchResult($searchResult, {
       datas: [""],
       storedVideoCount: 1,
       isLoading: false,
     });
-    this.$searchResultComponent.render();
-  }
 
-  mount() {
-    this.$target.innerHTML = template;
+    this.$searchHistoryComponent.render();
+    this.$searchBarComponent.render();
+    this.$searchResultComponent.render();
   }
 
   handleSubmitSearch(e: Event) {

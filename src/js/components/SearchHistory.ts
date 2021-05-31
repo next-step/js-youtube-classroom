@@ -11,7 +11,7 @@ class SearchHistory extends Component {
   }
 
   bindEvents() {
-    this.$target.addEventListener("click", (e: Event) => {
+    this.$root.addEventListener("click", (e: Event) => {
       const target = e.target as Element;
       if (!target) return;
       if (target.classList.contains("history")) {
@@ -21,14 +21,8 @@ class SearchHistory extends Component {
     });
   }
 
-  init() {
-    this.$target = document.createElement("section");
-    this.$target.className = "mt-2";
-    this.$root.appendChild(this.$target);
-  }
-
   mount() {
-    this.$target.innerHTML = template(this.props.histories);
+    this.$root.innerHTML = template(this.props.histories);
   }
 }
 
