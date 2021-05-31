@@ -8,7 +8,7 @@ const searchHistoryDB = {
 
   set: (keyword: string) => {
     const prev = searchHistoryDB.get();
-    const nextData = [keyword, ...prev.slice(0, 2)];
+    const nextData = [...new Set([keyword, ...prev.slice(0, 2)])];
     localStorage.setItem(key, JSON.stringify(nextData));
   },
 };

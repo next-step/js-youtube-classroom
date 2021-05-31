@@ -130,7 +130,9 @@ class SearchModal extends Component {
       let nextState = {
         ...this.state,
         searchKeyword: keyword,
-        searchHistory: [keyword, ...this.state.searchHistory.slice(0, 2)],
+        searchHistory: [
+          ...new Set([keyword, ...this.state.searchHistory.slice(0, 2)]),
+        ],
         lastKey: "",
         isLoading: true,
         hasMore: true,
@@ -139,7 +141,9 @@ class SearchModal extends Component {
       const response = await getAPI(keyword, this.state.lastKey);
       if (!response) return;
       const { datas, lastKey, size } = response;
-      const updatedData = [...this.state.datas, ...datas];
+      const updatedData = this.state.lastKey
+        ? [...this.state.datas, ...datas]
+        : datas;
 
       nextState = {
         ...this.state,
