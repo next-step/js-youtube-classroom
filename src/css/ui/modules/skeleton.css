@@ -1,0 +1,55 @@
+.skeleton {
+  width: 236px;
+  height: 300px;
+}
+
+@keyframes refresh {
+  0% {
+    background-position: calc(-100px);
+  }
+  40%,
+  100% {
+    background-position: 320px;
+  }
+}
+
+.skeleton .image,
+.skeleton .line,
+.skeleton .button {
+  background-image: linear-gradient(
+    90deg,
+    #e0e0e0 0px,
+    #ededed 30px,
+    #e0e0e0 60px
+  );
+  animation: refresh 2s infinite ease-out;
+}
+
+.skeleton .image {
+  height: 118px;
+}
+
+.skeleton .line {
+  height: 17px;
+}
+.skeleton .line:nth-child(2) {
+  width: 60%;
+  margin: 4px 0 0 0;
+}
+
+.skeleton .line:nth-child(3) {
+  width: 30%;
+  margin: 4px 0 0 0;
+}
+
+.skeleton .line:nth-child(4) {
+  width: 20%;
+  margin: 4px 0 0 0;
+}
+
+.skeleton .button {
+  width: 70.297px;
+  height: 36px;
+  margin: 0;
+  float: right;
+}
