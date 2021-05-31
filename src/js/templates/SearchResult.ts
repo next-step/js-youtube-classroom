@@ -28,8 +28,8 @@ const videoArticle = (snippet: Snippet, id: string, isSaved?: boolean) => `
             <div class="d-flex justify-end">
                 ${
                   isSaved
-                    ? '<button class="btn">⬇️ 저장</button>'
-                    : '<button class="btn">⬇️ 저장</button>'
+                    ? '<button class="btn" id="save">⬇️ 저장</button>'
+                    : '<button class="btn" id="save">⬇️ 저장</button>'
                 }
             </div>
         </div>

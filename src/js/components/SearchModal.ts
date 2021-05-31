@@ -124,11 +124,13 @@ class SearchModal extends Component {
     if (!$target || !$input) return;
     const value = $input.value;
     searchHistoryDB.set(value);
+    this.initState(value);
     return this.getVideos(value);
   }
 
   handleClickHistory(value: string) {
     if (value === this.state.searchKeyword) return;
+    this.initState(value);
     return this.getVideos(value);
   }
 
@@ -136,20 +138,23 @@ class SearchModal extends Component {
     return this.state.searchKeyword && this.getVideos(this.state.searchKeyword);
   }
 
+  initState(keyword: string) {
+    const nextState = {
+      ...this.state,
+      searchKeyword: keyword,
+      searchHistory: [
+        ...new Set([keyword, ...this.state.searchHistory.slice(0, 2)]),
+      ],
+      lastKey: "",
+      isLoading: true,
+      hasMore: true,
+    };
+    this.setState(nextState);
+  }
+
   async getVideos(keyword: string) {
     try {
       if (!this.state.hasMore) return;
-      let nextState = {
-        ...this.state,
-        searchKeyword: keyword,
-        searchHistory: [
-          ...new Set([keyword, ...this.state.searchHistory.slice(0, 2)]),
-        ],
-        lastKey: "",
-        isLoading: true,
-        hasMore: true,
-      };
-      this.setState(nextState);
       const response = await getAPI(keyword, this.state.lastKey);
       if (!response) return;
       const { datas, lastKey, size } = response;
@@ -157,7 +162,7 @@ class SearchModal extends Component {
         ? [...this.state.datas, ...datas]
         : datas;
 
-      nextState = {
+      const nextState = {
         ...this.state,
         isLoading: false,
         datas: updatedData,

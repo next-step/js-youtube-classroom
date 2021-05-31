@@ -10,6 +10,12 @@ class SearchResult extends Component {
     this.props = props;
   }
 
+  bindEvents() {
+    this.$root.addEventListener("click", (e) => {
+      console.log(e.target);
+    });
+  }
+
   mount() {
     if (this.props.datas.length === 0 && this.props.isLoading) {
       return (this.$root.innerHTML = loadingState);
