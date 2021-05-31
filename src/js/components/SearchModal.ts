@@ -47,6 +47,10 @@ class SearchModal extends Component {
       "click",
       this.handlers.onCloseModal
     );
+    this.$root.addEventListener("click", (e: Event) => {
+      const target = e.target as Element;
+      target.className === "modal open" && this.handlers.onCloseModal();
+    });
     intersectionObserver(
       this.$root,
       $(".observer"),
