@@ -27,7 +27,7 @@ class SearchModal extends Component {
   $storedVideoCounterComponent: Component | null = null;
 
   constructor(
-    $root: Element,
+    $root: HTMLElement,
     props: SearchModalProps,
     handlers: SearchModalHandlers
   ) {
@@ -45,11 +45,11 @@ class SearchModal extends Component {
     };
   }
 
-  init() {
+  init(): void {
     this.$target = $(".modal-inner", this.$root);
   }
 
-  bindEvents() {
+  bindEvents(): void {
     $(".modal-close", this.$target).addEventListener(
       "click",
       this.handlers.onCloseModal
@@ -65,14 +65,14 @@ class SearchModal extends Component {
     );
   }
 
-  updateProps(nextProps: SearchModalProps) {
+  updateProps(nextProps: SearchModalProps): void {
     this.props = nextProps;
     this.props.isModalOpen
       ? this.$root.classList.add("open")
       : this.$root.classList.remove("open");
   }
 
-  setState(nextState: SearchModalState) {
+  setState(nextState: SearchModalState): void {
     this.state = nextState;
     this.$searchHistoryComponent?.updateProps({
       histories: this.state.searchHistory,
@@ -88,7 +88,7 @@ class SearchModal extends Component {
     });
   }
 
-  mountChildComponent() {
+  mountChildComponent(): void {
     const $searchBar = $("#search-form", this.$root);
     const $searchHistory = $("#search-history", this.$root);
     const $searchResult = $("#search-result", this.$root);
@@ -127,11 +127,11 @@ class SearchModal extends Component {
     this.$storedVideoCounterComponent.render();
   }
 
-  getMoreVideos() {
-    return this.state.searchKeyword && this.getVideos(this.state.searchKeyword);
+  getMoreVideos(): void {
+    this.state.searchKeyword && this.getVideos(this.state.searchKeyword);
   }
 
-  initState(keyword: string) {
+  initState(keyword: string): void {
     let filteredHistory = this.state.searchHistory.filter(
       (history) => history !== keyword
     );
@@ -148,7 +148,7 @@ class SearchModal extends Component {
     this.setState(nextState);
   }
 
-  async getVideos(keyword: string) {
+  async getVideos(keyword: string): Promise<void> {
     try {
       if (!this.state.hasMore) return;
       const response = await getAPI(keyword, this.state.lastKey);
@@ -165,13 +165,14 @@ class SearchModal extends Component {
         lastKey,
         hasMore: updatedData.length < size,
       };
-      return this.setState(nextState);
+      this.setState(nextState);
+      return;
     } catch (error) {
       // 추후 Alert 띄워주기
     }
   }
 
-  handleSubmitSearch(e: Event) {
+  handleSubmitSearch(e: Event): void {
     e.preventDefault();
     const $target = e.target as HTMLElement;
     const $input = $("input", $target) as HTMLInputElement;
@@ -179,16 +180,18 @@ class SearchModal extends Component {
     const value = $input.value;
     searchHistoryDB.set(value);
     this.initState(value);
-    return this.getVideos(value);
+    this.getVideos(value);
+    return;
   }
 
-  handleClickHistory(value: string) {
+  handleClickHistory(value: string): void {
     if (value === this.state.searchKeyword) return;
     this.initState(value);
-    return this.getVideos(value);
+    this.getVideos(value);
+    return;
   }
 
-  handleSaveVideo(id: string, type: SaveButton) {
+  handleSaveVideo(id: string, type: SaveButton): void {
     const assginAction = {
       save: () => {
         const video = this.state.datas.find((item) => item.id === id);
@@ -205,7 +208,7 @@ class SearchModal extends Component {
         });
       },
     };
-    return assginAction[type]();
+    assginAction[type]();
   }
 }
 

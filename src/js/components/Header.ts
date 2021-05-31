@@ -6,29 +6,33 @@ import template from "@/templates/Header";
 class Header extends Component {
   props: HeaderProps;
   handlers: HeaderHanlders;
-  constructor($root: Element, props: HeaderProps, handlers: HeaderHanlders) {
+  constructor(
+    $root: HTMLElement,
+    props: HeaderProps,
+    handlers: HeaderHanlders
+  ) {
     super();
     this.$root = $root;
     this.props = props;
     this.handlers = handlers;
   }
 
-  init() {
+  init(): void {
     this.$target = document.createElement("header");
     this.$target.className = "text-center font-bold";
     this.$root.appendChild(this.$target);
   }
 
-  bindEvents() {
+  bindEvents(): void {
     this.$target.addEventListener("click", (e: Event) => {
       const target = e.target as HTMLButtonElement;
       const id = target.id as Navigations;
       if (!NAVIGATION_ID[id]) return;
-      return this.handlers.onChange(id);
+      this.handlers.onChange(id);
     });
   }
 
-  mount() {
+  mount(): void {
     this.$target.innerHTML = template(this.props.filter);
   }
 }

@@ -7,7 +7,7 @@ class SearchResult extends Component {
   handlers: SearchResultHandlers;
 
   constructor(
-    $root: Element,
+    $root: HTMLElement,
     props: SearchResultProps,
     handlers: SearchResultHandlers
   ) {
@@ -17,7 +17,7 @@ class SearchResult extends Component {
     this.handlers = handlers;
   }
 
-  bindEvents() {
+  bindEvents(): void {
     this.$root.addEventListener("click", (e: Event) => {
       const $button = e.target as HTMLElement;
       const type = $button.id;
@@ -41,11 +41,13 @@ class SearchResult extends Component {
     });
   }
 
-  mount() {
+  mount(): void {
     if (this.props.datas.length === 0 && this.props.isLoading) {
-      return (this.$root.innerHTML = loadingState);
+      this.$root.innerHTML = loadingState;
+      return;
     } else if (this.props.datas.length === 0 && !this.props.hasMore) {
-      return (this.$root.innerHTML = emptyState);
+      this.$root.innerHTML = emptyState;
+      return;
     }
     this.$root.innerHTML = template(this.props.datas, this.props.storedDatas);
   }

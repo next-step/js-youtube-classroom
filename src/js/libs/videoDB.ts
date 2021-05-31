@@ -7,13 +7,13 @@ const videoDB = {
     return JSON.parse(data);
   },
 
-  add: (newData: ItemDB) => {
+  add: (newData: ItemDB): void => {
     const prev = videoDB.get();
     const nextData = [...prev, newData];
     localStorage.setItem(key, JSON.stringify(nextData));
   },
 
-  updateFilter: (id: string, filter: Filter) => {
+  updateFilter: (id: string, filter: Filter): void => {
     const nextData = videoDB.get().map((video) => {
       if (video.data.id === id) {
         return { ...video, filter: filter };
@@ -22,7 +22,7 @@ const videoDB = {
     });
     localStorage.setItem(key, JSON.stringify(nextData));
   },
-  toggleLike: (id: string) => {
+  toggleLike: (id: string): void => {
     const nextData = videoDB.get().map((video) => {
       if (video.data.id === id) {
         return { ...video, liked: !video.liked };

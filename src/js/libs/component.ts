@@ -1,6 +1,6 @@
 class Component {
-  $root: Element = document.createElement("div");
-  $target: Element = document.createElement("div");
+  $root: HTMLElement = document.createElement("div");
+  $target: HTMLElement = document.createElement("div");
   state: unknown;
   props: unknown;
   handlers: unknown;
@@ -10,16 +10,16 @@ class Component {
   mount() {}
   mountChildComponent() {}
 
-  updateProps(nextProps: unknown) {
+  updateProps(nextProps: unknown): void {
     this.props = nextProps;
     this.mount();
   }
 
-  setState(nextState: unknown) {
+  setState(nextState: unknown): void {
     this.state = nextState;
     this.mount();
   }
-  render() {
+  render(): void {
     this.init();
     this.mount();
     this.mountChildComponent();

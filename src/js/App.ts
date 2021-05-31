@@ -10,7 +10,7 @@ class App extends Component {
   $headerComponent: Component | null = null;
   $searchModalComponent: Component | null = null;
   state: AppState;
-  constructor($root: Element) {
+  constructor($root: HTMLElement) {
     super();
     this.$root = $root;
     this.state = {

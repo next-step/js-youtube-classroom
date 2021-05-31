@@ -3,13 +3,13 @@ import { StoredVideoCounterProps } from "@/types/index";
 
 class StoredVideoCounter extends Component {
   props: StoredVideoCounterProps;
-  constructor($root: Element, props: StoredVideoCounterProps) {
+  constructor($root: HTMLElement, props: StoredVideoCounterProps) {
     super();
     this.$root = $root;
     this.props = props;
   }
 
-  mount() {
+  mount(): void {
     this.$root.innerHTML = `저장된 영상 갯수: ${this.props.storedVideoCount} 개`;
   }
 }

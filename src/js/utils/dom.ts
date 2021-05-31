@@ -1,20 +1,21 @@
 export const $ = (
   selector: string,
-  target: Document | Element = document
-): Element => target.querySelector(selector) as Element;
+  target: Document | HTMLElement = document
+): HTMLElement => target.querySelector(selector) as HTMLElement;
+
 export const $$ = (
   selector: string,
-  target: Document | Element = document
-): NodeListOf<Element> => target.querySelectorAll(selector);
+  target: Document | HTMLElement = document
+): NodeListOf<HTMLElement> => target.querySelectorAll(selector);
 
 export const removeClasses = (
-  List: NodeListOf<Element>,
+  List: NodeListOf<HTMLElement>,
   className: string
 ): void => {
   Array.from(List).forEach((node) => node.classList.remove(className));
   return;
 };
 
-export const addClass = (target: Element, className: string): void => {
+export const addClass = (target: HTMLElement, className: string): void => {
   target.classList.add(className);
 };

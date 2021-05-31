@@ -6,7 +6,7 @@ class SearchHistory extends Component {
   props: SearchHistoryProps;
   handlers: SearchHistoryHandlers;
   constructor(
-    $root: Element,
+    $root: HTMLElement,
     props: SearchHistoryProps,
     handlers: SearchHistoryHandlers
   ) {
@@ -16,18 +16,16 @@ class SearchHistory extends Component {
     this.handlers = handlers;
   }
 
-  bindEvents() {
+  bindEvents(): void {
     this.$root.addEventListener("click", (e: Event) => {
-      const target = e.target as Element;
-      if (!target) return;
-      if (target.classList.contains("history")) {
-        const value = target.textContent ?? "";
-        return this.handlers.onClickHistory(value.trim());
-      }
+      const target = e.target as HTMLElement;
+      if (!target || !target.classList.contains("history")) return;
+      const value = target.textContent ?? "";
+      this.handlers.onClickHistory(value.trim());
     });
   }
 
-  mount() {
+  mount(): void {
     this.$root.innerHTML = template(this.props.histories);
   }
 }
