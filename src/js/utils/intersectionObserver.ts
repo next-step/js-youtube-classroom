@@ -9,10 +9,8 @@ const intersectionObserver = (
     threshold: 1.0,
   };
 
-  const _onObserve = (entries: any, observer: any) => {
-    const ioTarget = entries[0].target;
+  const _onObserve = (entries: IntersectionObserverEntry[]) => {
     if (entries[0].isIntersecting) {
-      console.log("?");
       cb();
     }
   };

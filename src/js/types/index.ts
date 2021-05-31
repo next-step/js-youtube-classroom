@@ -24,7 +24,7 @@ export interface SearchModalHandlers {
 
 export interface SearchModalState {
   datas: Item[];
-  searchKewyord: string;
+  searchKeyword: string;
   searchHistory: string[];
   isLoading: boolean;
   lastKey: string;

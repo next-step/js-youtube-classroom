@@ -30,7 +30,7 @@ class SearchModal extends Component {
     this.handlers = handlers;
     this.state = {
       datas: [],
-      searchKewyord: "",
+      searchKeyword: "",
       searchHistory: searchHistoryDB.get(),
       isLoading: false,
       lastKey: "",
@@ -107,42 +107,42 @@ class SearchModal extends Component {
     if (!$target || !$input) return;
     const value = $input.value;
     searchHistoryDB.set(value);
-    const nextState = {
-      ...this.state,
-      searchKeyword: value,
-      searchHistory: [value, ...this.state.searchHistory.slice(0, 2)],
-      lastKey: "",
-      hasMore: true,
-    };
-    this.setState(nextState);
     return this.getVideos(value);
   }
 
   handleClickHistory(value: string) {
-    if (value === this.state.searchKewyord) return;
+    if (value === this.state.searchKeyword) return;
     return this.getVideos(value);
   }
 
   getMoreVideos() {
-    return this.state.searchKewyord && this.getVideos(this.state.searchKewyord);
+    return this.state.searchKeyword && this.getVideos(this.state.searchKeyword);
   }
 
   async getVideos(keyword: string) {
     try {
       if (!this.state.hasMore) return;
-      this.setState({ ...this.state, isLoading: true });
+      let nextState = {
+        ...this.state,
+        searchKeyword: keyword,
+        searchHistory: [keyword, ...this.state.searchHistory.slice(0, 2)],
+        lastKey: "",
+        isLoading: true,
+        hasMore: true,
+      };
+      this.setState(nextState);
       const response = await getAPI(keyword, this.state.lastKey);
       if (!response) return;
       const { datas, lastKey, size } = response;
-      console.log(datas);
       const updatedData = [...this.state.datas, ...datas];
-      const nextState = {
+
+      nextState = {
         ...this.state,
         isLoading: false,
         datas: updatedData,
         lastKey,
         hasMore: updatedData.length < size,
-      } as SearchModalState;
+      };
       return this.setState(nextState);
     } catch (error) {
       // 추후 Alert 띄워주기
