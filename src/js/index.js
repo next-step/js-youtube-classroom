@@ -1,2 +1,2 @@
-import 'js/modal';
+import 'js/modalToggle';
 import 'js/youtubeSearch';
