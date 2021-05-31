@@ -50,6 +50,10 @@ export interface SearchResultProps {
   hasMore: boolean;
 }
 
+export interface StoredVideoCounterProps {
+  storedVideoCount: number;
+}
+
 export interface Snippet {
   publishedAt: string;
   title: string;

@@ -62,10 +62,3 @@ ${datas.map((data) => videoArticle(data.snippet, data.id, true)).join("")}
 `;
 
 export default template;
-
-/**
- *   const videoCount = `
-    <div class="d-flex justify-end text-gray-700">
-    저장된 영상 갯수: ${storedVideoCount} 개
-    </div>`;
- */

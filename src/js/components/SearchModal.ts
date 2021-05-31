@@ -5,9 +5,12 @@ import {
   SearchModalHandlers,
   SearchModalState,
 } from "@/types/index";
+
 import SearchBar from "@/components/SearchBar";
 import SearchHistory from "@/components/SearchHistory";
 import SearchResult from "@/components/SearchResult";
+import StoredVideoCounter from "@/components/StoredVideoCounter";
+
 import searchHistoryDB from "@/libs/searchHistoryDB";
 import intersectionObserver from "@/utils/intersectionObserver";
 import getAPI from "@/api/index";
@@ -16,9 +19,12 @@ class SearchModal extends Component {
   props: SearchModalProps;
   handlers: SearchModalHandlers;
   state: SearchModalState;
+
   $searchBarComponent: Component | null = null;
   $searchHistoryComponent: Component | null = null;
   $searchResultComponent: Component | null = null;
+  $storedVideoCounterComponent: Component | null = null;
+
   constructor(
     $root: Element,
     props: SearchModalProps,
@@ -83,6 +89,7 @@ class SearchModal extends Component {
     const $searchBar = $("#search-form", this.$root);
     const $searchHistory = $("#search-history", this.$root);
     const $searchResult = $("#search-result", this.$root);
+    const $storedVideoCounter = $("#stored-counter", this.$root);
 
     this.$searchBarComponent = new SearchBar($searchBar, {
       onSubmitSearch: this.handleSubmitSearch.bind(this),
@@ -99,10 +106,15 @@ class SearchModal extends Component {
       isLoading: this.state.isLoading,
       hasMore: this.state.hasMore,
     });
+    this.$storedVideoCounterComponent = new StoredVideoCounter(
+      $storedVideoCounter,
+      { storedVideoCount: this.props.storedDatas.length }
+    );
 
     this.$searchHistoryComponent.render();
     this.$searchBarComponent.render();
     this.$searchResultComponent.render();
+    this.$storedVideoCounterComponent.render();
   }
 
   handleSubmitSearch(e: Event) {
