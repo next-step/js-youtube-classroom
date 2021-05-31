@@ -22,6 +22,7 @@ class SearchResult extends Component {
       const $button = e.target as HTMLElement;
       const type = $button.id;
       if (type !== "save" && type !== "unsaved") return;
+      if (type === "save" && this.props.storedDatas.size === 100) return;
       const $target = $button.closest(".clip") as HTMLElement;
       if (!$target) return;
       const id = $target.dataset.id as string;
