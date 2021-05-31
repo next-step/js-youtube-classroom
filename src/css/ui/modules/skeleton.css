@@ -1,0 +1,40 @@
+.skeleton {
+  width: 236px;
+}
+
+.skeleton .image,
+.skeleton .line {
+  background-image: linear-gradient(
+    90deg,
+    #e0e0e0 0px,
+    #ededed 30px,
+    #e0e0e0 60px
+  );
+  animation: refresh 2s infinite ease-out;
+}
+
+.skeleton .image {
+  height: 150px;
+}
+
+.skeleton .line {
+  height: 16px;
+}
+
+.skeleton .line:first-child {
+  width: 50%;
+}
+
+.skeleton .line:last-child {
+  width: 80%;
+}
+
+@keyframes refresh {
+  0% {
+    background-position: calc(-100px);
+  }
+  40%,
+  100% {
+    background-position: 320px;
+  }
+}
