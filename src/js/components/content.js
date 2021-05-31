@@ -5,7 +5,7 @@ const content = ({ title, channelTitle, channelId, publishTime }, $element) => {
   $contentContainer.classList.add('content-container', 'pt-2', 'px-1');
 
   const $title = document.createElement('h3');
-  $title.textContent = title;
+  $title.innerHTML = title;
 
   const $container = document.createElement('div');
 
