@@ -11,8 +11,8 @@ const transferCreationDate = date => {
   if (creationDate < 60) return `${creationDate}초 전`;
   if (creationDate >= 60 && creationDate < 3600) return `${parseInt(creationDate / 60)}분 전`;
   if (creationDate >= 3600 && creationDate < 3600 * 24) return `${parseInt(creationDate / 3600)}시간 전`;
-  if (creationDate >= 3600 * 24 && today.getDate() - registerDate.getDate() < 8) {
-    return `${today.getDate() - registerDate.getDate()}일 전`;
+  if (creationDate >= 3600 * 24 && creationDate < 691200) {
+    return `${Math.round(creationDate / 60 / 60 / 24)}일 전`;
   }
   return dateFormMaker(date);
 };
