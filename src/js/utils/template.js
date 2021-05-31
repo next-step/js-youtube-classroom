@@ -10,8 +10,7 @@ export const getSearchedYoutubeCardTemplate = ({ id, snippet }) => {
   const { title, channelTitle, channelId, publishedAt } = snippet;
   const date = getDateInKorean(publishedAt);
 
-  return `<article class="clip">
-  <div class="preview-container">
+  return `<div class="preview-container">
     <iframe
       width="100%"
       height="118"
@@ -38,18 +37,15 @@ export const getSearchedYoutubeCardTemplate = ({ id, snippet }) => {
         <button class="btn">⬇️ 저장</button>
       </div>
     </div>
-  </div>
-</article>`;
+  </div>`;
 };
 
-export const getYoutubeCardSkeleton = () => `<div class="skeleton">
-<div class="image"></div>
+export const getYoutubeCardSkeleton = () => `<div class="image"></div>
 <p class="line"></p>
 <p class="line"></p>
 <p class="line"></p>
 <p class="line"></p>
-<div class="btn"></div>
-</div>`;
+<div class="btn"></div>`;
 
 export const getNoResultTemplate = () => `<div class="no-result">
 <img class="image" src="${notFoundImageURL}" alt="">
