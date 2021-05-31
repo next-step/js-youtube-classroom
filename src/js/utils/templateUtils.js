@@ -5,7 +5,10 @@ const getDateInKorean = dateString => {
   return `${year}년 ${month}월 ${date.slice(0, 2)}일`;
 };
 
-export const getSearchedYoutubeCardTemplate = ({ id, snippet }) => {
+export const getSearchedYoutubeCardTemplate = (
+  { id, snippet },
+  isSavedYoutube
+) => {
   const { videoId } = id;
   const { title, channelTitle, channelId, publishedAt } = snippet;
   const date = getDateInKorean(publishedAt);
@@ -33,8 +36,8 @@ export const getSearchedYoutubeCardTemplate = ({ id, snippet }) => {
       <div class="meta">
         <p>${date}</p>
       </div>
-      <div class="d-flex justify-end">
-        <button class="btn">⬇️ 저장</button>
+      <div class="d-flex justify-end btn-container">
+        ${isSavedYoutube ? '' : '<button class="btn">⬇️ 저장</button>'}
       </div>
     </div>
   </div>`;
@@ -47,7 +50,7 @@ export const getYoutubeCardSkeleton = () => `<div class="image"></div>
 <p class="line"></p>
 <div class="btn"></div>`;
 
-export const getNoResultTemplate = () => `<div class="no-result">
+export const getNoResultTemplate = text => `<div class="no-result">
 <img class="image" src="${notFoundImageURL}" alt="">
-<p class="text">검색한 결과가 없습니다ㅜㅜ</p>
+<p class="text">${text}</p>
 </div>`;

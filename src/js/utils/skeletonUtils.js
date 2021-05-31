@@ -1,4 +1,4 @@
-import { getYoutubeCardSkeleton } from './template';
+import { getYoutubeCardSkeleton } from 'utils/templateUtils';
 
 export const showSkeleton = (node, number) => {
   Array.from({ length: number }).forEach(() => {

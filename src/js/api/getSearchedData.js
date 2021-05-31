@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { renderNoResult } from 'utils/renderingUtils';
 
 const getSearchedData = async (value, SHOWED_RESULTS_NUMBER, nextPageToken) => {
   try {
@@ -9,6 +10,11 @@ const getSearchedData = async (value, SHOWED_RESULTS_NUMBER, nextPageToken) => {
     );
     return response;
   } catch (e) {
+    const $videoWrapper = document.querySelector('.modal .video-wrapper');
+    renderNoResult(
+      $videoWrapper,
+      '검색 도중 에러가 났어요ㅜㅜ 얼릉 고치고 돌아올게요'
+    );
     throw Error(e);
   }
 };

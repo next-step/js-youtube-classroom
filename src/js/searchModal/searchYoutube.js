@@ -1,20 +1,24 @@
 import getSearchedData from 'api/getSearchedData';
-import { renderYoutubeCards, template, skeleton } from 'utils';
+import {
+  renderingUtils,
+  templateUtils,
+  skeletonUtils,
+  createObservedTarget
+} from 'utils';
+import { hideSaveButton, saveYoutubeId } from 'searchModal';
 
 const $searchBtn = document.querySelector('.modal form .btn');
 const $searchInput = document.querySelector('.modal .pl-2');
 const $videoWrapper = document.querySelector('.modal .video-wrapper');
+const $modalInner = document.querySelector('.modal-inner');
 
 let isFirstPage = true;
 
-const showNoResult = () => {
-  $videoWrapper.innerHTML = template.getNoResultTemplate();
-};
 const initializeSearchModal = () => {
   isFirstPage = true;
   $videoWrapper.innerHTML = '';
 };
-const searhYoutube = (() => {
+const searchYoutube = (() => {
   const SHOWED_RESULTS_NUMBER = 10;
 
   let nextPageToken = '';
@@ -23,25 +27,24 @@ const searhYoutube = (() => {
   const getSearchedValue = newSearchedValue => {
     const isNewSearch = newSearchedValue !== searchedValue;
 
-    if (!isNewSearch) {
-      return searchedValue;
+    if (isNewSearch) {
+      searchedValue = newSearchedValue;
+      initializeSearchModal();
     }
 
-    searchedValue = newSearchedValue;
-    initializeSearchModal();
-    return newSearchedValue;
+    return searchedValue;
   };
   const renderResult = response => {
     const searchedItems = response.data.items;
     const isNoResult = !searchedItems.length;
 
-    if (isNoResult) showNoResult();
+    if (isNoResult) renderingUtils.renderNoResult($videoWrapper);
     else {
-      skeleton.hideSkeleton($videoWrapper);
-      renderYoutubeCards(
+      skeletonUtils.hideSkeleton($videoWrapper);
+      renderingUtils.renderYoutubeCards(
         $videoWrapper,
         searchedItems,
-        template.getSearchedYoutubeCardTemplate
+        templateUtils.getSearchedYoutubeCardTemplate
       );
 
       nextPageToken = response.data.nextPageToken;
@@ -50,10 +53,9 @@ const searhYoutube = (() => {
   };
 
   return async () => {
+    skeletonUtils.showSkeleton($videoWrapper, SHOWED_RESULTS_NUMBER);
+
     const searchedValue = getSearchedValue($searchInput.value);
-
-    skeleton.showSkeleton($videoWrapper, SHOWED_RESULTS_NUMBER);
-
     const response = await getSearchedData(
       searchedValue,
       SHOWED_RESULTS_NUMBER,
@@ -62,31 +64,33 @@ const searhYoutube = (() => {
     renderResult(response);
   };
 })();
-const createObservedTarget = () => {
-  const $modalInner = document.querySelector('.modal-inner');
-  const $observedTarget = document.createElement('div');
-  $observedTarget.classList.add('observed-target');
-  $modalInner.appendChild($observedTarget);
-
-  return $observedTarget;
-};
-const renderMoreYoutubeCards = () => {
-  const io = new IntersectionObserver(([{ isIntersecting }]) => {
-    if (!isIntersecting) return;
-    if (!isFirstPage) searhYoutube();
-  });
-  io.observe(createObservedTarget());
-};
 
 const onSearchBtnClick = () => {
-  searhYoutube();
+  searchYoutube();
 };
 const onSearchInputKeypress = e => {
   if (e.key !== 'Enter') return;
   e.preventDefault();
-  searhYoutube();
+  searchYoutube();
+};
+const onSaveButtonClick = e => {
+  const targetNode = e.target;
+
+  saveYoutubeId(targetNode);
+  hideSaveButton(targetNode);
+  renderingUtils.renderSavedYoutubeNumber();
 };
 
 $searchBtn.addEventListener('click', onSearchBtnClick);
 $searchInput.addEventListener('keypress', onSearchInputKeypress);
-renderMoreYoutubeCards();
+$videoWrapper.addEventListener('click', onSaveButtonClick);
+const searchModalIo = new IntersectionObserver(([{ isIntersecting }]) =>
+  renderingUtils.renderMoreYoutubeCards(
+    isIntersecting,
+    isFirstPage,
+    searchYoutube
+  )
+);
+searchModalIo.observe(
+  createObservedTarget($modalInner, '검색한 결과가 없습니다ㅜㅜ')
+);
