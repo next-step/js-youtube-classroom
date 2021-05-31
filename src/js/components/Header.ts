@@ -1,14 +1,16 @@
 import Component from "@/libs/component";
 import { NAVIGATION_ID } from "@/utils/constants";
-import { Navigations, HeaderProps } from "@/types/index";
+import { Navigations, HeaderProps, HeaderHanlders } from "@/types/index";
 import template from "@/templates/Header";
 
 class Header extends Component {
   props: HeaderProps;
-  constructor($root: Element, props: HeaderProps) {
+  handlers: HeaderHanlders;
+  constructor($root: Element, props: HeaderProps, handlers: HeaderHanlders) {
     super();
     this.$root = $root;
     this.props = props;
+    this.handlers = handlers;
   }
 
   init() {
@@ -22,7 +24,7 @@ class Header extends Component {
       const target = e.target as HTMLButtonElement;
       const id = target.id as Navigations;
       if (!NAVIGATION_ID[id]) return;
-      return this.props.onChange(id);
+      return this.handlers.onChange(id);
     });
   }
 

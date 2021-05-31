@@ -1,16 +1,16 @@
 import Component from "@/libs/component";
-import { SearchBarProps } from "@/types/index";
+import { SearchBarHandlers } from "@/types/index";
 
 class SearchBar extends Component {
-  props: SearchBarProps;
-  constructor($root: Element, props: SearchBarProps) {
+  handlers: SearchBarHandlers;
+  constructor($root: Element, handlers: SearchBarHandlers) {
     super();
     this.$root = $root;
-    this.props = props;
+    this.handlers = handlers;
   }
 
   bindEvents() {
-    this.$root.addEventListener("submit", this.props.onSubmitSearch);
+    this.$root.addEventListener("submit", this.handlers.onSubmitSearch);
   }
 }
 

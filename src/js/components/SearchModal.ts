@@ -1,6 +1,10 @@
 import Component from "@/libs/component";
 import { $ } from "@/utils/dom";
-import { SearchModalProps, SearchModalState } from "@/types/index";
+import {
+  SearchModalProps,
+  SearchModalHandlers,
+  SearchModalState,
+} from "@/types/index";
 import SearchBar from "@/components/SearchBar";
 import SearchHistory from "@/components/SearchHistory";
 import SearchResult from "@/components/SearchResult";
@@ -11,14 +15,20 @@ import getAPI from "@/api/index";
 
 class SearchModal extends Component {
   props: SearchModalProps;
+  handlers: SearchModalHandlers;
   state: SearchModalState;
   $searchBarComponent: Component | null = null;
   $searchHistoryComponent: Component | null = null;
   $searchResultComponent: Component | null = null;
-  constructor($root: Element, props: SearchModalProps) {
+  constructor(
+    $root: Element,
+    props: SearchModalProps,
+    handlers: SearchModalHandlers
+  ) {
     super();
     this.$root = $root;
     this.props = props;
+    this.handlers = handlers;
     this.state = {
       searchKewyord: "",
       searchHistory: searchHistoryDB.get(),
@@ -34,7 +44,7 @@ class SearchModal extends Component {
   bindEvents() {
     $(".modal-close", this.$target).addEventListener(
       "click",
-      this.props.onCloseModal
+      this.handlers.onCloseModal
     );
   }
 
@@ -50,7 +60,6 @@ class SearchModal extends Component {
     this.$searchHistoryComponent &&
       this.$searchHistoryComponent.updateProps({
         histories: this.state.searchHistory,
-        onClickHistory: this.handleClickHistory.bind(this),
       });
     // this.$searchResultComponent && this.$searchResultComponent.updateProps({});
   }
@@ -63,10 +72,13 @@ class SearchModal extends Component {
     this.$searchBarComponent = new SearchBar($searchBar, {
       onSubmitSearch: this.handleSubmitSearch.bind(this),
     });
-    this.$searchHistoryComponent = new SearchHistory($searchHistory, {
-      histories: this.state.searchHistory,
-      onClickHistory: this.handleClickHistory.bind(this),
-    });
+    this.$searchHistoryComponent = new SearchHistory(
+      $searchHistory,
+      {
+        histories: this.state.searchHistory,
+      },
+      { onClickHistory: this.handleClickHistory.bind(this) }
+    );
     this.$searchResultComponent = new SearchResult($searchResult, {
       datas: [""],
       storedVideoCount: 1,

@@ -27,12 +27,10 @@ class App extends Component {
     this.$headerComponent &&
       this.$headerComponent.updateProps({
         filter: this.state.filter,
-        onChange: this.handleChangeFilter.bind(this),
       });
     this.$searchModalComponent &&
       this.$searchModalComponent.updateProps({
         isModalOpen: this.state.isModalOpen,
-        onCloseModal: this.handleCloseModal.bind(this),
       });
   }
 
@@ -40,14 +38,21 @@ class App extends Component {
     const $header = $("header", this.$root);
     const $modal = $(".modal", this.$root);
 
-    this.$headerComponent = new Header($header, {
-      filter: this.state.filter,
-      onChange: this.handleChangeFilter.bind(this),
-    });
-    this.$searchModalComponent = new SearchModal($modal, {
-      isModalOpen: this.state.isModalOpen,
-      onCloseModal: this.handleCloseModal.bind(this),
-    });
+    this.$headerComponent = new Header(
+      $header,
+      {
+        filter: this.state.filter,
+      },
+      { onChange: this.handleChangeFilter.bind(this) }
+    );
+
+    this.$searchModalComponent = new SearchModal(
+      $modal,
+      {
+        isModalOpen: this.state.isModalOpen,
+      },
+      { onCloseModal: this.handleCloseModal.bind(this) }
+    );
 
     this.$headerComponent.render();
     this.$searchModalComponent.render();

@@ -1,13 +1,19 @@
 import Component from "@/libs/component";
 import template from "@/templates/SearchHistory";
-import { SearchHistoryProps } from "@/types/index";
+import { SearchHistoryProps, SearchHistoryHandlers } from "@/types/index";
 
 class SearchHistory extends Component {
   props: SearchHistoryProps;
-  constructor($root: Element, props: SearchHistoryProps) {
+  handlers: SearchHistoryHandlers;
+  constructor(
+    $root: Element,
+    props: SearchHistoryProps,
+    handlers: SearchHistoryHandlers
+  ) {
     super();
     this.$root = $root;
     this.props = props;
+    this.handlers = handlers;
   }
 
   bindEvents() {
@@ -16,7 +22,7 @@ class SearchHistory extends Component {
       if (!target) return;
       if (target.classList.contains("history")) {
         const value = target.textContent ?? "";
-        return this.props.onClickHistory(value.trim());
+        return this.handlers.onClickHistory(value.trim());
       }
     });
   }

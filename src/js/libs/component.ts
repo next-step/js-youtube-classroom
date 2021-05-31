@@ -3,6 +3,8 @@ class Component {
   $target: Element = document.createElement("div");
   state: unknown;
   props: unknown;
+  handlers: unknown;
+
   init() {}
   bindEvents() {}
   mount() {}
