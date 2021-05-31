@@ -139,12 +139,15 @@ class SearchModal extends Component {
   }
 
   initState(keyword: string) {
+    let filteredHistory = this.state.searchHistory.filter(
+      (history) => history !== keyword
+    );
+    if (filteredHistory.length === 3)
+      filteredHistory = filteredHistory.slice(0, 2);
     const nextState = {
       ...this.state,
       searchKeyword: keyword,
-      searchHistory: [
-        ...new Set([keyword, ...this.state.searchHistory.slice(0, 2)]),
-      ],
+      searchHistory: [...new Set([keyword, ...filteredHistory])],
       lastKey: "",
       isLoading: true,
       hasMore: true,

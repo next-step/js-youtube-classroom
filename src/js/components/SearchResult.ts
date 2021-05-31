@@ -13,6 +13,9 @@ class SearchResult extends Component {
   bindEvents() {
     this.$root.addEventListener("click", (e) => {
       console.log(e.target);
+      // target id 가 save라면..save
+      // Props로 받는 datas에는 isSaved도 있어야함.
+      // save에서 저장된게 100개라면 더이상 save되지 않는다.
     });
   }
 
