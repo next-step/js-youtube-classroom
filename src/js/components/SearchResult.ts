@@ -1,5 +1,5 @@
 import Component from "@/libs/component";
-import template from "@/templates/SearchResult";
+import template, { emptyState, loadingState } from "@/templates/SearchResult";
 import { SearchResultProps } from "@/types/index";
 
 class SearchResult extends Component {
@@ -10,33 +10,13 @@ class SearchResult extends Component {
     this.props = props;
   }
 
-  bindEvents() {
-    const target = document.querySelector(".observer");
-    console.log(target);
-    const options = {
-      root: this.$target,
-      rootMargin: "0px",
-      threshold: 1.0,
-    };
-    if (!target) return;
-
-    const _onObserve = (entries: any, observer: any) => {
-      const ioTarget = entries[0].target;
-      console.log(entries);
-      if (entries[0].isIntersecting) {
-        console.log("ㅎㅇ");
-      }
-    };
-
-    const observer = new IntersectionObserver(_onObserve, options);
-    observer.observe(target);
-  }
-
   mount() {
-    this.$root.innerHTML = template(
-      this.props.storedVideoCount,
-      this.props.datas
-    );
+    if (this.props.datas.length === 0 && this.props.isLoading) {
+      return (this.$root.innerHTML = loadingState);
+    } else if (this.props.datas.length === 0) {
+      return (this.$root.innerHTML = emptyState);
+    }
+    this.$root.innerHTML = template(this.props.datas);
   }
 }
 

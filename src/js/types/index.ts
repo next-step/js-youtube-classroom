@@ -23,10 +23,12 @@ export interface SearchModalHandlers {
 }
 
 export interface SearchModalState {
+  datas: Item[];
   searchKewyord: string;
   searchHistory: string[];
   isLoading: boolean;
-  lastKey: "";
+  lastKey: string;
+  hasMore: boolean;
 }
 
 export interface SearchBarHandlers {
@@ -42,9 +44,8 @@ export interface SearchHistoryHandlers {
 }
 
 export interface SearchResultProps {
-  datas: unknown[];
+  datas: Item[];
   isLoading: boolean;
-  storedVideoCount: number;
 }
 
 export interface Snippet {
@@ -52,4 +53,15 @@ export interface Snippet {
   title: string;
   channelTitle: string;
   channelId: string;
+}
+
+export interface Item {
+  id: { videoId: string };
+  snippet: Snippet;
+}
+
+export interface APIResult {
+  datas: Item[];
+  lastKey: string;
+  size: number;
 }

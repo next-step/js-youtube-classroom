@@ -9,9 +9,8 @@ import SearchBar from "@/components/SearchBar";
 import SearchHistory from "@/components/SearchHistory";
 import SearchResult from "@/components/SearchResult";
 import searchHistoryDB from "@/libs/searchHistoryDB";
+import intersectionObserver from "@/utils/intersectionObserver";
 import getAPI from "@/api/index";
-
-// 지금 문제점은 PRops를 전체를 다시 줘야하는다는것이당.. 넘 복잡하다
 
 class SearchModal extends Component {
   props: SearchModalProps;
@@ -30,10 +29,12 @@ class SearchModal extends Component {
     this.props = props;
     this.handlers = handlers;
     this.state = {
+      datas: [],
       searchKewyord: "",
       searchHistory: searchHistoryDB.get(),
       isLoading: false,
       lastKey: "",
+      hasMore: true,
     };
   }
 
@@ -45,6 +46,11 @@ class SearchModal extends Component {
     $(".modal-close", this.$target).addEventListener(
       "click",
       this.handlers.onCloseModal
+    );
+    intersectionObserver(
+      this.$root,
+      $(".observer"),
+      this.getMoreVideos.bind(this)
     );
   }
 
@@ -61,7 +67,12 @@ class SearchModal extends Component {
       this.$searchHistoryComponent.updateProps({
         histories: this.state.searchHistory,
       });
-    // this.$searchResultComponent && this.$searchResultComponent.updateProps({});
+    this.$searchResultComponent &&
+      this.$searchResultComponent.updateProps({
+        datas: this.state.datas,
+        storedVideoCount: 1,
+        isLoading: this.state.isLoading,
+      });
   }
 
   mountChildComponent() {
@@ -80,8 +91,7 @@ class SearchModal extends Component {
       { onClickHistory: this.handleClickHistory.bind(this) }
     );
     this.$searchResultComponent = new SearchResult($searchResult, {
-      datas: [""],
-      storedVideoCount: 1,
+      datas: [],
       isLoading: false,
     });
 
@@ -101,6 +111,8 @@ class SearchModal extends Component {
       ...this.state,
       searchKeyword: value,
       searchHistory: [value, ...this.state.searchHistory.slice(0, 2)],
+      lastKey: "",
+      hasMore: true,
     };
     this.setState(nextState);
     return this.getVideos(value);
@@ -111,10 +123,27 @@ class SearchModal extends Component {
     return this.getVideos(value);
   }
 
+  getMoreVideos() {
+    return this.state.searchKewyord && this.getVideos(this.state.searchKewyord);
+  }
+
   async getVideos(keyword: string) {
     try {
+      if (!this.state.hasMore) return;
+      this.setState({ ...this.state, isLoading: true });
       const response = await getAPI(keyword, this.state.lastKey);
-      console.log(response);
+      if (!response) return;
+      const { datas, lastKey, size } = response;
+      console.log(datas);
+      const updatedData = [...this.state.datas, ...datas];
+      const nextState = {
+        ...this.state,
+        isLoading: false,
+        datas: updatedData,
+        lastKey,
+        hasMore: updatedData.length < size,
+      } as SearchModalState;
+      return this.setState(nextState);
     } catch (error) {
       // 추후 Alert 띄워주기
     }

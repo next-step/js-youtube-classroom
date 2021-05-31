@@ -1,8 +1,8 @@
-import { Snippet } from "@/types/index";
+import { Snippet, Item } from "@/types/index";
 import parseDate from "@/utils/parseDate";
 
-const videoArticle = (snippet: Snippet, id: string, isSaved: boolean) => `
-<article class="clip">
+const videoArticle = (snippet: Snippet, id: string, isSaved?: boolean) => `
+<article class="clip" data-id=${id}>
  <div class="preview-container">
     <iframe
     width="100%"
@@ -36,6 +36,41 @@ const videoArticle = (snippet: Snippet, id: string, isSaved: boolean) => `
     </div>
 </article>
 `;
+
+export const emptyState = "아무것도 없어요😭";
+const skeletonUI = `
+<article class="clip">
+<div class="skeleton">
+<div class="image"></div>
+  <p class="line"></p>
+  <p class="line"></p>
+</div>
+</article>
+`;
+export const loadingState = `
+${skeletonUI}
+${skeletonUI}
+${skeletonUI}
+${skeletonUI}
+${skeletonUI}
+${skeletonUI}
+${skeletonUI}
+`;
+
+const template = (datas: Item[]) => `
+${datas
+  .map((data) => videoArticle(data.snippet, data.id.videoId, true))
+  .join("")}
+`;
+
+export default template;
+
+/**
+ *   const videoCount = `
+    <div class="d-flex justify-end text-gray-700">
+    저장된 영상 갯수: ${storedVideoCount} 개
+    </div>`;
+ */
 
 const sampleSnippet = {
   publishedAt: "2021-05-10T09:02:33Z",
@@ -78,25 +113,3 @@ const sampleDatas = [
   { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
   { snippet: sampleSnippet, id: "PkKnp4SdE-w", isSaved: false },
 ];
-
-const template = (storedVideoCount: number, datas: unknown[]) => {
-  const videoCount = `
-    <div class="d-flex justify-end text-gray-700">
-    저장된 영상 갯수: ${storedVideoCount} 개
-    </div>`;
-
-  const list = `
-        <section class="video-wrapper">
-        ${sampleDatas
-          .map((data) => videoArticle(data.snippet, data.id, data.isSaved))
-          .join("\n")}
-            <div class="observer"></div>
-        </section>
-    `;
-
-  // // ${datas.map((data) => videoArticle(data)).join("")}
-
-  return `${videoCount}${list}`;
-};
-
-export default template;
