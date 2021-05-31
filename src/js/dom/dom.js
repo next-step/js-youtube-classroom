@@ -4,6 +4,9 @@ const modal = document.querySelector('.modal');
 const youtubeSearchForm = document.querySelector('.youtube-search-form');
 const youtubeSearchInput = document.querySelector('.youtube-search-input');
 const modalVideoWrapper = document.querySelector('.modal .video-wrapper');
+const modalInner = document.querySelector('.modal-inner');
+const recentSearchList = document.querySelector('.recent-search-list');
+const playListLength = document.querySelector('.play-list-length');
 
 const $ = {
   searchModalOpenButton,
@@ -12,6 +15,9 @@ const $ = {
   youtubeSearchForm,
   youtubeSearchInput,
   modalVideoWrapper,
+  modalInner,
+  recentSearchList,
+  playListLength,
 };
 
 export default $;
