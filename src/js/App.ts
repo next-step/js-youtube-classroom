@@ -1,8 +1,10 @@
 import Component from "@/libs/component";
 import Header from "@/components/Header";
 import SearchModal from "@/components/SearchModal";
+import videoDB from "@/libs/videoDB";
+import parseVideoData from "@/utils/parseVideoData";
 import { $ } from "@/utils/dom";
-import { AppState, Navigations } from "@/types/index";
+import { AppState, Navigations, Item, Filter } from "@/types/index";
 
 class App extends Component {
   $headerComponent: Component | null = null;
@@ -13,13 +15,9 @@ class App extends Component {
     this.$root = $root;
     this.state = {
       filter: "later",
-      videoList: [],
+      videoList: videoDB.get(),
       isModalOpen: false,
     };
-  }
-
-  init(): void {
-    // videoList 는 웹스토리지에서 가져오기
   }
 
   setState(nextState: AppState): void {
@@ -50,6 +48,7 @@ class App extends Component {
       $modal,
       {
         isModalOpen: this.state.isModalOpen,
+        storedDatas: parseVideoData(this.state.videoList),
       },
       { onCloseModal: this.handleCloseModal.bind(this) }
     );
@@ -72,6 +71,26 @@ class App extends Component {
       isModalOpen: false,
     } as AppState;
     this.setState(nextState);
+  }
+
+  handleRemoveVideoDB(id: string): void {
+    videoDB.remove(id);
+    // state 변경
+  }
+
+  handleAddVideoDB(data: Item): void {
+    videoDB.add({ data, filter: "later", liked: false });
+    // state 변경
+  }
+
+  handleToggleVideoDB(id: string): void {
+    videoDB.toggleLike(id);
+    // state 변경
+  }
+
+  handleUpdateFilterVideoDB(id: string, filter: Filter): void {
+    videoDB.updateFilter(id, filter);
+    // state 변경
   }
 }
 

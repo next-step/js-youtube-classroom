@@ -1,4 +1,5 @@
 import { APIResult } from "@/types/index";
+import parseAPIData from "@/utils/parseAPIData";
 const MAX_RESULT = 10;
 const PART = "snippet";
 
@@ -12,7 +13,11 @@ const getAPI = async (
     const data = await response.json();
     const nextPage = data.nextPageToken;
     const dataSize = data.pageInfo.totalResults;
-    return { datas: data.items, lastKey: nextPage, size: dataSize };
+    return {
+      datas: parseAPIData(data.items),
+      lastKey: nextPage,
+      size: dataSize,
+    };
   } catch (error) {
     console.log(error);
   }

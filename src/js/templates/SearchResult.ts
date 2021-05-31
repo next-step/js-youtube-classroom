@@ -58,9 +58,7 @@ ${skeletonUI}
 `;
 
 const template = (datas: Item[]) => `
-${datas
-  .map((data) => videoArticle(data.snippet, data.id.videoId, true))
-  .join("")}
+${datas.map((data) => videoArticle(data.snippet, data.id, true)).join("")}
 `;
 
 export default template;

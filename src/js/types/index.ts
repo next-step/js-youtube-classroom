@@ -1,8 +1,8 @@
-export type Navigations = "later" | "watched" | "search-button";
+export type Navigations = Filter | "search-button";
 
 export interface AppState {
   filter: Navigations;
-  videoList: string[];
+  videoList: ItemDB[];
   isModalOpen: boolean;
 }
 
@@ -16,6 +16,7 @@ export interface HeaderHanlders {
 
 export interface SearchModalProps {
   isModalOpen: boolean;
+  storedDatas: string[];
 }
 
 export interface SearchModalHandlers {
@@ -56,8 +57,13 @@ export interface Snippet {
   channelId: string;
 }
 
-export interface Item {
+export interface RawItem {
   id: { videoId: string };
+  snippet: Snippet;
+}
+
+export interface Item {
+  id: string;
   snippet: Snippet;
 }
 
@@ -66,3 +72,11 @@ export interface APIResult {
   lastKey: string;
   size: number;
 }
+
+export interface ItemDB {
+  data: Item;
+  filter: Filter;
+  liked: boolean;
+}
+
+export type Filter = "watched" | "later";
