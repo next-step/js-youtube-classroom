@@ -143,7 +143,9 @@ class SearchModal extends Component {
   }
 
   getMoreVideos(): void {
-    this.state.searchKeyword && this.getVideos(this.state.searchKeyword);
+    this.state.searchKeyword &&
+      !this.state.isLoading &&
+      this.getVideos(this.state.searchKeyword);
   }
 
   initState(
