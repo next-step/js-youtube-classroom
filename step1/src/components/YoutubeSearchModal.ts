@@ -3,7 +3,17 @@ import {RecentSearches} from "~components/RecentSearches";
 import {VideoClip, VideoClipType} from "~components/VideoClip";
 import {YOUTUBE_SEARCH, youtubeStore} from "~stores";
 
-export class YoutubeSearchModal extends Component {
+interface State {
+  searchKey: string;
+}
+
+export class YoutubeSearchModal extends Component<State> {
+
+  setup() {
+    this.$state = {
+      searchKey: ''
+    }
+  }
 
   protected template(): string {
     const { searchResults } = youtubeStore.$state;
@@ -19,7 +29,7 @@ export class YoutubeSearchModal extends Component {
           <h2 class="text-center">🔎 유튜브 검색</h2>
         </header>
         <form class="d-flex searchFrm">
-          <input type="text" name="q" class="w-100 mr-2 pl-2" placeholder="검색" />
+          <input type="text" name="q" class="w-100 mr-2 pl-2" placeholder="검색" value="${this.$state.searchKey}" />
           <button type="submit" class="btn bg-cyan-500">검색</button>
         </form>
         <section class="mt-2" data-component="RecentSearches"></section>
@@ -68,6 +78,7 @@ export class YoutubeSearchModal extends Component {
   }
 
   public async search (q: string) {
+    this.$state.searchKey = q;
     try {
       await youtubeStore.dispatch(YOUTUBE_SEARCH, q);
     } catch (e) {
