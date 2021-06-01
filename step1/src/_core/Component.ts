@@ -34,22 +34,13 @@ export abstract class Component<State = {}, Props = {}> {
   }
 
   private render() {
-    // requestAnimationFrame(() => {
-    const $target: HTMLElement = this.isRoot
-                                    ? this.$target.cloneNode(true) as HTMLElement
-                                    : this.$target;
-
-    $target.innerHTML = this.template();
-    $target.querySelectorAll('[data-component]')
-           .forEach(el => this.setupChildComponent(el));
-    this.setupChildComponent($target);
-
-    if (this.isRoot) {
-      this.$target.replaceWith($target);
-    }
+    this.$components = {};
+    
+    this.$target.innerHTML = this.template();
+    this.$target.querySelectorAll('[data-component]')
+                .forEach(el => this.setupChildComponent(el));
 
     this.updated();
-    // });
   }
 
   private setupChildComponent(el: Element) {

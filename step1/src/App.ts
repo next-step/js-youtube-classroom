@@ -15,7 +15,7 @@ export class App extends Component {
             <section class="video-wrapper">
               ${youtubeStore.$state.lectureVideos.map((video, key) => `
                 <article class="clip" data-component="VideoClip" data-key="${key}"></article>
-              `)} 
+              `).join('')} 
             </section>
           </main>
         </div>
