@@ -39,8 +39,9 @@
     "webpack-dev-server": "^3.11.2"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+    "src/**/*.{js,ts,json,css}": [
       "prettier --write"
-    ]
+    ],
+    "cypress/**/*.{js,ts}": [ "prettier --write"]
   }
 }

@@ -1,19 +1,31 @@
-// import { BASE_URL, SELECTORS } from '../_testUtils/index';
-// import { BUTTON_HIGHLIGHT } from '@/utils/constants';
+import { BASE_URL } from "../_testUtils/index";
 
-// describe('헤더 필터', () => {
-//     beforeEach(()=>{
-//         cy.visit(BASE_URL)
-//     });
+describe("헤더 필터", () => {
+  beforeEach(() => {
+    cy.visit(BASE_URL);
+  });
 
-//     it("초기에는 볼 영상 버튼이 선택된다.",()=>{
-//         [SELECTORS.SEARCH_BUTTON, SELECTORS.WATCHED_BUTTON].forEach((button)=> cy.get(button).should('not.have.class',BUTTON_HIGHLIGHT))
-//         cy.get(SELECTORS.LATER_BUTTON).should('have.class', BUTTON_HIGHLIGHT);
-//     })
+  describe("헤더 UI 렌더링", () => {
+    const selectedClass = "bg-cyan-100";
+    const later = "#later";
+    const watched = "#watched";
+    const liked = "#liked";
+    it("처음에는 볼 영상 버튼이 선택된다.", () => {
+      [watched, liked].forEach((button) =>
+        cy.get(button).should("not.have.class", selectedClass)
+      );
+      cy.get(later).should("have.class", selectedClass);
+    });
 
-//     it("버튼을 누르면 하이라이트 클래스가 추가된다.",()=>{
-//         cy.get(SELECTORS.WATCHED_BUTTON).click();
-//         cy.get(SELECTORS.WATCHED_BUTTON).should('have.class',BUTTON_HIGHLIGHT);
-//         [SELECTORS.SEARCH_BUTTON, SELECTORS.LATER_BUTTON].forEach((button)=>cy.get(button).should('not.have.class', BUTTON_HIGHLIGHT));
-//     })
-// })
+    [later, watched, liked].forEach((selected) =>
+      it("버튼을 누르면 하이라이트 클래스가 추가된다.", () => {
+        cy.get(selected).click();
+        [later, watched, liked].forEach((button) => {
+          if (button === selected)
+            cy.get(button).should("have.class", selectedClass);
+          else cy.get(button).should("not.have.class", selectedClass);
+        });
+      })
+    );
+  });
+});

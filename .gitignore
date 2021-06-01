@@ -107,3 +107,5 @@ dist
 .prettierignore
 
 public/index.js
+
+cypress.json
