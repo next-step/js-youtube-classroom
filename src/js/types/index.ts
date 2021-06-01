@@ -35,7 +35,7 @@ export interface SearchModalState {
 }
 
 export interface SearchBarHandlers {
-  onSubmitSearch: (e: Event) => void;
+  onSubmitSearch: (value: string) => void;
 }
 
 export interface SearchHistoryProps {

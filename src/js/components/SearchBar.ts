@@ -1,4 +1,5 @@
 import Component from "@/libs/component";
+import { $ } from "@/utils/dom";
 import { SearchBarHandlers } from "@/types/index";
 
 class SearchBar extends Component {
@@ -10,7 +11,13 @@ class SearchBar extends Component {
   }
 
   bindEvents(): void {
-    this.$root.addEventListener("submit", this.handlers.onSubmitSearch);
+    this.$root.addEventListener("submit", (e: Event) => {
+      e.preventDefault();
+      const $target = e.target as HTMLElement;
+      const $input = $("input", $target) as HTMLInputElement;
+      if (!$target || !$input) return;
+      this.handlers.onSubmitSearch($input.value.trim());
+    });
   }
 }
 

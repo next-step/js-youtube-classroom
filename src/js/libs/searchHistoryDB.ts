@@ -6,9 +6,7 @@ const searchHistoryDB = {
     return JSON.parse(data);
   },
 
-  set: (keyword: string): void => {
-    const prev = searchHistoryDB.get();
-    const nextData = [...new Set([keyword, ...prev.slice(0, 2)])];
+  set: (nextData: string[]): void => {
     localStorage.setItem(key, JSON.stringify(nextData));
   },
 };

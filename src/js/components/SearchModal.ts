@@ -110,14 +110,14 @@ class SearchModal extends Component {
     const $storedVideoCounter = $(SEARCH_SELECTORS.SEARCH_COUNTER, this.$root);
 
     this.$searchBarComponent = new SearchBar($searchBar, {
-      onSubmitSearch: this.handleSubmitSearch.bind(this),
+      onSubmitSearch: this.handleSearch.bind(this),
     });
     this.$searchHistoryComponent = new SearchHistory(
       $searchHistory,
       {
         histories: this.state.searchHistory,
       },
-      { onClickHistory: this.handleClickHistory.bind(this) }
+      { onClickHistory: this.handleSearch.bind(this) }
     );
     this.$searchResultComponent = new SearchResult(
       $searchResult,
@@ -157,16 +157,17 @@ class SearchModal extends Component {
     );
     if (filteredHistory.length === 3)
       filteredHistory = filteredHistory.slice(0, 2);
-
+    const updatedHistory = [...new Set([keyword, ...filteredHistory])];
     const nextState = {
       ...this.state,
       datas,
       searchKeyword: keyword,
-      searchHistory: [...new Set([keyword, ...filteredHistory])],
+      searchHistory: updatedHistory,
       lastKey,
       isLoading: true,
       hasMore,
     };
+    searchHistoryDB.set(updatedHistory);
     this.setState(nextState);
   }
 
@@ -195,7 +196,7 @@ class SearchModal extends Component {
   }
 
   handleSearch(value: string): void {
-    if (value === this.state.searchKeyword) return;
+    if (value === this.state.searchKeyword || !value) return;
     if (videoCache.has(value)) {
       const { datas, hasMore, lastKey } = videoCache.get(value);
       this.initState(value, datas, lastKey, hasMore);
@@ -203,21 +204,6 @@ class SearchModal extends Component {
       this.initState(value);
       this.getVideos(value);
     }
-  }
-
-  handleSubmitSearch(e: Event): void {
-    e.preventDefault();
-    const $target = e.target as HTMLElement;
-    const $input = $("input", $target) as HTMLInputElement;
-    if (!$target || !$input) return;
-    const value = $input.value;
-    searchHistoryDB.set(value);
-    this.handleSearch(value);
-  }
-
-  handleClickHistory(value: string): void {
-    this.handleSearch(value);
-    return;
   }
 
   handleSaveVideo(id: string, type: SaveButton): void {
