@@ -2,6 +2,7 @@ import {Component} from "~_core";
 import {RecentSearches} from "~components/RecentSearches";
 import {VideoClip, VideoClipType} from "~components/VideoClip";
 import {YOUTUBE_SEARCH, youtubeStore} from "~stores";
+import {Skeleton} from "~components/Skeleton";
 
 interface State {
   searchKey: string;
@@ -16,7 +17,7 @@ export class YoutubeSearchModal extends Component<State> {
   }
 
   protected template(): string {
-    const { searchResults } = youtubeStore.$state;
+    const { searchResults, searchLoading } = youtubeStore.$state;
 
     return `
       <span class="middle"></span><div class="modal-inner p-8">
@@ -37,12 +38,17 @@ export class YoutubeSearchModal extends Component<State> {
           <div class="d-flex justify-end text-gray-700">
             저장된 영상 갯수: 0/100 개
           </div>
-          <section class="video-wrapper">
-            ${searchResults.map((item, key) => `
-              <article class="clip" data-component="VideoClip" data-key="${key}"></article>
-            `).join('')}
-            ${searchResults.length === 0 ? '유튜브 동영상을 검색해주세요' : ''}
-          </section>
+          ${searchLoading ? `
+            <div data-component="Skeleton"></div>
+          ` : `
+            <section class="video-wrapper">
+              ${searchResults.map((item, key) => `
+                <article class="clip" data-component="VideoClip" data-key="${key}"></article>
+              `).join('')}
+              
+              ${!searchLoading && searchResults.length === 0 ? '유튜브 동영상을 검색해주세요' : ''} 
+            </section>
+          `}
         </section>
       </div>
     `;
@@ -65,6 +71,10 @@ export class YoutubeSearchModal extends Component<State> {
         type: VideoClipType.SEARCH,
         item: searchResults[itemKey],
       });
+    }
+
+    if (componentName === 'Skeleton') {
+      return new Skeleton(el, { count: 8 });
     }
 
   }
