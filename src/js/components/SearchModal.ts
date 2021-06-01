@@ -5,6 +5,8 @@ import {
   SearchModalHandlers,
   SearchModalState,
   SaveButton,
+  VideoCacheValue,
+  Item,
 } from "@/types/index";
 import {
   MODAL_SELECTORS,
@@ -17,10 +19,13 @@ import SearchHistory from "@/components/SearchHistory";
 import SearchResult from "@/components/SearchResult";
 import StoredVideoCounter from "@/components/StoredVideoCounter";
 
+import cache from "@/libs/cache";
 import searchHistoryDB from "@/libs/searchHistoryDB";
 import intersectionObserver from "@/utils/intersectionObserver";
 import popUpSnackBar from "@/utils/popUpSnackBar";
 import getAPI from "@/api/index";
+
+const videoCache = new cache<VideoCacheValue>();
 
 class SearchModal extends Component {
   props: SearchModalProps;
@@ -141,19 +146,26 @@ class SearchModal extends Component {
     this.state.searchKeyword && this.getVideos(this.state.searchKeyword);
   }
 
-  initState(keyword: string): void {
+  initState(
+    keyword: string,
+    datas: Item[] = [],
+    lastKey: string = "",
+    hasMore: boolean = true
+  ): void {
     let filteredHistory = this.state.searchHistory.filter(
       (history) => history !== keyword
     );
     if (filteredHistory.length === 3)
       filteredHistory = filteredHistory.slice(0, 2);
+
     const nextState = {
       ...this.state,
+      datas,
       searchKeyword: keyword,
       searchHistory: [...new Set([keyword, ...filteredHistory])],
-      lastKey: "",
+      lastKey,
       isLoading: true,
-      hasMore: true,
+      hasMore,
     };
     this.setState(nextState);
   }
@@ -164,21 +176,32 @@ class SearchModal extends Component {
       const response = await getAPI(keyword, this.state.lastKey);
       if (!response) return;
       const { datas, lastKey, size } = response;
-      const updatedData = this.state.lastKey
-        ? [...this.state.datas, ...datas]
-        : datas;
+      const updatedData = [...this.state.datas, ...datas];
+      const hasMore = updatedData.length < size;
 
+      videoCache.set(keyword, { datas: updatedData, lastKey, hasMore });
       const nextState = {
         ...this.state,
         isLoading: false,
         datas: updatedData,
         lastKey,
-        hasMore: updatedData.length < size,
+        hasMore,
       };
       this.setState(nextState);
       return;
     } catch (error) {
       popUpSnackBar(error);
+    }
+  }
+
+  handleSearch(value: string): void {
+    if (value === this.state.searchKeyword) return;
+    if (videoCache.has(value)) {
+      const { datas, hasMore, lastKey } = videoCache.get(value);
+      this.initState(value, datas, lastKey, hasMore);
+    } else {
+      this.initState(value);
+      this.getVideos(value);
     }
   }
 
@@ -189,15 +212,11 @@ class SearchModal extends Component {
     if (!$target || !$input) return;
     const value = $input.value;
     searchHistoryDB.set(value);
-    this.initState(value);
-    this.getVideos(value);
-    return;
+    this.handleSearch(value);
   }
 
   handleClickHistory(value: string): void {
-    if (value === this.state.searchKeyword) return;
-    this.initState(value);
-    this.getVideos(value);
+    this.handleSearch(value);
     return;
   }
 

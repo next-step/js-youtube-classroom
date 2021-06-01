@@ -108,3 +108,9 @@ export type Filter = "watched" | "later" | "liked";
 export interface StringObject<T> {
   [key: string]: T;
 }
+
+export interface VideoCacheValue {
+  datas: Item[];
+  hasMore: boolean;
+  lastKey: string;
+}

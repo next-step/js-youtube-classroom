@@ -56,6 +56,9 @@ ${skeletonUI}
 ${skeletonUI}
 ${skeletonUI}
 ${skeletonUI}
+${skeletonUI}
+${skeletonUI}
+${skeletonUI}
 `;
 
 const template = (datas: Item[], storedDatas: Set<string>) => `
