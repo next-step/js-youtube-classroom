@@ -2,6 +2,7 @@ import {
   renderSavedYoutubeNumber,
   renderYoutubeCards
 } from 'utils/renderingUtils';
+import { renderLatestSearchedYoutubeChip } from '../utils/renderingUtils';
 import { getSearchedYoutubeCardTemplate } from '../utils/templateUtils';
 import state from './state';
 
@@ -21,8 +22,11 @@ const initializeSearchModal = () => {
 const onModalShow = () => {
   const datas = JSON.parse(localStorage.getItem('prevYoutubeDatas'));
   $modal.classList.add('open');
-  renderYoutubeCards($videoWrapper, datas, getSearchedYoutubeCardTemplate);
   renderSavedYoutubeNumber();
+  renderLatestSearchedYoutubeChip();
+
+  if (!datas) return;
+  renderYoutubeCards($videoWrapper, datas, getSearchedYoutubeCardTemplate);
 };
 
 const onModalClose = () => {

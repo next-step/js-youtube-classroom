@@ -13,6 +13,7 @@ const $videoWrapper = document.querySelector('.modal .video-wrapper');
 const $modalInner = document.querySelector('.modal-inner');
 
 let isFirstPage = true;
+let savedLatestSearchedValues = [];
 const savedYoutubeIds = [];
 
 // functions
@@ -29,6 +30,22 @@ const saveYoutubeId = targetNode => {
 
   savedYoutubeIds.push(youtubeId);
   localStorage.setItem('savedYoutubeIds', JSON.stringify(savedYoutubeIds));
+};
+
+const saveSeachedValue = () => {
+  const { value } = $searchInput;
+  const localData = localStorage.getItem('latestSearchedValues');
+  savedLatestSearchedValues = localData ? JSON.parse(localData) : [];
+
+  const isLatestSearchedValuesFull = savedLatestSearchedValues.length === 3;
+  isLatestSearchedValuesFull && savedLatestSearchedValues.pop();
+
+  savedLatestSearchedValues.unshift(value);
+
+  localStorage.setItem(
+    'latestSearchedValues',
+    JSON.stringify(savedLatestSearchedValues)
+  );
 };
 
 const setSearchModal = () => {
@@ -63,12 +80,13 @@ const searchYoutube = (() => {
     const datas = data.items;
     const hasData = !!datas.length;
 
-    if (!hasData) renderingUtils.renderNoResult($videoWrapper);
-    else {
-      skeletonUtils.hideSkeleton(
+    if (!hasData)
+      renderingUtils.renderNoResult(
         $videoWrapper,
         '검색 결과가 없어요ㅜㅜ 다시 검색해 주세요'
       );
+    else {
+      skeletonUtils.hideSkeleton($videoWrapper);
       renderingUtils.renderYoutubeCards(
         $videoWrapper,
         datas,
@@ -86,6 +104,8 @@ const searchYoutube = (() => {
 const onSearchBtnClick = () => {
   setSearchModal();
   searchYoutube();
+  saveSeachedValue();
+  renderingUtils.renderLatestSearchedYoutubeChip(savedLatestSearchedValues);
 };
 
 const onSearchInputKeypress = e => {
@@ -93,6 +113,8 @@ const onSearchInputKeypress = e => {
   e.preventDefault();
   setSearchModal();
   searchYoutube();
+  saveSeachedValue();
+  renderingUtils.renderLatestSearchedYoutubeChip(savedLatestSearchedValues);
 };
 
 const onSaveButtonClick = e => {

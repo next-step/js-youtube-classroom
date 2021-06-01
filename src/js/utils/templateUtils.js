@@ -54,3 +54,5 @@ export const getNoResultTemplate = text => `<div class="no-result">
 <img class="image" src="${notFoundImageURL}" alt="">
 <p class="text">${text}</p>
 </div>`;
+
+export const getChipTemplate = content => `<a class="chip">${content}</a>`;

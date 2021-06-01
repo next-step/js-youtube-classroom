@@ -1,4 +1,4 @@
-import { getNoResultTemplate } from 'utils/templateUtils';
+import { getNoResultTemplate, getChipTemplate } from 'utils/templateUtils';
 
 export const renderMoreYoutubeCards = (
   isIntersecting,
@@ -28,9 +28,21 @@ export const renderNoResult = (node, text) => {
 };
 
 export const renderSavedYoutubeNumber = () => {
-  const $savedVideoNumber = document.querySelector('.saved-video-number');
-  const savedYoutubeNumber = JSON.parse(
-    localStorage.getItem('savedYoutubeIds')
-  ).length;
+  const localData = localStorage.getItem('savedYoutubeIds');
+  const $savedVideoNumber = document.querySelector(
+    '.modal .saved-video-number'
+  );
+  const savedYoutubeNumber = localData ? JSON.parse(localData).length : 0;
   $savedVideoNumber.innerHTML = `저장된 영상 갯수: ${savedYoutubeNumber}개`;
+};
+
+export const renderLatestSearchedYoutubeChip = () => {
+  const localData = localStorage.getItem('latestSearchedValues');
+  const values = localData ? JSON.parse(localData) : [];
+  const $latestSearchedContainer = document.querySelector(
+    '.modal .latest-search-container'
+  );
+  $latestSearchedContainer.innerHTML = `<span class="text-gray-700">최근 검색어: </span>${
+    localData ? values.map(content => getChipTemplate(content)).join('') : ''
+  }`;
 };
