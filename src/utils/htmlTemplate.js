@@ -58,3 +58,6 @@ export const getNotFoundTemplate = () => `<div class="not-found">
 <img src=${notFoundImage} alt="검색 결과 없음"/>
 <p>검색 결과 없음</p>
 </div>`;
+
+export const getChipTemplate = chips =>
+  chips.map(chip => (chip ? `<a class="chip">${chip}</a>` : '')).join('');

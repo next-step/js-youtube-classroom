@@ -2,8 +2,10 @@ import {
   getNotFoundTemplate,
   getSkeletonTemplate,
   getYoutubeItemsTemplate,
+  getChipTemplate,
 } from './htmlTemplate';
 
+const $chips = document.querySelector('.chips');
 let renderedSkeletons = [];
 
 export const renderYoutubeItems = (node, item, isSaved) => {
@@ -35,4 +37,10 @@ export const hideSkeleton = node => {
 
 export const refreshItems = node => {
   node.innerHTML = null;
+};
+
+export const renderChips = chips => {
+  if (!chips) return;
+
+  $chips.innerHTML = getChipTemplate(chips.reverse());
 };
