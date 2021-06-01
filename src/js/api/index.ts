@@ -10,7 +10,6 @@ const getAPI = async (
     const url = `${process.env.API_URL}?part=snippet&maxResults=${MAX_DATA_NUMBER}&q=${keyword}&key=${process.env.API_KEY}&pageToken=${lastKey}`;
     const response = await fetch(url);
     if (!response.ok) {
-      console.error(response);
       throw SERVER_ERROR_MESSAGE;
     }
     const data = await response.json();
@@ -22,6 +21,7 @@ const getAPI = async (
       size: dataSize,
     };
   } catch (error) {
+    console.error(error);
     throw SERVER_ERROR_MESSAGE;
   }
 };
