@@ -1,5 +1,7 @@
 import { StringObject, Filter } from "@/types/index";
 
+export const SANCKBAR_SELECTOR = "#snackbar";
+
 export const APP_SELECTORS = {
   HEADER: "header",
   MODAL: ".modal",
@@ -24,9 +26,8 @@ export const SEARCH_SELECTORS = {
 export const CLASS_NAMES = {
   MODAL_OPEN: "open",
   HISTORY: "history",
+  SHOW: "show",
 };
-
-export const MAX_DATA_NUMBER = 10;
 
 export const FILTER_ID: StringObject<Filter> = {
   later: "later",
@@ -50,5 +51,13 @@ export const SEARCH_BUTTON_ID = "search-button";
 export const SAVE_BUTTON_CAPTION = "⬇️ 저장";
 export const UNSAVE_BUTTON_CAPTION = "↪️저장취소";
 
-export const REMOVE_CONFIRM_MESSAGE = "정말로 삭제하시겠습니까?";
-export const DATA_OVERFLOW_MESSAGE = "동영상은 100개까지 저장가능해요!";
+export const SAVE_MESSAGE = "동영상이 저장되었습니다😍";
+export const REMOVE_MESSAGE = "동영상이 삭제되었습니다😭";
+
+export const REMOVE_CONFIRM_MESSAGE = "정말로 삭제하시겠습니까?👻";
+export const DATA_OVERFLOW_MESSAGE = "동영상은 100개까지 저장가능해요😅";
+export const SERVER_ERROR_MESSAGE =
+  "동영상을 불러올 수 없습니다. 잠시만 기다려주세요😱";
+
+export const MAX_DATA_NUMBER = 10;
+export const SNACKBAR_TIME = 3000;

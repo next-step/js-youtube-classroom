@@ -19,6 +19,7 @@ import StoredVideoCounter from "@/components/StoredVideoCounter";
 
 import searchHistoryDB from "@/libs/searchHistoryDB";
 import intersectionObserver from "@/utils/intersectionObserver";
+import popUpSnackBar from "@/utils/popUpSnackBar";
 import getAPI from "@/api/index";
 
 class SearchModal extends Component {
@@ -174,7 +175,7 @@ class SearchModal extends Component {
       this.setState(nextState);
       return;
     } catch (error) {
-      // 추후 Alert 띄워주기
+      popUpSnackBar(error);
     }
   }
 

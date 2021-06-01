@@ -12,6 +12,7 @@ import {
   UNSAVE_BUTTON_CAPTION,
   DATA_OVERFLOW_MESSAGE,
 } from "@/constants/index";
+import popUpSnackBar from "@/utils/popUpSnackBar";
 
 class SearchResult extends Component {
   props: SearchResultProps;
@@ -35,7 +36,7 @@ class SearchResult extends Component {
 
       if (!SAVE_BUTTON_ID[type]) return;
       if (type === SAVE_BUTTON_ID.save && this.props.storedDatas.size === 100) {
-        alert(DATA_OVERFLOW_MESSAGE);
+        popUpSnackBar(DATA_OVERFLOW_MESSAGE);
         return;
       }
       const $target = $button.closest(

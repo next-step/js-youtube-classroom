@@ -4,9 +4,16 @@ import SearchModal from "@/components/SearchModal";
 import ClassRoom from "@/components/ClassRoom";
 import videoDB from "@/libs/videoDB";
 import parseVideoData from "@/utils/parseVideoData";
+import popUpSnackBar from "@/utils/popUpSnackBar";
 import { $ } from "@/utils/dom";
 import { AppState, Navigations, Item } from "@/types/index";
-import { APP_SELECTORS, FILTER_ID, SEARCH_BUTTON_ID } from "@/constants/index";
+import {
+  APP_SELECTORS,
+  FILTER_ID,
+  SEARCH_BUTTON_ID,
+  SAVE_MESSAGE,
+  REMOVE_MESSAGE,
+} from "@/constants/index";
 
 class App extends Component {
   $headerComponent: Component | null = null;
@@ -104,6 +111,7 @@ class App extends Component {
 
   handleRemoveVideoDB(id: string): void {
     const nextVideoList = videoDB.remove(id);
+    popUpSnackBar(REMOVE_MESSAGE);
     this.setState({ ...this.state, videoList: nextVideoList });
   }
 
@@ -113,6 +121,7 @@ class App extends Component {
       liked: false,
       watched: false,
     });
+    popUpSnackBar(SAVE_MESSAGE);
     this.setState({ ...this.state, videoList: nextVideoList });
   }
 
