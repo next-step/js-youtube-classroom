@@ -2,11 +2,13 @@ import {YoutubeClient, YoutubeClipItem, YoutubeSearchResult} from "~domain";
 import {YoutubeRestClient, youtubeRestClient} from "~clients";
 import {Repository} from "~_core/Repository";
 
-class YoutubeService {
+type YoutubeCacheMap = Record<string, YoutubeSearchResult>;
+
+export class YoutubeService {
 
   constructor(
     private readonly client: YoutubeRestClient,
-    private readonly cache: Repository<any> = new Repository<any>('YOUTUBE_SERVICE_CACHE'),
+    private readonly cache: Repository<YoutubeCacheMap> = new Repository<YoutubeCacheMap>('YOUTUBE_SERVICE_CACHE'),
   ) {}
 
   private get cacheMap() {

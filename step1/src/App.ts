@@ -11,7 +11,7 @@ export class App extends Component {
           <header class="my-4" data-component="Header"></header>
           <main class="mt-10">
             <section class="video-wrapper">
-              <!-- <article class="clip" data-component="VideoClip"></article> -->
+               <article class="clip" data-component="VideoClip"></article> 
             </section>
           </main>
         </div>
@@ -34,10 +34,10 @@ export class App extends Component {
       return new YoutubeSearchModal(el);
     }
 
-    if (componentName === 'VideoClip') {
-      return new VideoClip(el, {
-        type: VideoClipType.CONTENT,
-      });
-    }
+    // if (componentName === 'VideoClip') {
+    //   return new VideoClip(el, {
+    //     type: VideoClipType.CONTENT,
+    //   });
+    // }
   }
 }
