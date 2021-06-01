@@ -1,7 +1,7 @@
 import {Component} from "~_core";
 import {RecentSearches} from "~components/RecentSearches";
 import {VideoClip, VideoClipType} from "~components/VideoClip";
-import {ADD_LECTURE_VIDEO, YOUTUBE_SEARCH, youtubeStore} from "~stores";
+import {ADD_LECTURE_VIDEO, YOUTUBE_SEARCH, YOUTUBE_SEARCH_NEXT, youtubeStore} from "~stores";
 import {Skeleton} from "~components/Skeleton";
 import notFound from '../assets/images/status/not_found.png';
 import {YoutubeClipItem} from "~domain";
@@ -14,7 +14,7 @@ export class YoutubeSearchModal extends Component<State> {
 
   setup() {
     this.$state = {
-      searchKey: ''
+      searchKey: '',
     }
   }
 
@@ -57,6 +57,7 @@ export class YoutubeSearchModal extends Component<State> {
             </section>
           `}
         </section>
+        <div class="scroll-line"></div>
       </div>
     `;
   }
@@ -92,6 +93,15 @@ export class YoutubeSearchModal extends Component<State> {
 
   }
 
+  protected updated() {
+    if (youtubeStore.$state.searchResults.length < 10) return;
+
+    new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      youtubeStore.dispatch(YOUTUBE_SEARCH_NEXT, this.$state.searchKey);
+    }).observe(this.$target.querySelector('.scroll-line')!);
+  }
+
   public open () {
     this.$target.classList.add('open');
   }
@@ -118,4 +128,5 @@ export class YoutubeSearchModal extends Component<State> {
       this.search(q.value);
     })
   }
+
 }
