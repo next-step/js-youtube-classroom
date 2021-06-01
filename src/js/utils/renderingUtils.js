@@ -11,9 +11,10 @@ export const renderMoreYoutubeCards = (
 
 export const renderYoutubeCards = (node, datas, getTemplate) => {
   datas.forEach(data => {
-    const isSavedYoutube = localStorage
-      .getItem('savedYoutubeIds')
-      ?.includes(data.id.videoId);
+    const isSavedYoutube = JSON.parse(
+      localStorage.getItem('savedYoutubeIds')
+    )?.includes(data.id.videoId);
+
     const $youtubeCardContainer = document.createElement('article');
     $youtubeCardContainer.setAttribute('id', data.id.videoId);
     $youtubeCardContainer.classList.add('clip');
