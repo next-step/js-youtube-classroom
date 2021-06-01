@@ -70,9 +70,7 @@ const addChip = value => {
     return;
   }
 
-  if (localStorage.getItem('lastestSearches')) {
-    chips = savedChips;
-  }
+  chips = savedChips || chips;
 
   checkIfDuplicates(value);
 };
@@ -84,11 +82,6 @@ const search = async () => {
 
   searchInfo.value = value;
 
-  addChip(value);
-
-  const savedChips = JSON.parse(localStorage.getItem('lastestSearches'));
-
-  renderChips(savedChips);
   renderSkeleton($modalVideoWrapper, 10);
 
   const response = await api.searchYoutube(value);
@@ -125,6 +118,8 @@ const searchNextPage = async (value, pageToken) => {
 const onSearch = e => {
   e.preventDefault();
   search();
+  addChip(searchInfo.value);
+  renderChips(chips);
 };
 
 const onClickSave = e => {
