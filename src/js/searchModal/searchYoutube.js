@@ -5,11 +5,12 @@ import {
   renderSkeleton,
   hideSkeleton,
   refreshItems,
+  renderChips,
 } from 'utils/render';
 
 const $modalVideoWrapper = document.querySelector('.modal .video-wrapper');
 const $searchInput = document.querySelector('.modal form .w-100');
-const $searchButton = document.querySelector('.modal form .btn');
+const $searchForm = document.querySelector('.modal form');
 const $modalInner = document.querySelector('.modal-inner');
 const $savedCount = document.querySelector('.saved-count');
 const $div = document.createElement('div');
@@ -20,6 +21,7 @@ const initialSavedItems = JSON.parse(localStorage.getItem('savedItems'));
 let savedItems = [];
 let isSaved = false;
 let savedCount = initialSavedItems ? initialSavedItems.length : 0;
+let chips = [];
 
 $savedCount.innerText = initialSavedItems ? initialSavedItems.length : '0';
 
@@ -48,6 +50,33 @@ const checkWhetherSaved = items => {
   }
 };
 
+const checkIfDuplicates = (value, cond) => {
+  if (chips.includes(value)) {
+    chips.splice(chips.indexOf(value), 1);
+    chips = [...chips, value];
+    localStorage.setItem('lastestSearches', JSON.stringify(chips));
+  } else {
+    cond && chips.shift();
+    chips = [...chips, value];
+    localStorage.setItem('lastestSearches', JSON.stringify(chips));
+  }
+};
+
+const addChip = value => {
+  const savedChips = JSON.parse(localStorage.getItem('lastestSearches'));
+
+  if (savedChips && savedChips.length >= 3) {
+    checkIfDuplicates(value, savedChips.length >= 3);
+    return;
+  }
+
+  if (localStorage.getItem('lastestSearches')) {
+    chips = savedChips;
+  }
+
+  checkIfDuplicates(value);
+};
+
 const search = async () => {
   const { value } = $searchInput;
 
@@ -55,6 +84,11 @@ const search = async () => {
 
   searchInfo.value = value;
 
+  addChip(value);
+
+  const savedChips = JSON.parse(localStorage.getItem('lastestSearches'));
+
+  renderChips(savedChips);
   renderSkeleton($modalVideoWrapper, 10);
 
   const response = await api.searchYoutube(value);
@@ -88,14 +122,8 @@ const searchNextPage = async (value, pageToken) => {
   checkWhetherSaved(items);
 };
 
-const onEnterSearch = e => {
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    search();
-  }
-};
-
-const onClickSearch = () => {
+const onSearch = e => {
+  e.preventDefault();
   search();
 };
 
@@ -131,6 +159,5 @@ const fetchMoreObserver = new IntersectionObserver(([{ isIntersecting }]) => {
 
 fetchMoreObserver.observe($div);
 
-$searchInput.addEventListener('keypress', onEnterSearch);
-$searchButton.addEventListener('click', onClickSearch);
+$searchForm.addEventListener('submit', onSearch);
 $modalVideoWrapper.addEventListener('click', onClickSave);
