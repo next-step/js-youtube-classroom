@@ -2,6 +2,8 @@ import {Component} from "~_core";
 import {Header} from "~components/Header";
 import {YoutubeSearchModal} from "~components/YoutubeSearchModal";
 import {VideoClip, VideoClipType} from "~components/VideoClip";
+import {youtubeStore} from "~stores";
+import {Message} from "~components/Message";
 
 export class App extends Component {
   template () {
@@ -11,12 +13,15 @@ export class App extends Component {
           <header class="my-4" data-component="Header"></header>
           <main class="mt-10">
             <section class="video-wrapper">
-               <article class="clip" data-component="VideoClip"></article> 
+              ${youtubeStore.$state.lectureVideos.map((video, key) => `
+                <article class="clip" data-component="VideoClip" data-key="${key}"></article>
+              `)} 
             </section>
           </main>
         </div>
       </div>
       <div class="modal" data-component="YoutubeSearchModal"></div>
+      <div class="messages" data-component="Message"></div>
     `;
   }
 
@@ -34,10 +39,16 @@ export class App extends Component {
       return new YoutubeSearchModal(el);
     }
 
-    // if (componentName === 'VideoClip') {
-    //   return new VideoClip(el, {
-    //     type: VideoClipType.CONTENT,
-    //   });
-    // }
+    if (componentName === 'VideoClip') {
+      const key = Number(el.dataset.key);
+      return new VideoClip(el, {
+        type: VideoClipType.CONTENT,
+        item: youtubeStore.$state.lectureVideos[key].item,
+      });
+    }
+
+    if (componentName === 'Message') {
+      return new Message(el);
+    }
   }
 }

@@ -1,9 +1,10 @@
 import {Component} from "~_core";
 import {RecentSearches} from "~components/RecentSearches";
 import {VideoClip, VideoClipType} from "~components/VideoClip";
-import {YOUTUBE_SEARCH, youtubeStore} from "~stores";
+import {ADD_LECTURE_VIDEO, YOUTUBE_SEARCH, youtubeStore} from "~stores";
 import {Skeleton} from "~components/Skeleton";
 import notFound from '../assets/images/status/not_found.png';
+import {YoutubeClipItem} from "~domain";
 
 interface State {
   searchKey: string;
@@ -18,7 +19,7 @@ export class YoutubeSearchModal extends Component<State> {
   }
 
   protected template(): string {
-    const { searchResults, searchLoading } = youtubeStore.$state;
+    const { searchResults, searchLoading, lectureVideos } = youtubeStore.$state;
 
     return `
       <span class="middle"></span><div class="modal-inner p-8">
@@ -37,7 +38,7 @@ export class YoutubeSearchModal extends Component<State> {
         <section class="mt-2" data-component="RecentSearches"></section>
         <section>
           <div class="d-flex justify-end text-gray-700">
-            저장된 영상 갯수: 0/100 개
+            저장된 영상 갯수: ${lectureVideos.length}/100 개
           </div>
           ${searchLoading ? `
             <div data-component="Skeleton"></div>
@@ -62,7 +63,7 @@ export class YoutubeSearchModal extends Component<State> {
 
   protected initChildComponent(el: HTMLElement, componentName: string) {
 
-    const { searchResults, recentSearches } = youtubeStore.$state;
+    const { searchResults, recentSearches, lectureVideos } = youtubeStore.$state;
 
     if (componentName === 'RecentSearches') {
       return new RecentSearches(el, {
@@ -72,12 +73,16 @@ export class YoutubeSearchModal extends Component<State> {
     }
 
     if (componentName === 'VideoClip') {
-      const itemKey = Number(el.dataset.key)
+      const itemKey = Number(el.dataset.key);
+      const youtubeClipItem = searchResults[itemKey];
+
       return new VideoClip(el, {
         type: VideoClipType.SEARCH,
-        item: searchResults[itemKey],
-        isSaved: false,
-        save() {}
+        item: youtubeClipItem,
+        isSaved: !!lectureVideos.find(({ item }) => item.id.videoId === youtubeClipItem.id.videoId),
+        save(youtubeClipItem: YoutubeClipItem) {
+          youtubeStore.dispatch(ADD_LECTURE_VIDEO, youtubeClipItem);
+        }
       });
     }
 

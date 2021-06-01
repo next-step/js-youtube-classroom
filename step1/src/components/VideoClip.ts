@@ -10,7 +10,7 @@ interface VideoClipProps {
   type: VideoClipType;
   item: YoutubeClipItem;
   save?: (item: YoutubeClipItem) => void;
-  isSaved: boolean;
+  isSaved?: boolean;
 }
 
 function dateformat(date: Date | string) {
