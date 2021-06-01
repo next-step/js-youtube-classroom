@@ -1,5 +1,5 @@
-@import "./shared/index.css";
-@import "./ui/index.css";
+@import './shared/index.css';
+@import './ui/index.css';
 
 html,
 body {
@@ -23,4 +23,38 @@ a {
 
 .opacity-hover:hover {
   opacity: 1;
+}
+
+.empty-message-container {
+  display: none;
+  text-align: center;
+  grid-column: 1 / -1;
+  margin: 50px 0 80px;
+}
+
+.empty-message-container.empty {
+  display: block;
+}
+
+.empty-message-container :first-child {
+  display: block;
+  margin-bottom: 16px;
+  font-size: 10rem;
+  text-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+}
+
+.empty-message-container :last-child {
+  display: inline-block;
+  font-size: 2rem;
+}
+
+@media (max-width: 480px) {
+  .empty-message-container :first-child {
+    font-size: 7rem;
+  }
+
+  .empty-message-container :last-child {
+    font-size: 1.2rem;
+  }
 }

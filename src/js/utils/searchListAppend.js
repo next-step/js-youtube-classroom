@@ -2,7 +2,7 @@ import $ from 'js/dom/dom';
 import searchArticle from 'js/components/searchArticle';
 
 const searchListAppend = list => {
-  list.map((item, index) => $.modalVideoWrapper.appendChild(searchArticle(item, index)));
+  list.forEach(item => $.modalVideoWrapper.appendChild(searchArticle(item)));
 };
 
 export default searchListAppend;

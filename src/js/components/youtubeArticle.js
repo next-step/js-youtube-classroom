@@ -2,15 +2,20 @@ import thumbnail from 'js/components/thumbnail';
 import content from 'js/components/content';
 import optionBUttons from 'js/components/optionBUttons';
 
-const youtubeArticle = (src, contents) => {
+const youtubeArticle = item => {
+  const {
+    id: { videoId },
+    snippet,
+  } = item;
+
   const $youtubeArticle = document.createElement('article');
   $youtubeArticle.className = 'clip';
 
   $youtubeArticle.innerHTML = `
-    ${thumbnail(src)}
+    ${thumbnail(videoId)}
   `;
 
-  $youtubeArticle.appendChild(content(contents, optionBUttons()));
+  $youtubeArticle.appendChild(content(videoId, snippet, optionBUttons()));
 
   return $youtubeArticle;
 };
