@@ -8,9 +8,15 @@ const saveButton = item => {
   $saveButton.classList.add('btn');
   $saveButton.textContent = '⬇️ 저장';
 
-  $saveButton.addEventListener('click', () => {
-    console.log(item);
-    const playList = JSON.parse(localStorage.getItem('playList'))?.list ?? [];
+  const playList = JSON.parse(localStorage.getItem('playList'))?.list ?? [];
+
+  if (playList.find(({ id: { videoId } }) => videoId === item.id.videoId)) {
+    $saveButton.disabled = true;
+    $saveButton.style.cursor = 'not-allowed';
+    $saveButton.title = '이미 저정된 영상입니다.';
+  }
+
+  $saveButton.addEventListener('click', ({ target }) => {
     const newPlayList = [item, ...playList.filter((_, i) => i < 99)];
     localStorage.setItem(
       'playList',
@@ -18,6 +24,9 @@ const saveButton = item => {
       JSON.stringify({ list: newPlayList })
     );
 
+    target.disabled = true;
+    target.style.cursor = 'not-allowed';
+    target.title = '이미 저정된 영상입니다.';
     $.playListLength.textContent = newPlayList.length;
   });
 

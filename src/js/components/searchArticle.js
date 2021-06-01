@@ -15,7 +15,7 @@ const searchArticle = item => {
     ${thumbnail(videoId)}
   `;
 
-  $searchArticle.appendChild(content(snippet, saveButton(item)));
+  $searchArticle.appendChild(content(videoId, snippet, saveButton(item)));
 
   return $searchArticle;
 };

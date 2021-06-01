@@ -1,11 +1,17 @@
 import transferCreationDate from 'js/utils/transferCreationDate';
 
-const content = ({ title, channelTitle, channelId, publishTime }, $element) => {
+const content = (videoId, { title, channelTitle, channelId, publishTime }, $element) => {
   const $contentContainer = document.createElement('div');
   $contentContainer.classList.add('content-container', 'pt-2', 'px-1');
 
   const $title = document.createElement('h3');
-  $title.innerHTML = title;
+
+  const $videoLink = document.createElement('a');
+  $videoLink.href = `https://www.youtube.com/watch?v=${videoId}`;
+  $videoLink.target = '_blank';
+  $videoLink.rel = 'noopener';
+  $videoLink.classList.add('video-link');
+  $videoLink.innerHTML = title;
 
   const $container = document.createElement('div');
 
@@ -27,6 +33,8 @@ const content = ({ title, channelTitle, channelId, publishTime }, $element) => {
   $container.appendChild($channelLink);
   $container.appendChild($publishTimeContainer);
   $container.appendChild($element);
+
+  $title.appendChild($videoLink);
 
   $contentContainer.appendChild($title);
   $contentContainer.appendChild($container);
