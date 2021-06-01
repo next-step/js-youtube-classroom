@@ -10,6 +10,7 @@ import {
   SAVE_BUTTON_ID,
   SAVE_BUTTON_CAPTION,
   UNSAVE_BUTTON_CAPTION,
+  DATA_OVERFLOW_MESSAGE,
 } from "@/constants/index";
 
 class SearchResult extends Component {
@@ -33,8 +34,10 @@ class SearchResult extends Component {
       const type = $button.id as SaveButton;
 
       if (!SAVE_BUTTON_ID[type]) return;
-      if (type === SAVE_BUTTON_ID.save && this.props.storedDatas.size === 100)
+      if (type === SAVE_BUTTON_ID.save && this.props.storedDatas.size === 100) {
+        alert(DATA_OVERFLOW_MESSAGE);
         return;
+      }
       const $target = $button.closest(
         SEARCH_SELECTORS.SEARCH_ITEM
       ) as HTMLElement;
@@ -43,11 +46,11 @@ class SearchResult extends Component {
       const id = $target.dataset.id as string;
       const assignAction = {
         save: () => {
-          $button.id = SAVE_BUTTON_ID.save;
+          $button.id = SAVE_BUTTON_ID.unsave;
           $button.innerText = UNSAVE_BUTTON_CAPTION;
         },
         unsave: () => {
-          $button.id = SAVE_BUTTON_ID.unsave;
+          $button.id = SAVE_BUTTON_ID.save;
           $button.innerText = SAVE_BUTTON_CAPTION;
         },
       };

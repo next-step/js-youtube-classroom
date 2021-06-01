@@ -99,7 +99,6 @@ export interface APIResult {
 
 export interface ItemDB {
   data: Item;
-  filter: Filter;
   liked: boolean;
   watched: boolean;
 }

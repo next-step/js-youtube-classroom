@@ -110,7 +110,6 @@ class App extends Component {
   handleAddVideoDB(data: Item): void {
     const nextVideoList = videoDB.add({
       data,
-      filter: FILTER_ID.later,
       liked: false,
       watched: false,
     });

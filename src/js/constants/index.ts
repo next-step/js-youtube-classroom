@@ -51,3 +51,4 @@ export const SAVE_BUTTON_CAPTION = "⬇️ 저장";
 export const UNSAVE_BUTTON_CAPTION = "↪️저장취소";
 
 export const REMOVE_CONFIRM_MESSAGE = "정말로 삭제하시겠습니까?";
+export const DATA_OVERFLOW_MESSAGE = "동영상은 100개까지 저장가능해요!";
