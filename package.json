@@ -4,8 +4,8 @@
   "description": "넘나 재밌는 나만의 유튜브 강의실",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode production",
-    "dev": "webpack serve --open",
+    "build": "webpack --mode=production",
+    "dev": "webpack serve --open --mode=development",
     "test": "npx cypress open",
     "pre-commit": "lint-staged"
   },

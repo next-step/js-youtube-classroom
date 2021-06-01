@@ -4,7 +4,6 @@ const dotenv = require("dotenv").config();
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  mode: "development",
   entry: "./src/js/index.ts",
   devtool: "inline-source-map",
   output: {
