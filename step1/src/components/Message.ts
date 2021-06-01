@@ -1,4 +1,4 @@
-import {Component} from "~_core";
+import {Component} from "~@core";
 
 export class Message extends Component{
 

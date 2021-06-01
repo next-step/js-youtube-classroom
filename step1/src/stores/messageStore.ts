@@ -1,4 +1,4 @@
-import {Store} from "~_core";
+import {Store} from "~@core";
 
 enum MessageType {
   INFO,

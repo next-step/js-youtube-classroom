@@ -1,4 +1,4 @@
-import {Store} from "~_core";
+import {Store} from "~@core";
 import {YoutubeClipItem} from "~domain";
 import {youtubeService, recentSearchesService, lectureVideoService} from "~services";
 import {LectureVideo} from "~repositories";

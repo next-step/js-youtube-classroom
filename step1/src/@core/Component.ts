@@ -1,4 +1,4 @@
-import {observable, observe} from "~_core";
+import {observable, observe} from "./";
 
 export abstract class Component<State = {}, Props = {}> {
 
@@ -35,7 +35,7 @@ export abstract class Component<State = {}, Props = {}> {
 
   private render() {
     this.$components = {};
-    
+
     this.$target.innerHTML = this.template();
     this.$target.querySelectorAll('[data-component]')
                 .forEach(el => this.setupChildComponent(el));

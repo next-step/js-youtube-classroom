@@ -1,4 +1,4 @@
-import {Repository} from "~_core";
+import {Repository} from "~@core";
 import {YoutubeClipItem} from "~domain";
 
 export interface LectureVideo {

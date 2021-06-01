@@ -1,4 +1,4 @@
-import {Component} from "~_core";
+import {Component} from "~@core";
 import {Header} from "~components/Header";
 import {YoutubeSearchModal} from "~components/YoutubeSearchModal";
 import {VideoClip, VideoClipType} from "~components/VideoClip";

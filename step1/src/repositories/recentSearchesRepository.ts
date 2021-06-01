@@ -1,4 +1,4 @@
-import {Repository} from "~_core";
+import {Repository} from "~@core";
 
 export class RecentSearchRepository extends Repository<string[]> {
   constructor() {

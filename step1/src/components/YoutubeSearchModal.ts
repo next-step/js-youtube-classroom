@@ -1,4 +1,4 @@
-import {Component} from "~_core";
+import {Component} from "~@core";
 import {RecentSearches} from "~components/RecentSearches";
 import {VideoClip, VideoClipType} from "~components/VideoClip";
 import {ADD_LECTURE_VIDEO, YOUTUBE_SEARCH, YOUTUBE_SEARCH_NEXT, youtubeStore} from "~stores";

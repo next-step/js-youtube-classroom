@@ -1,4 +1,4 @@
-import {RestClient} from "~_core";
+import {RestClient} from "~@core";
 import {YOUTUBE_API_KEY} from "~clients/secret";
 
 export class YoutubeRestClient extends RestClient {

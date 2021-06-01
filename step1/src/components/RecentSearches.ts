@@ -1,4 +1,4 @@
-import {Component} from "~_core";
+import {Component} from "~@core";
 
 interface Props {
   items: string[];

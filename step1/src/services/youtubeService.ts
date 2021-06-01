@@ -1,6 +1,6 @@
 import {YoutubeSearchResult} from "~domain";
 import {YoutubeRestClient, youtubeRestClient} from "~clients";
-import {Repository} from "~_core";
+import {Repository} from "~@core";
 
 type YoutubeCacheMap = Record<string, YoutubeSearchResult>;
 
