@@ -1,17 +1,20 @@
 import {Store} from "~_core";
 import {YoutubeClipItem} from "~domain";
-import { youtubeService, recentSearchesService } from "~services";
+import {youtubeService, recentSearchesService, lectureVideoService} from "~services";
+import {LectureVideo} from "~repositories";
 
 export const SET_RECENT_SEARCHES = 'SET_RECENT_SEARCHES';
 export const SET_SEARCH_RESULTS = 'SET_SEARCH_RESULTS';
 export const SET_SEARCH_LOADING = 'SET_SEARCH_LOADING';
+export const SET_LECTURE_VIDEOS = 'SET_LECTURE_VIDEOS';
 export const YOUTUBE_SEARCH = 'YOUTUBE_SEARCH';
+export const ADD_LECTURE_VIDEO = 'ADD_LECTURE_VIDEO';
 
 interface State {
   recentSearches: Set<string>;
   searchResults: YoutubeClipItem[];
   searchLoading: boolean;
-  savedList: [],
+  lectureVideos: LectureVideo[],
 }
 
 export const youtubeStore = new Store<State>({
@@ -19,7 +22,7 @@ export const youtubeStore = new Store<State>({
     recentSearches: recentSearchesService.getSearches(),
     searchResults: [],
     searchLoading: false,
-    savedList: [],
+    lectureVideos: lectureVideoService.fetchLectureVideos(),
   },
 
   mutations: {
@@ -34,6 +37,10 @@ export const youtubeStore = new Store<State>({
 
     [SET_SEARCH_LOADING] (state: State, searchLoading: boolean) {
       state.searchLoading = searchLoading;
+    },
+
+    [SET_LECTURE_VIDEOS] (state: State, lectureVideos: LectureVideo[]) {
+      state.lectureVideos = lectureVideos;
     },
   },
 
@@ -50,6 +57,11 @@ export const youtubeStore = new Store<State>({
         throw new Error(e);
       }
       commit(SET_SEARCH_LOADING, false);
+    },
+
+    [ADD_LECTURE_VIDEO] ({ commit }, youtubeClipItem: YoutubeClipItem) {
+      lectureVideoService.addLectureVideos(youtubeClipItem);
+      commit(SET_LECTURE_VIDEOS, lectureVideoService.fetchLectureVideos());
     }
   },
 });
