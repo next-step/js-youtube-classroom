@@ -9,6 +9,8 @@ export enum VideoClipType {
 interface VideoClipProps {
   type: VideoClipType;
   item: YoutubeClipItem;
+  save?: (item: YoutubeClipItem) => void;
+  isSaved: boolean;
 }
 
 function dateformat(date: Date | string) {
@@ -19,12 +21,9 @@ function dateformat(date: Date | string) {
 export class VideoClip extends Component<{}, VideoClipProps> {
 
   private get footer () {
-    const { type } = this.$props;
-    return type === VideoClipType.SEARCH ? `
-      <div class="d-flex justify-end">
-        <button class="btn">⬇️ 저장</button>
-      </div>
-    ` : `
+    const { type, isSaved } = this.$props;
+
+    if (type === VideoClipType.CONTENT) return `
       <div>
         <span class="opacity-hover">✅</span>
         <span class="opacity-hover">👍</span>
@@ -32,6 +31,14 @@ export class VideoClip extends Component<{}, VideoClipProps> {
         <span class="opacity-hover">🗑️</span>
       </div>
     `;
+
+    if (!isSaved) return `
+      <div class="d-flex justify-end save">
+        <button class="btn">⬇️ 저장</button>
+      </div>
+    `;
+
+    return '';
   }
 
   protected template(): string {
@@ -67,5 +74,12 @@ export class VideoClip extends Component<{}, VideoClipProps> {
         </div>
       </div>
     `;
+  }
+
+  protected setEvent() {
+    this.addEvent('click', '.save', (event: MouseEvent) => {
+      event.preventDefault();
+      this.$props.save?.(this.$props.item);
+    });
   }
 }

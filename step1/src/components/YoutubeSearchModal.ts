@@ -76,6 +76,8 @@ export class YoutubeSearchModal extends Component<State> {
       return new VideoClip(el, {
         type: VideoClipType.SEARCH,
         item: searchResults[itemKey],
+        isSaved: false,
+        save() {}
       });
     }
 

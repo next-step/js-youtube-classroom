@@ -11,6 +11,7 @@ interface State {
   recentSearches: Set<string>;
   searchResults: YoutubeClipItem[];
   searchLoading: boolean;
+  savedList: [],
 }
 
 export const youtubeStore = new Store<State>({
@@ -18,6 +19,7 @@ export const youtubeStore = new Store<State>({
     recentSearches: recentSearchesService.getSearches(),
     searchResults: [],
     searchLoading: false,
+    savedList: [],
   },
 
   mutations: {
