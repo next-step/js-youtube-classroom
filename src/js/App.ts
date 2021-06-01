@@ -1,15 +1,18 @@
 import Component from "@/libs/component";
 import Header from "@/components/Header";
 import SearchModal from "@/components/SearchModal";
+import ClassRoom from "@/components/ClassRoom";
 import videoDB from "@/libs/videoDB";
 import parseVideoData from "@/utils/parseVideoData";
 import { $ } from "@/utils/dom";
-import { AppState, Navigations, Item, Filter } from "@/types/index";
+import { AppState, Navigations, Item } from "@/types/index";
 import { APP_SELECTORS, FILTER_ID, SEARCH_BUTTON_ID } from "@/constants/index";
 
 class App extends Component {
   $headerComponent: Component | null = null;
   $searchModalComponent: Component | null = null;
+  $classRoomComponent: Component | null = null;
+
   state: AppState;
   constructor($root: HTMLElement) {
     super();
@@ -32,11 +35,17 @@ class App extends Component {
         isModalOpen: this.state.isModalOpen,
         storedDatas: parseVideoData(this.state.videoList),
       });
+    this.$classRoomComponent &&
+      this.$classRoomComponent.updateProps({
+        filter: this.state.filter,
+        videoList: this.state.videoList,
+      });
   }
 
   mountChildComponent(): void {
     const $header = $(APP_SELECTORS.HEADER, this.$root);
     const $modal = $(APP_SELECTORS.MODAL, this.$root);
+    const $classRoom = $(APP_SELECTORS.CLASS_ROOM, this.$root);
 
     this.$headerComponent = new Header(
       $header,
@@ -59,8 +68,22 @@ class App extends Component {
       }
     );
 
+    this.$classRoomComponent = new ClassRoom(
+      $classRoom,
+      {
+        filter: this.state.filter,
+        videoList: this.state.videoList,
+      },
+      {
+        onToggleWatch: this.hanldeToggleWatchVideoDB.bind(this),
+        onToggleLike: this.handleToggleLikeVideoDB.bind(this),
+        onRemoveVideo: this.handleRemoveVideoDB.bind(this),
+      }
+    );
+
     this.$headerComponent.render();
     this.$searchModalComponent.render();
+    this.$classRoomComponent.render();
   }
 
   handleChangeFilter(id: Navigations): void {
@@ -80,23 +103,28 @@ class App extends Component {
   }
 
   handleRemoveVideoDB(id: string): void {
-    videoDB.remove(id);
-    this.setState({ ...this.state, videoList: videoDB.get() });
+    const nextVideoList = videoDB.remove(id);
+    this.setState({ ...this.state, videoList: nextVideoList });
   }
 
   handleAddVideoDB(data: Item): void {
-    videoDB.add({ data, filter: FILTER_ID.later, liked: false });
-    this.setState({ ...this.state, videoList: videoDB.get() });
+    const nextVideoList = videoDB.add({
+      data,
+      filter: FILTER_ID.later,
+      liked: false,
+      watched: false,
+    });
+    this.setState({ ...this.state, videoList: nextVideoList });
   }
 
-  handleToggleVideoDB(id: string): void {
-    videoDB.toggleLike(id);
-    this.setState({ ...this.state, videoList: videoDB.get() });
+  handleToggleLikeVideoDB(id: string): void {
+    const nextVideoList = videoDB.toggleLike(id);
+    this.setState({ ...this.state, videoList: nextVideoList });
   }
 
-  handleUpdateFilterVideoDB(id: string, filter: Filter): void {
-    videoDB.updateFilter(id, filter);
-    this.setState({ ...this.state, videoList: videoDB.get() });
+  hanldeToggleWatchVideoDB(id: string): void {
+    const nextVideoList = videoDB.toggleWatch(id);
+    this.setState({ ...this.state, videoList: nextVideoList });
   }
 }
 

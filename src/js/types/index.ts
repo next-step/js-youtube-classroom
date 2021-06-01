@@ -63,6 +63,17 @@ export interface StoredVideoCounterProps {
   storedVideoCount: number;
 }
 
+export interface ClassRoomProps {
+  filter: Filter;
+  videoList: ItemDB[];
+}
+
+export interface ClassRoomHandlers {
+  onToggleWatch: (id: string) => void;
+  onToggleLike: (id: string) => void;
+  onRemoveVideo: (id: string) => void;
+}
+
 export interface Snippet {
   publishedAt: string;
   title: string;
@@ -90,9 +101,10 @@ export interface ItemDB {
   data: Item;
   filter: Filter;
   liked: boolean;
+  watched: boolean;
 }
 
-export type Filter = "watched" | "later";
+export type Filter = "watched" | "later" | "liked";
 
 export interface StringObject<T> {
   [key: string]: T;

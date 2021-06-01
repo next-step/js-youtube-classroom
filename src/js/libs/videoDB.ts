@@ -1,19 +1,23 @@
 import { ItemDB, Filter } from "@/types/index";
 const key = "@my-youtube-class-stored-videos";
 
+// set 하고 set한 데이터 바로 보내주도록 하자.
+// 그래서 get한번더 할필요없이!
+
 const videoDB = {
   get: (): ItemDB[] => {
     const data = localStorage.getItem(key) ?? "[]";
     return JSON.parse(data);
   },
 
-  add: (newData: ItemDB): void => {
+  add: (newData: ItemDB): ItemDB[] => {
     const prev = videoDB.get();
     const nextData = [...prev, newData];
     localStorage.setItem(key, JSON.stringify(nextData));
+    return nextData;
   },
 
-  updateFilter: (id: string, filter: Filter): void => {
+  updateFilter: (id: string, filter: Filter): ItemDB[] => {
     const nextData = videoDB.get().map((video) => {
       if (video.data.id === id) {
         return { ...video, filter: filter };
@@ -21,8 +25,9 @@ const videoDB = {
       return video;
     });
     localStorage.setItem(key, JSON.stringify(nextData));
+    return nextData;
   },
-  toggleLike: (id: string): void => {
+  toggleLike: (id: string): ItemDB[] => {
     const nextData = videoDB.get().map((video) => {
       if (video.data.id === id) {
         return { ...video, liked: !video.liked };
@@ -30,6 +35,17 @@ const videoDB = {
       return video;
     });
     localStorage.setItem(key, JSON.stringify(nextData));
+    return nextData;
+  },
+  toggleWatch: (id: string): ItemDB[] => {
+    const nextData = videoDB.get().map((video) => {
+      if (video.data.id === id) {
+        return { ...video, watched: !video.watched };
+      }
+      return video;
+    });
+    localStorage.setItem(key, JSON.stringify(nextData));
+    return nextData;
   },
   remove: (id: string): ItemDB[] => {
     const nextData = videoDB.get().filter((video) => video.data.id !== id);
