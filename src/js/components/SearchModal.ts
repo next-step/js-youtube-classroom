@@ -77,6 +77,9 @@ class SearchModal extends Component {
     this.props.isModalOpen
       ? this.$root.classList.add(CLASS_NAMES.MODAL_OPEN)
       : this.$root.classList.remove(CLASS_NAMES.MODAL_OPEN);
+    this.$storedVideoCounterComponent?.updateProps({
+      storedVideoCount: this.props.storedDatas.size,
+    });
   }
 
   setState(nextState: SearchModalState): void {
@@ -204,15 +207,9 @@ class SearchModal extends Component {
         const video = this.state.datas.find((item) => item.id === id);
         if (!video) return;
         this.handlers.onSaveVideo(video);
-        this.$storedVideoCounterComponent?.updateProps({
-          storedVideoCount: this.props.storedDatas.size,
-        });
       },
       unsave: () => {
         this.handlers.onRemoveVideo(id);
-        this.$storedVideoCounterComponent?.updateProps({
-          storedVideoCount: this.props.storedDatas.size,
-        });
       },
     };
     assginAction[type]();

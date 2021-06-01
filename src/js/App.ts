@@ -33,20 +33,17 @@ class App extends Component {
 
   setState(nextState: AppState): void {
     this.state = nextState;
-    this.$headerComponent &&
-      this.$headerComponent.updateProps({
-        filter: this.state.filter,
-      });
-    this.$searchModalComponent &&
-      this.$searchModalComponent.updateProps({
-        isModalOpen: this.state.isModalOpen,
-        storedDatas: parseVideoData(this.state.videoList),
-      });
-    this.$classRoomComponent &&
-      this.$classRoomComponent.updateProps({
-        filter: this.state.filter,
-        videoList: this.state.videoList,
-      });
+    this.$headerComponent?.updateProps({
+      filter: this.state.filter,
+    });
+    this.$searchModalComponent?.updateProps({
+      isModalOpen: this.state.isModalOpen,
+      storedDatas: parseVideoData(this.state.videoList),
+    });
+    this.$classRoomComponent?.updateProps({
+      filter: this.state.filter,
+      videoList: this.state.videoList,
+    });
   }
 
   mountChildComponent(): void {
