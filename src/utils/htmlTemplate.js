@@ -9,15 +9,13 @@ const convertTimeIntoSimpleFormat = time => {
   return `${convertedTimeArr[0]}년 ${convertedTimeArr[1]}월 ${convertedTimeArr[2]}일`;
 };
 
-export const getYoutubeItemsTemplate = items =>
-  items
-    .map(item => {
-      const {
-        snippet: { title, channelId, channelTitle, publishedAt },
-        id: { videoId },
-      } = item;
-      return `<article class="clip">
-<div class="preview-container">
+export const getYoutubeItemsTemplate = (item, isSaved) => {
+  const {
+    snippet: { title, channelId, channelTitle, publishedAt },
+    id: { videoId },
+  } = item;
+
+  return `<div class="preview-container">
 <iframe
   width="100%"
   height="118"
@@ -41,26 +39,20 @@ export const getYoutubeItemsTemplate = items =>
     <p>${convertTimeIntoSimpleFormat(publishedAt)}</p>
   </div>
   <div class="d-flex justify-end">
-    <button class="btn">⬇️ 저장</button>
+    <button class="btn" ${isSaved ? 'disabled' : ''}>⬇️ 저장</button>
   </div>
 </div>
-</div>
-</article>`;
-    })
-    .join('');
+</div>`;
+};
 
-export const getSkeletonTemplate = numOfSkeletons =>
-  Array.from({ length: numOfSkeletons }, (_, i) => i)
-    .map(
-      () => `<div class="skeleton">
+export const getSkeletonTemplate = () =>
+  `
 <div class="image"></div>
 <p class="line"></p>
 <p class="line"></p>
 <p class="line"></p>
 <p class="button"></p>
-</div>`
-    )
-    .join('');
+`;
 
 export const getNotFoundTemplate = () => `<div class="not-found">
 <img src=${notFoundImage} alt="검색 결과 없음"/>
