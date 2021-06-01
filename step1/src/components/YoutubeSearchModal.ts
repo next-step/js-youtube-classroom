@@ -1,25 +1,12 @@
-import {Component} from "~_core/Component";
+import {Component} from "~_core";
 import {RecentSearches} from "~components/RecentSearches";
 import {VideoClip, VideoClipType} from "~components/VideoClip";
-import {youtubeService} from "~services/youtubeService";
-import {YoutubeClipItem} from "~domain";
+import {YOUTUBE_SEARCH, youtubeStore} from "~stores";
 
-interface State {
-  items: YoutubeClipItem[];
-  recentSearchKeys: string[];
-}
-
-export class YoutubeSearchModal extends Component<State> {
-
-  public setup() {
-    this.$state = {
-      items: [],
-      recentSearchKeys: youtubeService.getRecentSearchKeys(),
-    }
-  }
+export class YoutubeSearchModal extends Component {
 
   protected template(): string {
-    const { items } = this.$state;
+    const { searchResults } = youtubeStore.$state;
 
     return `
       <span class="middle"></span><div class="modal-inner p-8">
@@ -38,13 +25,13 @@ export class YoutubeSearchModal extends Component<State> {
         <section class="mt-2" data-component="RecentSearches"></section>
         <section>
           <div class="d-flex justify-end text-gray-700">
-            저장된 영상 갯수: ${items.length}개
+            저장된 영상 갯수: 0/100 개
           </div>
           <section class="video-wrapper">
-            ${items.map((item, key) => `
+            ${searchResults.map((item, key) => `
               <article class="clip" data-component="VideoClip" data-key="${key}"></article>
             `).join('')}
-            ${items.length === 0 ? '유튜브 동영상을 검색해주세요' : ''}
+            ${searchResults.length === 0 ? '유튜브 동영상을 검색해주세요' : ''}
           </section>
         </section>
       </div>
@@ -52,19 +39,24 @@ export class YoutubeSearchModal extends Component<State> {
   }
 
   protected initChildComponent(el: HTMLElement, componentName: string) {
+
+    const { searchResults, recentSearches } = youtubeStore.$state;
+
     if (componentName === 'RecentSearches') {
       return new RecentSearches(el, {
-        items: this.$state.recentSearchKeys,
-        search: q => this.search(q),
+        items: recentSearches,
+        search: this.search.bind(this),
       });
     }
+
     if (componentName === 'VideoClip') {
       const itemKey = Number(el.dataset.key)
       return new VideoClip(el, {
         type: VideoClipType.SEARCH,
-        item: this.$state.items[itemKey],
+        item: searchResults[itemKey],
       });
     }
+
   }
 
   public open () {
@@ -76,8 +68,11 @@ export class YoutubeSearchModal extends Component<State> {
   }
 
   public async search (q: string) {
-    this.$state.items = await youtubeService.search(q);
-    this.$state.recentSearchKeys = youtubeService.getRecentSearchKeys();
+    try {
+      await youtubeStore.dispatch(YOUTUBE_SEARCH, q);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   protected setEvent() {

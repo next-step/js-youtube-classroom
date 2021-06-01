@@ -1,4 +1,4 @@
-import {observable} from "~_core/Observer";
+import {observable} from "~_core";
 
 type Commit<State> = (state: State, payload: any) => void;
 type Dispatch<State> = (context: Context<State>, ...params: any[]) => any

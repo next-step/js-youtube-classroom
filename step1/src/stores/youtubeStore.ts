@@ -1,10 +1,10 @@
-import {Store} from "~_core/Store";
+import {Store} from "~_core";
 import {YoutubeClipItem} from "~domain";
 import { youtubeService, recentSearchesService } from "~services";
 
-const SET_RECENT_SEARCHES = 'SET_RECENT_SEARCHES';
-const SET_SEARCH_RESULTS = 'SET_SEARCH_RESULTS';
-const SEARCH = 'SEARCH';
+export const SET_RECENT_SEARCHES = 'SET_RECENT_SEARCHES';
+export const SET_SEARCH_RESULTS = 'SET_SEARCH_RESULTS';
+export const YOUTUBE_SEARCH = 'YOUTUBE_SEARCH';
 
 interface State {
   recentSearches: string[];
@@ -28,17 +28,12 @@ export const youtubeStore = new Store<State>({
   },
 
   actions: {
-    async [SEARCH] ({ commit }, q) {
-      try {
-        const result = await youtubeService.search(q);
-        recentSearchesService.addSearchKey(q);
+    async [YOUTUBE_SEARCH] ({ commit }, q) {
+      const { items } = await youtubeService.search(q);
+      recentSearchesService.addSearchKey(q);
 
-        commit(SET_SEARCH_RESULTS, result);
-        commit(SET_RECENT_SEARCHES, recentSearchesService.getSearches());
-
-      } catch (e) {
-        console.error(e);
-      }
+      commit(SET_SEARCH_RESULTS, items);
+      commit(SET_RECENT_SEARCHES, recentSearchesService.getSearches());
     }
   },
 });

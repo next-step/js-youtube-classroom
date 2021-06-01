@@ -1,4 +1,4 @@
-import {Component} from "~_core/Component";
+import {Component} from "~_core";
 
 interface HeaderProps {
   modalOpen: () => void;

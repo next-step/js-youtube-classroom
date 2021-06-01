@@ -1,4 +1,4 @@
-import {observable, observe} from "~_core/Observer";
+import {observable, observe} from "~_core";
 
 export abstract class Component<State = {}, Props = {}> {
 

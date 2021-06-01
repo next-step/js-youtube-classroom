@@ -1,5 +1,4 @@
-import {Repository} from "~_core/Repository";
-import {YoutubeClipItem} from "~domain";
+import {Repository} from "~_core";
 
 export class RecentSearchRepository extends Repository<string[]> {
   constructor() {

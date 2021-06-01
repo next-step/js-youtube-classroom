@@ -9,7 +9,7 @@ enum HttpMethod {
 export class RestClient {
 
   constructor(
-    private readonly baseUrl: string
+    protected readonly baseUrl: string
   ) {}
 
   private request<T> (method: HttpMethod, uri: string): Promise<T> {

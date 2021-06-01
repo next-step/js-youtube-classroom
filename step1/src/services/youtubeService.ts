@@ -1,6 +1,6 @@
-import {YoutubeClient, YoutubeClipItem, YoutubeSearchResult} from "~domain";
+import {YoutubeSearchResult} from "~domain";
 import {YoutubeRestClient, youtubeRestClient} from "~clients";
-import {Repository} from "~_core/Repository";
+import {Repository} from "~_core";
 
 type YoutubeCacheMap = Record<string, YoutubeSearchResult>;
 
@@ -22,7 +22,7 @@ export class YoutubeService {
     });
   }
 
-  private async search(q: string): Promise<YoutubeSearchResult> {
+  public async search(q: string): Promise<YoutubeSearchResult> {
     const uri = `/search?part=snippet&q=${q}&order=viewCount&maxResults=10`;
 
     if (this.cacheMap[uri]) {

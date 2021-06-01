@@ -1,4 +1,4 @@
-import {Component} from "~_core/Component";
+import {Component} from "~_core";
 import {YoutubeClipItem} from "~domain";
 
 export enum VideoClipType {
