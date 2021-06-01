@@ -21,7 +21,7 @@ const initialSavedItems = JSON.parse(localStorage.getItem('savedItems'));
 let savedItems = [];
 let isSaved = false;
 let savedCount = initialSavedItems ? initialSavedItems.length : 0;
-let chips = [];
+let chips = JSON.parse(localStorage.getItem('lastestSearches')) || [];
 
 $savedCount.innerText = initialSavedItems ? initialSavedItems.length : '0';
 
@@ -63,14 +63,10 @@ const checkIfDuplicates = (value, cond) => {
 };
 
 const addChip = value => {
-  const savedChips = JSON.parse(localStorage.getItem('lastestSearches'));
-
-  if (savedChips && savedChips.length >= 3) {
-    checkIfDuplicates(value, savedChips.length >= 3);
+  if (chips && chips.length >= 3) {
+    checkIfDuplicates(value, chips.length >= 3);
     return;
   }
-
-  chips = savedChips || chips;
 
   checkIfDuplicates(value);
 };
