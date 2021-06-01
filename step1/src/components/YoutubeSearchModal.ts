@@ -44,7 +44,7 @@ export class YoutubeSearchModal extends Component {
 
     if (componentName === 'RecentSearches') {
       return new RecentSearches(el, {
-        items: recentSearches,
+        items: [ ...recentSearches ],
         search: this.search.bind(this),
       });
     }

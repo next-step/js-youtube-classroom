@@ -23,7 +23,7 @@ export class YoutubeService {
   }
 
   public async search(q: string): Promise<YoutubeSearchResult> {
-    const uri = `/search?part=snippet&q=${q}&order=viewCount&maxResults=10`;
+    const uri = `/search?part=snippet&q=${q}&maxResults=10`;
 
     if (this.cacheMap[uri]) {
       return this.cacheMap[uri];

@@ -7,18 +7,18 @@ export const SET_SEARCH_RESULTS = 'SET_SEARCH_RESULTS';
 export const YOUTUBE_SEARCH = 'YOUTUBE_SEARCH';
 
 interface State {
-  recentSearches: string[];
+  recentSearches: Set<string>;
   searchResults: YoutubeClipItem[];
 }
 
 export const youtubeStore = new Store<State>({
   state: {
-    recentSearches: [],
+    recentSearches: recentSearchesService.getSearches(),
     searchResults: [],
   },
 
   mutations: {
-    [SET_RECENT_SEARCHES] (state: State, recentSearches: string[]) {
+    [SET_RECENT_SEARCHES] (state: State, recentSearches: Set<string>) {
       state.recentSearches = recentSearches;
     },
 

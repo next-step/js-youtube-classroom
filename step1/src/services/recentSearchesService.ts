@@ -5,13 +5,14 @@ class RecentSearchesService {
     private readonly repository: RecentSearchRepository,
   ) {}
 
-  public getSearches(): string[] {
-    return this.repository.get() || [];
+  public getSearches(): Set<string> {
+    return new Set(this.repository.get() || []);
   }
 
   public addSearchKey(key: string): void {
-    const searches = [ ...this.getSearches(), key ];
-    this.repository.set(searches.slice(-3));
+    const searches = this.getSearches();
+    searches.add(key);
+    this.repository.set([ ...searches ].slice(-3));
   }
 }
 
