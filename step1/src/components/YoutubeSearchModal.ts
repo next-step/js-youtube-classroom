@@ -3,6 +3,7 @@ import {RecentSearches} from "~components/RecentSearches";
 import {VideoClip, VideoClipType} from "~components/VideoClip";
 import {YOUTUBE_SEARCH, youtubeStore} from "~stores";
 import {Skeleton} from "~components/Skeleton";
+import notFound from '../assets/images/status/not_found.png';
 
 interface State {
   searchKey: string;
@@ -46,7 +47,12 @@ export class YoutubeSearchModal extends Component<State> {
                 <article class="clip" data-component="VideoClip" data-key="${key}"></article>
               `).join('')}
               
-              ${!searchLoading && searchResults.length === 0 ? '유튜브 동영상을 검색해주세요' : ''} 
+              ${!searchLoading && searchResults.length === 0 ? `
+                <div>
+                  <img src="${notFound}" alt="검색 결과가 없습니다." width="100" />
+                  <p>검색 결과가 없습니다.</p>
+                </div>
+              ` : ''} 
             </section>
           `}
         </section>
