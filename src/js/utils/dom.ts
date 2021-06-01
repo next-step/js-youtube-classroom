@@ -8,14 +8,5 @@ export const $$ = (
   target: Document | HTMLElement = document
 ): NodeListOf<HTMLElement> => target.querySelectorAll(selector);
 
-export const removeClasses = (
-  List: NodeListOf<HTMLElement>,
-  className: string
-): void => {
-  Array.from(List).forEach((node) => node.classList.remove(className));
-  return;
-};
-
-export const addClass = (target: HTMLElement, className: string): void => {
-  target.classList.add(className);
-};
+export const closest = (target: HTMLElement, selector: string): HTMLElement =>
+  target.closest(selector) as HTMLElement;

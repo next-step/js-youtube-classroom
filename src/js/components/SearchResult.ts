@@ -12,6 +12,7 @@ import {
   UNSAVE_BUTTON_CAPTION,
   DATA_OVERFLOW_MESSAGE,
 } from "@/constants/index";
+import { closest } from "@/utils/dom";
 import popUpSnackBar from "@/utils/popUpSnackBar";
 
 class SearchResult extends Component {
@@ -39,9 +40,7 @@ class SearchResult extends Component {
         popUpSnackBar(DATA_OVERFLOW_MESSAGE);
         return;
       }
-      const $target = $button.closest(
-        SEARCH_SELECTORS.SEARCH_ITEM
-      ) as HTMLElement;
+      const $target = closest($button, SEARCH_SELECTORS.SEARCH_ITEM);
       if (!$target) return;
 
       const id = $target.dataset.id as string;

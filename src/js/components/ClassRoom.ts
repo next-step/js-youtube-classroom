@@ -1,5 +1,6 @@
 import Component from "@/libs/component";
 import template from "@/templates/ClassRoom";
+import { closest } from "@/utils/dom";
 import {
   CLASS_ROOM_ID,
   SEARCH_SELECTORS,
@@ -26,9 +27,8 @@ class ClassRoom extends Component {
       const target = e.target as HTMLElement;
       const type = target.id;
       if (!CLASS_ROOM_ID[type]) return;
-      const $video = target.closest(
-        SEARCH_SELECTORS.SEARCH_ITEM
-      ) as HTMLElement;
+
+      const $video = closest(target, SEARCH_SELECTORS.SEARCH_ITEM);
       const id = $video.dataset.id;
       if (!id) return;
 
