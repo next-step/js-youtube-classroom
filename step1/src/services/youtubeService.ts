@@ -1,62 +1,39 @@
-import { YOUTUBE_API_KEY } from "~services/secret";
 import {YoutubeClient, YoutubeClipItem, YoutubeSearchResult} from "~domain";
-import {RecentSearchesItems, recentSearchesRepository} from "~repositories";
+import {YoutubeRestClient, youtubeRestClient} from "~clients";
+import {Repository} from "~_core/Repository";
 
 class YoutubeService {
-  private activation: boolean = false;
-  private client?: YoutubeClient
 
-  constructor() {}
+  constructor(
+    private readonly client: YoutubeRestClient,
+    private readonly cache: Repository<any> = new Repository<any>('YOUTUBE_SERVICE_CACHE'),
+  ) {}
 
-  private get cache(): RecentSearchesItems {
-    return recentSearchesRepository.get() || {};
+  private get cacheMap() {
+    return this.cache.get() || {};
   }
 
-  private addCache(key: string, values: YoutubeClipItem[]): void {
-    recentSearchesRepository.set({
-      ...this.cache,
-      [key]: values
+  private addCache(key: string, value: any) {
+    this.cache.set({
+      ...this.cacheMap,
+      [key]: value
     });
   }
 
-  private init(): Promise<void> {
-    return new Promise(resolve => {
-      gapi.load('client', () => {
-        gapi.client.setApiKey(YOUTUBE_API_KEY);
-        gapi.client.load('youtube', 'v3', () => {
-          this.client = gapi.client as unknown as YoutubeClient
-          resolve();
-        });
-      })
-    })
-  }
+  private async search(q: string): Promise<YoutubeSearchResult> {
+    const uri = `/search?part=snippet&q=${q}&order=viewCount&maxResults=10`;
 
-  private async request(q: string): Promise<YoutubeSearchResult> {
-    return this.client!.youtube.search.list({
-      q: q,
-      part: 'snippet',
-      order: 'viewCount',
-      maxResults: 10,
-    });
-  }
-
-  public async search(q: string): Promise<YoutubeClipItem[]> {
-    if (this.cache[q]) {
-      return this.cache[q];
+    if (this.cacheMap[uri]) {
+      return this.cacheMap[uri];
     }
-    if (!this.activation) {
-      await this.init();
-    }
-    const { result } = await this.request(q);
-    const items = result.items as unknown as YoutubeClipItem[];
-    this.addCache(q, items);
-    return items;
+
+    const result = await this.client.get<YoutubeSearchResult>(`/search?part=snippet&q=${q}&order=viewCount&maxResults=10`);
+    this.addCache(uri, result);
+
+    return result;
   }
 
-  public getRecentSearchKeys(): string[] {
-    return Object.keys(this.cache);
-  }
 }
 
-export const youtubeService = new YoutubeService();
+export const youtubeService = new YoutubeService(youtubeRestClient);
 
