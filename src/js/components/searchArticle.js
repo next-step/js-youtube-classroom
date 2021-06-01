@@ -2,7 +2,12 @@ import thumbnail from 'js/components/thumbnail';
 import content from 'js/components/content';
 import saveButton from 'js/components/saveButton';
 
-const searchArticle = (videoId, contents) => {
+const searchArticle = item => {
+  const {
+    id: { videoId },
+    snippet,
+  } = item;
+
   const $searchArticle = document.createElement('article');
   $searchArticle.className = 'clip';
 
@@ -10,7 +15,7 @@ const searchArticle = (videoId, contents) => {
     ${thumbnail(videoId)}
   `;
 
-  $searchArticle.appendChild(content(contents, saveButton(videoId)));
+  $searchArticle.appendChild(content(snippet, saveButton(item)));
 
   return $searchArticle;
 };
