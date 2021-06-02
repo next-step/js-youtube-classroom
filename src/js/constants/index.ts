@@ -51,8 +51,14 @@ export const SEARCH_BUTTON_ID = "search-button";
 export const SAVE_BUTTON_CAPTION = "⬇️ 저장";
 export const UNSAVE_BUTTON_CAPTION = "↪️저장취소";
 
-export const SAVE_MESSAGE = "동영상이 저장되었습니다😍";
-export const REMOVE_MESSAGE = "동영상이 삭제되었습니다😭";
+export const TOAST_MESSAGES = {
+  SAVE: "동영상이 저장되었습니다😍",
+  REMOVE: "동영상이 삭제되었습니다😭",
+  WATCHED: "시청한 동영상으로 옮겨졌습니다😎",
+  LATER: "볼 영상으로 옮겨졌습니다🤩",
+  LIKE: "동영상을 좋아요 하셨습니다 👍🏼",
+  UNLIKE: "동영상 좋아요를 취소하셨습니다👎🏼",
+};
 
 export const REMOVE_CONFIRM_MESSAGE = "정말로 삭제하시겠습니까?👻";
 export const DATA_OVERFLOW_MESSAGE = "동영상은 100개까지 저장가능해요😅";

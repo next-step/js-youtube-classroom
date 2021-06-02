@@ -11,8 +11,7 @@ import {
   APP_SELECTORS,
   FILTER_ID,
   SEARCH_BUTTON_ID,
-  SAVE_MESSAGE,
-  REMOVE_MESSAGE,
+  TOAST_MESSAGES,
 } from "@/constants/index";
 
 class App extends Component {
@@ -109,7 +108,7 @@ class App extends Component {
 
   handleRemoveVideoDB(id: string): void {
     const nextVideoList = videoDB.remove(id);
-    popUpSnackBar(REMOVE_MESSAGE);
+    popUpSnackBar(TOAST_MESSAGES.REMOVE);
     this.setState({ ...this.state, videoList: nextVideoList });
   }
 
@@ -119,17 +118,27 @@ class App extends Component {
       liked: false,
       watched: false,
     });
-    popUpSnackBar(SAVE_MESSAGE);
+    popUpSnackBar(TOAST_MESSAGES.SAVE);
     this.setState({ ...this.state, videoList: nextVideoList });
   }
 
   handleToggleLikeVideoDB(id: string): void {
     const nextVideoList = videoDB.toggleLike(id);
+    if (nextVideoList.find((video) => video.data.id === id)?.liked) {
+      popUpSnackBar(TOAST_MESSAGES.LIKE);
+    } else {
+      popUpSnackBar(TOAST_MESSAGES.UNLIKE);
+    }
     this.setState({ ...this.state, videoList: nextVideoList });
   }
 
   hanldeToggleWatchVideoDB(id: string): void {
     const nextVideoList = videoDB.toggleWatch(id);
+    if (nextVideoList.find((video) => video.data.id === id)?.watched) {
+      popUpSnackBar(TOAST_MESSAGES.WATCHED);
+    } else {
+      popUpSnackBar(TOAST_MESSAGES.LATER);
+    }
     this.setState({ ...this.state, videoList: nextVideoList });
   }
 }
