@@ -7,13 +7,10 @@ import {
   refreshItems,
   renderChips,
   renderSnackBar,
-  renderNotWatchedItems,
-  renderWatchedItems,
-  renderLikedItems,
+  renderDependsOnTabState,
 } from 'utils/render';
 import { iterateWithIsSavedState } from 'utils/iterate';
 import fetchVideoId from 'utils/fetchVideoId';
-import globalState from 'utils/globalState';
 
 const $modalVideoWrapper = document.querySelector('.modal .video-wrapper');
 const $searchInput = document.querySelector('.modal form .w-100');
@@ -138,16 +135,7 @@ const onClickSave = e => {
   $savedCount.innerText = savedCount;
   target.setAttribute('disabled', true);
 
-  if (globalState.tabState === 'notWatched') {
-    refreshItems($mainVideoWrapper);
-    renderNotWatchedItems(savedItems, $mainVideoWrapper);
-  } else if (globalState.tabState === 'watched') {
-    refreshItems($mainVideoWrapper);
-    renderWatchedItems(savedItems, $mainVideoWrapper);
-  } else {
-    refreshItems($mainVideoWrapper);
-    renderLikedItems(savedItems, $mainVideoWrapper);
-  }
+  renderDependsOnTabState(savedItems, $mainVideoWrapper);
 
   renderSnackBar('나중에 볼 영상으로 저장되었습니다!');
 };

@@ -6,6 +6,7 @@ import {
   getNoResultTemplate,
 } from './htmlTemplate';
 import { iterate } from './iterate';
+import globalState from './globalState';
 
 const $chips = document.querySelector('.chips');
 const $snackBar = document.getElementById('snackBar');
@@ -102,4 +103,19 @@ export const renderLikedItems = (items, node) => {
     node,
     youtubeItemType: 'lecture',
   });
+};
+
+export const renderDependsOnTabState = (items, node, cb) => {
+  if (globalState.tabState === 'notWatched') {
+    refreshItems(node);
+    renderNotWatchedItems(items, node);
+    cb && cb('본 영상으로 체크되었습니다.');
+  } else if (globalState.tabState === 'watched') {
+    refreshItems(node);
+    renderWatchedItems(items, node);
+    cb && cb('나중에 볼 영상으로 체크되었습니다.');
+  } else {
+    refreshItems(node);
+    renderLikedItems(items, node);
+  }
 };
