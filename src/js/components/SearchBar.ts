@@ -4,6 +4,7 @@ import { SearchBarHandlers } from "@/types/index";
 
 class SearchBar extends Component {
   handlers: SearchBarHandlers;
+
   constructor($root: HTMLElement, handlers: SearchBarHandlers) {
     super();
     this.$root = $root;

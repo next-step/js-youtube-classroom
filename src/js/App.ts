@@ -21,6 +21,7 @@ class App extends Component {
   $classRoomComponent: Component | null = null;
 
   state: AppState;
+
   constructor($root: HTMLElement) {
     super();
     this.$root = $root;

@@ -7,6 +7,7 @@ import { SearchHistoryProps, SearchHistoryHandlers } from "@/types/index";
 class SearchHistory extends Component {
   props: SearchHistoryProps;
   handlers: SearchHistoryHandlers;
+
   constructor(
     $root: HTMLElement,
     props: SearchHistoryProps,

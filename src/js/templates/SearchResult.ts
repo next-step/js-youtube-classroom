@@ -1,5 +1,9 @@
 import { Snippet, Item } from "@/types/index";
-import { SAVE_BUTTON_CAPTION, UNSAVE_BUTTON_CAPTION } from "@/constants/index";
+import {
+  SAVE_BUTTON_CAPTION,
+  UNSAVE_BUTTON_CAPTION,
+  MAX_DATA_NUMBER,
+} from "@/constants/index";
 import parseDate from "@/utils/parseDate";
 
 const videoArticle = (snippet: Snippet, id: string, isSaved?: boolean) => `
@@ -39,26 +43,28 @@ const videoArticle = (snippet: Snippet, id: string, isSaved?: boolean) => `
 `;
 
 export const emptyState = `<image src="src/images/status/not_found.png"/>`;
+
 const skeletonUI = `
 <article class="clip">
-<div class="skeleton">
-<div class="image"></div>
-  <p class="line"></p>
-  <p class="line"></p>
-</div>
+  <div class="skeleton">
+    <div class="image"></div>
+      <p class="line"></p>
+      <p class="line"></p>
+    </div>
 </article>
 `;
+
 export const loadingState = `
-${skeletonUI}
-${skeletonUI}
-${skeletonUI}
-${skeletonUI}
-${skeletonUI}
-${skeletonUI}
-${skeletonUI}
-${skeletonUI}
-${skeletonUI}
-${skeletonUI}
+  ${skeletonUI}
+  ${skeletonUI}
+  ${skeletonUI}
+  ${skeletonUI}
+  ${skeletonUI}
+  ${skeletonUI}
+  ${skeletonUI}
+  ${skeletonUI}
+  ${skeletonUI}
+  ${skeletonUI}
 `;
 
 const template = (datas: Item[], storedDatas: Set<string>) => `

@@ -3,6 +3,7 @@ import { StoredVideoCounterProps } from "@/types/index";
 
 class StoredVideoCounter extends Component {
   props: StoredVideoCounterProps;
+
   constructor($root: HTMLElement, props: StoredVideoCounterProps) {
     super();
     this.$root = $root;

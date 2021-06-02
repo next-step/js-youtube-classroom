@@ -1,9 +1,6 @@
 import { ItemDB, Filter } from "@/types/index";
 const key = "@my-youtube-class-stored-videos";
 
-// set 하고 set한 데이터 바로 보내주도록 하자.
-// 그래서 get한번더 할필요없이!
-
 const videoDB = {
   get: (): ItemDB[] => {
     const data = localStorage.getItem(key) ?? "[]";

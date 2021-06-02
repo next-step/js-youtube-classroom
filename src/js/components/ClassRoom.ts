@@ -11,6 +11,7 @@ import { ClassRoomProps, ClassRoomHandlers } from "@/types/index";
 class ClassRoom extends Component {
   props: ClassRoomProps;
   handlers: ClassRoomHandlers;
+
   constructor(
     $root: HTMLElement,
     props: ClassRoomProps,

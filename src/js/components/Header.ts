@@ -6,6 +6,7 @@ import template from "@/templates/Header";
 class Header extends Component {
   props: HeaderProps;
   handlers: HeaderHanlders;
+
   constructor(
     $root: HTMLElement,
     props: HeaderProps,
