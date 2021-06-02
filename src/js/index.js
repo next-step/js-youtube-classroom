@@ -1,4 +1,4 @@
 import './init';
 import './searchModal/toggleModal';
 import './searchModal/searchYoutube';
-import './lectureRoom/displaySavedVideos';
+import './lectureRoom/displayVideos';
