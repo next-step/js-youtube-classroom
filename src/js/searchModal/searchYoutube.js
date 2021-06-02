@@ -7,48 +7,24 @@ import {
   refreshItems,
   renderChips,
 } from 'utils/render';
+import { iterateWithIsSavedState, iterate } from 'utils/iterate';
 
 const $modalVideoWrapper = document.querySelector('.modal .video-wrapper');
 const $searchInput = document.querySelector('.modal form .w-100');
 const $searchForm = document.querySelector('.modal form');
 const $modalInner = document.querySelector('.modal-inner');
 const $savedCount = document.querySelector('.saved-count');
+const $mainVideoWrapper = document.querySelector('main .video-wrapper');
 const $div = document.createElement('div');
 $div.setAttribute('id', 'modalFetchMore');
 
 const searchInfo = { nextPage: '', value: '', items: [] };
 const initialSavedItems = JSON.parse(localStorage.getItem('savedItems'));
 let savedItems = [];
-let isSaved = false;
 let savedCount = initialSavedItems ? initialSavedItems.length : 0;
 let chips = JSON.parse(localStorage.getItem('lastestSearches')) || [];
 
 $savedCount.innerText = initialSavedItems ? initialSavedItems.length : '0';
-
-const checkWhetherSaved = items => {
-  const localSavedItems = JSON.parse(localStorage.getItem('savedItems'));
-
-  if (localSavedItems)
-    items.forEach(item => {
-      const {
-        id: { videoId },
-      } = item;
-      localSavedItems.forEach(localSavedItem => {
-        const {
-          id: { videoId: localVideoId },
-        } = localSavedItem;
-
-        if (videoId === localVideoId) isSaved = true;
-      });
-      renderYoutubeItems($modalVideoWrapper, item, isSaved);
-      isSaved = false;
-    });
-  else {
-    items.forEach(item =>
-      renderYoutubeItems($modalVideoWrapper, item, isSaved)
-    );
-  }
-};
 
 const checkIfDuplicates = (value, cond) => {
   if (chips.includes(value)) {
@@ -92,7 +68,10 @@ const search = async () => {
 
   isNotFound
     ? renderNotFoundMessage($modalVideoWrapper)
-    : checkWhetherSaved(items);
+    : iterateWithIsSavedState(renderYoutubeItems, items, {
+        node: $modalVideoWrapper,
+        youtubeItemType: 'search',
+      });
 
   $modalInner.appendChild($div);
 };
@@ -108,7 +87,11 @@ const searchNextPage = async (value, pageToken) => {
   searchInfo.items = [...searchInfo.items, ...items];
 
   hideSkeleton($modalVideoWrapper);
-  checkWhetherSaved(items);
+
+  iterateWithIsSavedState(renderYoutubeItems, items, {
+    node: $modalVideoWrapper,
+    youtubeItemType: 'search',
+  });
 };
 
 const onSearch = e => {
@@ -121,8 +104,11 @@ const onSearch = e => {
 const onClickSave = e => {
   const localSavedItems = JSON.parse(localStorage.getItem('savedItems'));
 
-  if (localSavedItems && localSavedItems.length >= 100) return;
-  if (!e.target.matches('.video-wrapper button')) return;
+  if (
+    (localSavedItems && localSavedItems.length >= 100) ||
+    !e.target.matches('.video-wrapper button')
+  )
+    return;
 
   const $clip = e.target.closest('.clip');
   const $iframe = $clip.querySelector('iframe');
@@ -132,16 +118,26 @@ const onClickSave = e => {
     ({ id: { videoId } }) => videoId === clickedVideoId
   );
 
-  if (localStorage.getItem('savedItems')) {
-    savedItems = JSON.parse(localStorage.getItem('savedItems'));
-  }
-  savedItems = [...savedItems, clickedVideo];
+  savedItems = localSavedItems
+    ? [
+        ...localSavedItems,
+        { ...clickedVideo, state: { isWatched: false, isLiked: false } },
+      ]
+    : [
+        ...savedItems,
+        { ...clickedVideo, state: { isWatched: false, isLiked: false } },
+      ];
 
   localStorage.setItem('savedItems', JSON.stringify(savedItems));
   savedCount++;
 
   $savedCount.innerText = savedCount;
   e.target.setAttribute('disabled', true);
+
+  iterate(renderYoutubeItems, savedItems, {
+    node: $mainVideoWrapper,
+    youtubeItemType: 'lecture',
+  });
 };
 
 const fetchMoreObserver = new IntersectionObserver(([{ isIntersecting }]) => {

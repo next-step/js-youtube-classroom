@@ -9,7 +9,7 @@ const convertTimeIntoSimpleFormat = time => {
   return `${convertedTimeArr[0]}년 ${convertedTimeArr[1]}월 ${convertedTimeArr[2]}일`;
 };
 
-export const getYoutubeItemsTemplate = (item, isSaved) => {
+export const getYoutubeItemsTemplate = (item, isSaved, youtubeItemType) => {
   const {
     snippet: { title, channelId, channelTitle, publishedAt },
     id: { videoId },
@@ -38,9 +38,19 @@ export const getYoutubeItemsTemplate = (item, isSaved) => {
   <div class="meta">
     <p>${convertTimeIntoSimpleFormat(publishedAt)}</p>
   </div>
-  <div class="d-flex justify-end">
-    <button class="btn" ${isSaved ? 'disabled' : ''}>⬇️ 저장</button>
-  </div>
+  ${
+    youtubeItemType === 'lecture'
+      ? `<div>
+  <span class="opacity-hover watched">✅</span>
+  <span class="opacity-hover liked">👍</span>
+  <span class="opacity-hover">💬</span>
+  <span class="opacity-hover delete">🗑️</span>
+</div>`
+      : `<div class="d-flex justify-end">
+<button class="btn" ${isSaved ? 'disabled' : ''}>⬇️ 저장</button>
+</div>`
+  }
+  
 </div>
 </div>`;
 };
@@ -60,4 +70,12 @@ export const getNotFoundTemplate = () => `<div class="not-found">
 </div>`;
 
 export const getChipTemplate = chips =>
-  chips.map(chip => (chip ? `<a class="chip">${chip}</a>` : '')).join('');
+  chips
+    .map((chip, index) =>
+      chip ? `<a class="chip">${chips[chips.length - index - 1]}</a>` : ''
+    )
+    .join('');
+
+export const getNoResultTemplate = () => `
+<div class="no-results">영상이 없습니다 😭</div>
+`;

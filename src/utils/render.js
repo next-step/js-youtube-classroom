@@ -3,15 +3,18 @@ import {
   getSkeletonTemplate,
   getYoutubeItemsTemplate,
   getChipTemplate,
+  getNoResultTemplate,
 } from './htmlTemplate';
 
 const $chips = document.querySelector('.chips');
 let renderedSkeletons = [];
 
-export const renderYoutubeItems = (node, item, isSaved) => {
+export const renderYoutubeItems = (item, youtubeState) => {
+  const { node, youtubeItemType, isSaved } = youtubeState;
   const $article = document.createElement('article');
+
   $article.classList.add('clip');
-  $article.innerHTML = getYoutubeItemsTemplate(item, isSaved);
+  $article.innerHTML = getYoutubeItemsTemplate(item, isSaved, youtubeItemType);
   node.appendChild($article);
 };
 
@@ -42,5 +45,9 @@ export const refreshItems = node => {
 export const renderChips = chips => {
   if (!chips) return;
 
-  $chips.innerHTML = getChipTemplate(chips.reverse());
+  $chips.innerHTML = getChipTemplate(chips);
+};
+
+export const renderNoResult = node => {
+  node.innerHTML = getNoResultTemplate();
 };
