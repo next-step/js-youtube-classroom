@@ -1,9 +1,8 @@
 import $ from 'js/dom/dom';
-import youtubeArticle from 'js/components/youtubeArticle';
 
 const playList = JSON.parse(localStorage.getItem('playList'))?.list ?? [];
 
-const saveButton = item => {
+const saveButton = (item, playListState, render) => {
   const $saveButtonContainer = document.createElement('div');
   $saveButtonContainer.classList.add('d-flex', 'justify-end', 'saveBtnContainer');
 
@@ -18,17 +17,15 @@ const saveButton = item => {
   }
 
   $saveButton.addEventListener('click', ({ target }) => {
-    const playList = JSON.parse(localStorage.getItem('playList'))?.list ?? [];
-    const newPlayList = [...playList.filter((_, i) => i < 99), item];
+    const newPlayList = [...playListState.list.filter((_, i) => i < 99), { ...item, isWatch: false }];
     localStorage.setItem(
       'playList',
       // TODO: filter로 지금은 가장 오래된 데이터를 지워주지만 100개가 됐을땐 setItem을 안해주며 알림을 띄워주는게 가장 자연스러울것 같음
-      JSON.stringify({ list: newPlayList })
+      JSON.stringify({ ...playListState, list: newPlayList })
     );
 
     if (newPlayList.length === 1) $.emptyMessageContainer.classList.remove('empty');
-    $.mainVideoWrapper.appendChild(youtubeArticle(item));
-
+    render([...playListState.list, { ...item, isWatch: false }]);
     target.disabled = true;
     target.style.cursor = 'not-allowed';
     target.title = '이미 저장된 영상입니다.';

@@ -1,3 +1,1 @@
-import 'js/modalToggle';
-import 'js/youtubeSearch';
-import 'js/playListRender';
+import 'js/app/app';

@@ -1,8 +1,8 @@
 import thumbnail from 'js/components/thumbnail';
 import content from 'js/components/content';
-import optionBUttons from 'js/components/optionBUttons';
+import optionBUttons from 'js/components/optionButtons';
 
-const youtubeArticle = item => {
+const youtubeArticle = (item, playListData, render) => {
   const {
     id: { videoId },
     snippet,
@@ -15,7 +15,7 @@ const youtubeArticle = item => {
     ${thumbnail(videoId)}
   `;
 
-  $youtubeArticle.appendChild(content(videoId, snippet, optionBUttons()));
+  $youtubeArticle.appendChild(content(videoId, snippet, optionBUttons(item, playListData, render)));
 
   return $youtubeArticle;
 };

@@ -83,8 +83,13 @@
   z-index: 2;
 }
 
-.clip .preview-container .loaded {
-  display: none;
+.option-buttons button {
+  border: 0;
+  background-color: transparent;
+  text-align: center;
+  font-size: 0.9rem;
+  padding: 3px;
+  margin: 0 1px;
 }
 
 .not-found-container {

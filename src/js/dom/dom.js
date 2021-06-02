@@ -9,6 +9,8 @@ const modalInner = document.querySelector('.modal-inner');
 const recentSearchList = document.querySelector('.recent-search-list');
 const playListLength = document.querySelector('.play-list-length');
 const emptyMessageContainer = document.querySelector('.empty-message-container');
+const willStatus = document.querySelector('.will-status');
+const watchedStatus = document.querySelector('.watched-status');
 
 const $ = {
   searchModalOpenButton,
@@ -22,6 +24,8 @@ const $ = {
   playListLength,
   mainVideoWrapper,
   emptyMessageContainer,
+  willStatus,
+  watchedStatus,
 };
 
 export default $;

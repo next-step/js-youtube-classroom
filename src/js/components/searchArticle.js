@@ -2,7 +2,7 @@ import thumbnail from 'js/components/thumbnail';
 import content from 'js/components/content';
 import saveButton from 'js/components/saveButton';
 
-const searchArticle = item => {
+const searchArticle = (item, playListState, render) => {
   const {
     id: { videoId },
     snippet,
@@ -15,7 +15,7 @@ const searchArticle = item => {
     ${thumbnail(videoId)}
   `;
 
-  $searchArticle.appendChild(content(videoId, snippet, saveButton(item)));
+  $searchArticle.appendChild(content(videoId, snippet, saveButton(item, playListState, render)));
 
   return $searchArticle;
 };

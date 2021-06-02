@@ -39,9 +39,12 @@
     "prefer-arrow-callback": "error", // Require using arrow functions for callbacks
     "require-await": "off",
     "radix":"off",
+    "import/prefer-default-export": "off",
     "function-paren-newline":"off",
+    "no-param-reassign":"off",
     "arrow-parens": ["error", "as-needed"], // a => {}
-    "no-param-reassign": ["error", { "props": false }],
+    "no-confusing-arrow":"off",
+    // "no-param-reassign": ["error", { "props": false }],
     "no-unused-expressions": ["error", {
       "allowTernary": true,      // a || b
       "allowShortCircuit": true, // a ? b : 0
