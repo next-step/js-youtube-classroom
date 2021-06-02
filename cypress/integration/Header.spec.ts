@@ -1,4 +1,8 @@
-import { BASE_URL } from "../_testUtils/index";
+import {
+  BASE_URL,
+  HEADER_SELECTORS,
+  BUTTON_SELECT_CLASS,
+} from "../_testUtils/index";
 
 describe("헤더 필터", () => {
   beforeEach(() => {
@@ -6,24 +10,31 @@ describe("헤더 필터", () => {
   });
 
   describe("헤더 UI 렌더링", () => {
-    const selectedClass = "bg-cyan-100";
-    const later = "#later";
-    const watched = "#watched";
-    const liked = "#liked";
     it("처음에는 볼 영상 버튼이 선택된다.", () => {
-      [watched, liked].forEach((button) =>
-        cy.get(button).should("not.have.class", selectedClass)
+      [HEADER_SELECTORS.WATCHED_BUTTON, HEADER_SELECTORS.LIKED_BUTTON].forEach(
+        (button) => cy.get(button).should("not.have.class", BUTTON_SELECT_CLASS)
       );
-      cy.get(later).should("have.class", selectedClass);
+      cy.get(HEADER_SELECTORS.LATER_BUTTON).should(
+        "have.class",
+        BUTTON_SELECT_CLASS
+      );
     });
 
-    [later, watched, liked].forEach((selected) =>
+    [
+      HEADER_SELECTORS.LATER_BUTTON,
+      HEADER_SELECTORS.WATCHED_BUTTON,
+      HEADER_SELECTORS.LIKED_BUTTON,
+    ].forEach((selected) =>
       it("버튼을 누르면 하이라이트 클래스가 추가된다.", () => {
         cy.get(selected).click();
-        [later, watched, liked].forEach((button) => {
+        [
+          HEADER_SELECTORS.LATER_BUTTON,
+          HEADER_SELECTORS.WATCHED_BUTTON,
+          HEADER_SELECTORS.LIKED_BUTTON,
+        ].forEach((button) => {
           if (button === selected)
-            cy.get(button).should("have.class", selectedClass);
-          else cy.get(button).should("not.have.class", selectedClass);
+            cy.get(button).should("have.class", BUTTON_SELECT_CLASS);
+          else cy.get(button).should("not.have.class", BUTTON_SELECT_CLASS);
         });
       })
     );
