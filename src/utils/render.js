@@ -7,6 +7,7 @@ import {
 } from './htmlTemplate';
 
 const $chips = document.querySelector('.chips');
+const $snackBar = document.getElementById('snackBar');
 let renderedSkeletons = [];
 
 export const renderYoutubeItems = (item, youtubeState) => {
@@ -50,4 +51,12 @@ export const renderChips = chips => {
 
 export const renderNoResult = node => {
   node.innerHTML = getNoResultTemplate();
+};
+
+export const renderSnackBar = message => {
+  $snackBar.innerText = message;
+  $snackBar.classList.toggle('show');
+  setTimeout(() => {
+    $snackBar.classList.toggle('show');
+  }, 3000);
 };
