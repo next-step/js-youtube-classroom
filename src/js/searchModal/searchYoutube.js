@@ -8,6 +8,7 @@ import {
   renderChips,
 } from 'utils/render';
 import { iterateWithIsSavedState, iterate } from 'utils/iterate';
+import fetchVideoId from 'utils/fetchVideoId';
 
 const $modalVideoWrapper = document.querySelector('.modal .video-wrapper');
 const $searchInput = document.querySelector('.modal form .w-100');
@@ -102,18 +103,16 @@ const onSearch = e => {
 };
 
 const onClickSave = e => {
+  const { target } = e;
   const localSavedItems = JSON.parse(localStorage.getItem('savedItems'));
 
   if (
     (localSavedItems && localSavedItems.length >= 100) ||
-    !e.target.matches('.video-wrapper button')
+    !target.matches('.video-wrapper button')
   )
     return;
 
-  const $clip = e.target.closest('.clip');
-  const $iframe = $clip.querySelector('iframe');
-  const iframeUrlSplit = $iframe.getAttribute('src').split('/');
-  const clickedVideoId = iframeUrlSplit[iframeUrlSplit.length - 1];
+  const clickedVideoId = fetchVideoId(target);
   const clickedVideo = searchInfo.items.find(
     ({ id: { videoId } }) => videoId === clickedVideoId
   );
@@ -132,7 +131,9 @@ const onClickSave = e => {
   savedCount++;
 
   $savedCount.innerText = savedCount;
-  e.target.setAttribute('disabled', true);
+  target.setAttribute('disabled', true);
+
+  refreshItems($mainVideoWrapper);
 
   iterate(renderYoutubeItems, savedItems, {
     node: $mainVideoWrapper,
