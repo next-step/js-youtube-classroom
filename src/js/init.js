@@ -1,5 +1,8 @@
-import { renderChips, renderNoResult, renderYoutubeItems } from 'utils/render';
-import { iterate } from 'utils/iterate';
+import {
+  renderChips,
+  renderNoResult,
+  renderNotWatchedItems,
+} from 'utils/render';
 
 // 최근 검색어 보여주기
 renderChips(JSON.parse(localStorage.getItem('lastestSearches')));
@@ -9,8 +12,5 @@ const $mainVideoWrapper = document.querySelector('main .video-wrapper');
 const savedVideos = JSON.parse(localStorage.getItem('savedItems'));
 
 savedVideos
-  ? iterate(renderYoutubeItems, savedVideos, {
-      node: $mainVideoWrapper,
-      youtubeItemType: 'lecture',
-    })
+  ? renderNotWatchedItems(savedVideos, $mainVideoWrapper)
   : renderNoResult($mainVideoWrapper);
