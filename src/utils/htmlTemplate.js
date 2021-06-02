@@ -13,6 +13,7 @@ export const getYoutubeItemsTemplate = (item, isSaved, youtubeItemType) => {
   const {
     snippet: { title, channelId, channelTitle, publishedAt },
     id: { videoId },
+    state,
   } = item;
 
   return `<div class="preview-container">
@@ -41,7 +42,9 @@ export const getYoutubeItemsTemplate = (item, isSaved, youtubeItemType) => {
   ${
     youtubeItemType === 'lecture'
       ? `<div>
-  <span class="opacity-hover watched">✅</span>
+  <span class="opacity-hover watched ${
+    state?.isWatched ? 'checked' : ''
+  }">✅</span>
   <span class="opacity-hover liked">👍</span>
   <span class="opacity-hover">💬</span>
   <span class="opacity-hover delete">🗑️</span>
