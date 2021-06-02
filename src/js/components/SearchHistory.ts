@@ -4,10 +4,11 @@ import { $ } from "@/utils/dom";
 import { CLASS_NAMES } from "@/constants/index";
 import { SearchHistoryProps, SearchHistoryHandlers } from "@/types/index";
 
-class SearchHistory extends Component {
-  props: SearchHistoryProps;
-  handlers: SearchHistoryHandlers;
-
+class SearchHistory extends Component<
+  unknown,
+  SearchHistoryProps,
+  SearchHistoryHandlers
+> {
   constructor(
     $root: HTMLElement,
     props: SearchHistoryProps,

@@ -15,10 +15,11 @@ import {
 import { closest } from "@/utils/dom";
 import popUpSnackBar from "@/utils/popUpSnackBar";
 
-class SearchResult extends Component {
-  props: SearchResultProps;
-  handlers: SearchResultHandlers;
-
+class SearchResult extends Component<
+  unknown,
+  SearchResultProps,
+  SearchResultHandlers
+> {
   constructor(
     $root: HTMLElement,
     props: SearchResultProps,

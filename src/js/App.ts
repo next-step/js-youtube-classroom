@@ -14,12 +14,10 @@ import {
   TOAST_MESSAGES,
 } from "@/constants/index";
 
-class App extends Component {
+class App extends Component<AppState> {
   $headerComponent: Component | null = null;
   $searchModalComponent: Component | null = null;
   $classRoomComponent: Component | null = null;
-
-  state: AppState;
 
   constructor($root: HTMLElement) {
     super();

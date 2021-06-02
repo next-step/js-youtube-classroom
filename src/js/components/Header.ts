@@ -3,10 +3,7 @@ import { FILTER_ID, SEARCH_BUTTON_ID } from "@/constants/index";
 import { Navigations, HeaderProps, HeaderHanlders } from "@/types/index";
 import template from "@/templates/Header";
 
-class Header extends Component {
-  props: HeaderProps;
-  handlers: HeaderHanlders;
-
+class Header extends Component<unknown, HeaderProps, HeaderHanlders> {
   constructor(
     $root: HTMLElement,
     props: HeaderProps,

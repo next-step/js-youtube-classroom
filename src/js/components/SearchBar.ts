@@ -2,9 +2,7 @@ import Component from "@/libs/component";
 import { $ } from "@/utils/dom";
 import { SearchBarHandlers } from "@/types/index";
 
-class SearchBar extends Component {
-  handlers: SearchBarHandlers;
-
+class SearchBar extends Component<unknown, unknown, SearchBarHandlers> {
   constructor($root: HTMLElement, handlers: SearchBarHandlers) {
     super();
     this.$root = $root;

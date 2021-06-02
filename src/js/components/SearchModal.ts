@@ -27,11 +27,11 @@ import getAPI from "@/api/index";
 
 const videoCache = new cache<VideoCacheValue>();
 
-class SearchModal extends Component {
-  props: SearchModalProps;
-  handlers: SearchModalHandlers;
-  state: SearchModalState;
-
+class SearchModal extends Component<
+  SearchModalState,
+  SearchModalProps,
+  SearchModalHandlers
+> {
   $searchBarComponent: Component | null = null;
   $searchHistoryComponent: Component | null = null;
   $searchResultComponent: Component | null = null;

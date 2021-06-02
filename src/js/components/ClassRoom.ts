@@ -8,10 +8,7 @@ import {
 } from "@/constants/index";
 import { ClassRoomProps, ClassRoomHandlers } from "@/types/index";
 
-class ClassRoom extends Component {
-  props: ClassRoomProps;
-  handlers: ClassRoomHandlers;
-
+class ClassRoom extends Component<unknown, ClassRoomProps, ClassRoomHandlers> {
   constructor(
     $root: HTMLElement,
     props: ClassRoomProps,

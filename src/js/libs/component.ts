@@ -1,21 +1,26 @@
-class Component {
+class Component<
+  StateType = unknown,
+  PropsType = unknown,
+  HanldersType = unknown
+> {
   $root: HTMLElement = document.createElement("div");
   $target: HTMLElement = document.createElement("div");
-  state: unknown;
-  props: unknown;
-  handlers: unknown;
+
+  state: StateType = {} as StateType;
+  props: PropsType = {} as PropsType;
+  handlers: HanldersType = {} as HanldersType;
 
   init() {}
   bindEvents() {}
   mount() {}
   mountChildComponent() {}
 
-  updateProps(nextProps: unknown): void {
+  updateProps(nextProps: PropsType): void {
     this.props = nextProps;
     this.mount();
   }
 
-  setState(nextState: unknown): void {
+  setState(nextState: StateType): void {
     this.state = nextState;
     this.mount();
   }
