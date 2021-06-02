@@ -45,7 +45,7 @@ export const getYoutubeItemsTemplate = (item, isSaved, youtubeItemType) => {
   <span class="opacity-hover watched ${
     state?.isWatched ? 'checked' : ''
   }">✅</span>
-  <span class="opacity-hover liked">👍</span>
+  <span class="opacity-hover liked ${state?.isLiked ? 'checked' : ''}">👍</span>
   <span class="opacity-hover">💬</span>
   <span class="opacity-hover delete">🗑️</span>
 </div>`
