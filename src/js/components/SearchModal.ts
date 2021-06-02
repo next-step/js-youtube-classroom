@@ -143,9 +143,9 @@ class SearchModal extends Component {
   }
 
   getMoreVideos(): void {
-    this.state.searchKeyword &&
-      !this.state.isLoading &&
+    if (this.state.searchKeyword && !this.state.isLoading) {
       this.getVideos(this.state.searchKeyword);
+    }
   }
 
   initState(
@@ -197,14 +197,14 @@ class SearchModal extends Component {
     }
   }
 
-  handleSearch(value: string): void {
+  async handleSearch(value: string): Promise<void> {
     if (value === this.state.searchKeyword || !value) return;
     if (videoCache.has(value)) {
       const { datas, hasMore, lastKey } = videoCache.get(value);
       this.initState(value, datas, lastKey, hasMore);
     } else {
       this.initState(value);
-      this.getVideos(value);
+      await this.getVideos(value);
     }
   }
 
