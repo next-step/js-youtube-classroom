@@ -23,7 +23,7 @@
     "@types/node": "^15.6.1",
     "css-loader": "^5.2.6",
     "cypress": "^7.4.0",
-    "dotenv": "^10.0.0",
+    "dotenv-webpack": "^7.0.2",
     "eslint": "^7.27.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
@@ -42,6 +42,8 @@
     "src/**/*.{js,ts,json,css}": [
       "prettier --write"
     ],
-    "cypress/**/*.{js,ts}": [ "prettier --write"]
+    "cypress/**/*.{js,ts}": [
+      "prettier --write"
+    ]
   }
 }
