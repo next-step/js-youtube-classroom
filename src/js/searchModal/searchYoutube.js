@@ -6,6 +6,7 @@ import {
   hideSkeleton,
   refreshItems,
   renderChips,
+  renderSnackBar,
 } from 'utils/render';
 import { iterateWithIsSavedState, iterate } from 'utils/iterate';
 import fetchVideoId from 'utils/fetchVideoId';
@@ -139,6 +140,8 @@ const onClickSave = e => {
     node: $mainVideoWrapper,
     youtubeItemType: 'lecture',
   });
+
+  renderSnackBar('나중에 볼 영상으로 저장되었습니다!');
 };
 
 const fetchMoreObserver = new IntersectionObserver(([{ isIntersecting }]) => {

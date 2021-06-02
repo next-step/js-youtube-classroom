@@ -1,5 +1,5 @@
 import { iterate } from 'utils/iterate';
-import { renderYoutubeItems, refreshItems } from 'utils/render';
+import { renderYoutubeItems, refreshItems, renderSnackBar } from 'utils/render';
 import fetchVideoId from 'utils/fetchVideoId';
 
 const $mainVideoWrapper = document.querySelector('main .video-wrapper');
@@ -34,6 +34,8 @@ const onClickWatched = e => {
     node: $mainVideoWrapper,
     youtubeItemType: 'lecture',
   });
+
+  renderSnackBar('본 영상으로 체크되었습니다.');
 };
 
 const onClickDelete = e => {
@@ -64,6 +66,8 @@ const onClickDelete = e => {
     node: $mainVideoWrapper,
     youtubeItemType: 'lecture',
   });
+
+  renderSnackBar('해당 영상이 삭제되었습니다.');
 };
 
 $mainVideoWrapper.addEventListener('click', onClickWatched);
