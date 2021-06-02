@@ -13,11 +13,11 @@ export const state = {
   savedLatestSearchedValues: savedLatestSearchedValues || [],
   savedYoutubeIds: savedYoutubeIds || [],
   savedYoutubes: savedYoutubes || [],
-  isAfterSearching: false,
-  currentLectureRoomPage: 'notWatched'
+  isAfterSearching: false
 };
 
-export const lectureRoomPageInfo = {
+export const lecturePageInfo = {
+  currentPage: 'notWarched',
   notWatched: {
     name: 'notWatched',
     videos:

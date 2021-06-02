@@ -1,23 +1,34 @@
-import getSearchedData from 'api/getSearchedData';
 import {
-  initializingUtils,
-  renderingUtils,
-  templateUtils,
-  skeletonUtils,
-  createObservedTarget
-} from 'utils';
-import { state, lectureRoomPageInfo } from './state';
+  initializeValue,
+  initializeElementInner
+} from 'utils/initializingUtils';
+import {
+  renderNoResult,
+  renderYoutubeCards,
+  renderMoreYoutubeCards,
+  renderSavedYoutubeNumber,
+  renderLatestSearchedYoutubeChip
+} from 'utils/renderingUtils';
+import {
+  getNoResultTemplate,
+  getSavedYoutubeCardTemplate,
+  getSearchedYoutubeCardTemplate
+} from 'utils/templateUtils';
+import { showSkeleton, hideSkeleton } from 'utils/skeletonUtils';
+import getSearchedData from 'api/getSearchedData';
+import { setData } from 'utils/localStorageUtils';
+import { state, lecturePageInfo } from 'utils/state';
 
 const $searchBtn = document.querySelector('.modal form .btn');
 const $searchInput = document.querySelector('.modal .pl-2');
+const $modalInner = document.querySelector('.modal-inner');
 const $searchModalVideoWrapper = document.querySelector(
   '.modal .video-wrapper'
 );
-const $modalInner = document.querySelector('.modal-inner');
 
 // functions
 const hideSaveButton = targetNode => {
-  initializingUtils.initializeElementInner(targetNode.parentNode);
+  initializeElementInner(targetNode.parentNode);
 };
 
 const saveYoutube = targetNode => {
@@ -25,6 +36,7 @@ const saveYoutube = targetNode => {
 
   if (targetNode.tagName !== 'BUTTON') return;
   if (isSavedYoutubesFull) {
+    // eslint-disable-next-line no-alert
     alert(
       '저장 공간이 꽉 찼어요ㅜㅜ 기존의 동영상을 지우고 다시 저장해주세요😃'
     );
@@ -42,13 +54,10 @@ const saveYoutube = targetNode => {
 
   state.savedYoutubes.push(youtubeData);
   state.savedYoutubeIds.push(youtubeId);
-  lectureRoomPageInfo.notWatched.videos.push(youtubeData);
+  lecturePageInfo.notWatched.videos.push(youtubeData);
 
-  localStorage.setItem('savedYoutubes', JSON.stringify(state.savedYoutubes));
-  localStorage.setItem(
-    'savedYoutubeIds',
-    JSON.stringify(state.savedYoutubeIds)
-  );
+  setData('savedYoutubes', state.savedYoutubes);
+  setData('savedYoutubeIds', state.savedYoutubeIds);
 
   return youtubeData;
 };
@@ -71,19 +80,16 @@ const saveSeachedValue = value => {
 
   state.savedLatestSearchedValues.unshift(value);
 
-  localStorage.setItem(
-    'latestSearchedValues',
-    JSON.stringify(state.savedLatestSearchedValues)
-  );
+  setData('latestSearchedValues', state.savedLatestSearchedValues);
 };
 
 const setSearchModal = newValue => {
   state.searchedValue = newValue;
 
-  if (newValue) {
-    initializingUtils.initializeElementInner($searchModalVideoWrapper);
-    state.isSearchModalFirstPage = true;
-  }
+  if (!newValue) return;
+
+  initializeElementInner($searchModalVideoWrapper);
+  state.isSearchModalFirstPage = true;
 };
 
 const searchYoutube = (() => {
@@ -91,14 +97,10 @@ const searchYoutube = (() => {
 
   const SHOWED_RESULTS_NUMBER = 10;
 
-  const saveCurrentResultDatas = datas => {
-    localStorage.setItem('prevYoutubeDatas', JSON.stringify(datas));
-  };
-
   return async () => {
     if (!state.searchedValue) return;
 
-    skeletonUtils.showSkeleton($searchModalVideoWrapper, SHOWED_RESULTS_NUMBER);
+    showSkeleton($searchModalVideoWrapper, SHOWED_RESULTS_NUMBER);
 
     const { data } = await getSearchedData(
       state.searchedValue,
@@ -109,20 +111,20 @@ const searchYoutube = (() => {
     const hasData = !!datas.length;
 
     if (!hasData)
-      renderingUtils.renderNoResult(
+      renderNoResult(
         $searchModalVideoWrapper,
-        templateUtils.getNoResultTemplate,
+        getNoResultTemplate,
         '검색 결과가 없어요ㅜㅜ 다시 검색해 주세요'
       );
     else {
       state.renderedYoutubes = [...state.renderedYoutubes, ...datas];
-      skeletonUtils.hideSkeleton($searchModalVideoWrapper);
-      renderingUtils.renderYoutubeCards(
+      hideSkeleton($searchModalVideoWrapper);
+      renderYoutubeCards(
         $searchModalVideoWrapper,
         datas,
-        templateUtils.getSearchedYoutubeCardTemplate
+        getSearchedYoutubeCardTemplate
       );
-      state.isSearchModalFirstPage && saveCurrentResultDatas(datas);
+      state.isSearchModalFirstPage && setData('prevYoutubeDatas', datas);
 
       state.isSearchModalFirstPage = false;
       nextPageToken = data.nextPageToken;
@@ -130,28 +132,37 @@ const searchYoutube = (() => {
   };
 })();
 
+const createObservedTarget = node => {
+  const $observedTarget = document.createElement('div');
+  $observedTarget.classList.add('observed-target');
+  node.appendChild($observedTarget);
+
+  return $observedTarget;
+};
+
 // handlers
 const onSearchBtnClick = () => {
   const value = document.querySelector('.modal form input');
+
   setSearchModal(value);
   searchYoutube();
   saveSeachedValue(value);
-  renderingUtils.renderLatestSearchedYoutubeChip(
-    state.savedLatestSearchedValues
-  );
+  renderLatestSearchedYoutubeChip(state.savedLatestSearchedValues);
+
   state.isAfterSearching = true;
 };
 
 const onSearchInputKeypress = e => {
   if (e.key !== 'Enter') return;
+
   const { value } = e.target;
+
   e.preventDefault();
   setSearchModal(value);
   searchYoutube();
   saveSeachedValue(value);
-  renderingUtils.renderLatestSearchedYoutubeChip(
-    state.savedLatestSearchedValues
-  );
+  renderLatestSearchedYoutubeChip(state.savedLatestSearchedValues);
+
   state.isAfterSearching = true;
 };
 
@@ -163,23 +174,23 @@ const onSaveButtonClick = e => {
 
   if (e.target.tagName !== 'BUTTON') return;
   if (!state.savedYoutubeIds.length)
-    initializingUtils.initializeElementInner($lectureRoomVideoWrapper);
+    initializeElementInner($lectureRoomVideoWrapper);
 
   const newSavedYoutubeData = saveYoutube(targetNode);
 
   hideSaveButton(targetNode);
-  renderingUtils.renderSavedYoutubeNumber();
-  state.currentLectureRoomPage === 'notWatched' &&
-    renderingUtils.renderYoutubeCards(
+  renderSavedYoutubeNumber();
+  lecturePageInfo.currentPage === 'notWatched' &&
+    renderYoutubeCards(
       $lectureRoomVideoWrapper,
       [newSavedYoutubeData],
-      templateUtils.getSavedYoutubeCardTemplate
+      getSavedYoutubeCardTemplate
     );
 };
 
 const onInitializeSearchInput = e => {
   if (!state.isAfterSearching) return;
-  initializingUtils.initializeValue(e.target);
+  initializeValue(e.target);
   state.isAfterSearching = false;
 };
 
@@ -189,7 +200,7 @@ $searchInput.addEventListener('click', onInitializeSearchInput);
 $searchInput.addEventListener('keydown', onInitializeSearchInput);
 $searchModalVideoWrapper.addEventListener('click', onSaveButtonClick);
 const searchModalIo = new IntersectionObserver(([{ isIntersecting }]) =>
-  renderingUtils.renderMoreYoutubeCards(
+  renderMoreYoutubeCards(
     isIntersecting,
     state.isSearchModalFirstPage,
     searchYoutube

@@ -1,10 +1,11 @@
 import {
   renderSavedYoutubeNumber,
-  renderYoutubeCards
+  renderYoutubeCards,
+  renderLatestSearchedYoutubeChip
 } from 'utils/renderingUtils';
-import { renderLatestSearchedYoutubeChip } from '../utils/renderingUtils';
-import { getSearchedYoutubeCardTemplate } from '../utils/templateUtils';
-import { state } from './state';
+import { state } from 'utils/state';
+import { getData } from 'utils/localStorageUtils';
+import { getSearchedYoutubeCardTemplate } from 'utils/templateUtils';
 
 const $videoWrapper = document.querySelector('.modal .video-wrapper');
 const $searchButton = document.querySelector('#search-button');
@@ -20,7 +21,7 @@ const initializeSearchModal = () => {
 
 // handlers
 const onModalShow = () => {
-  const datas = JSON.parse(localStorage.getItem('prevYoutubeDatas'));
+  const datas = getData('prevYoutubeDatas');
   $modal.classList.add('open');
 
   renderSavedYoutubeNumber();

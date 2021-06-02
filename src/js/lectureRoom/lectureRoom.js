@@ -1,29 +1,36 @@
-import { renderingUtils, templateUtils, initializingUtils } from 'utils';
-import { state, lectureRoomPageInfo } from 'searchModal/state';
+import {
+  getSavedYoutubeCardTemplate,
+  getNoSavedYoutubeTemplate
+} from 'utils/templateUtils';
+import { renderYoutubeCards, renderNoResult } from 'utils/renderingUtils';
+import { initializeElementInner } from 'utils/initializingUtils';
+import { filterId, filterDataById } from 'utils/filteringUtils';
+import { state, lecturePageInfo } from 'utils/state';
+import { setData } from 'utils/localStorageUtils';
 
 const $lectureRoomVideoWrapper = document.querySelector('main .video-wrapper');
 const $nav = document.querySelector('nav');
 
 const renderLectureRoom = () => {
-  const hasNotWatchedYoutube = !!lectureRoomPageInfo.notWatched.videos?.length;
+  const hasNotWatchedYoutube = !!lecturePageInfo.notWatched.videos?.length;
+
   hasNotWatchedYoutube
-    ? renderingUtils.renderYoutubeCards(
+    ? renderYoutubeCards(
         $lectureRoomVideoWrapper,
-        lectureRoomPageInfo.notWatched.videos,
-        templateUtils.getSavedYoutubeCardTemplate
+        lecturePageInfo.notWatched.videos,
+        getSavedYoutubeCardTemplate
       )
-    : renderingUtils.renderNoResult(
+    : renderNoResult(
         $lectureRoomVideoWrapper,
-        templateUtils.getNoSavedYoutubeTemplate,
-        lectureRoomPageInfo.notWatched.noResultMessage
+        getNoSavedYoutubeTemplate,
+        lecturePageInfo.notWatched.noResultMessage
       );
 };
 
-const onClickYoutubeCardButtons = e => {
-  const targetNode = e.target;
+const checkRightTarget = (targetNode, classname) =>
+  [...targetNode.classList].includes(classname);
 
-  if (![...targetNode.classList].includes('check-btn')) return;
-
+const changeStateOfIsWatched = targetNode => {
   const targetId = targetNode.closest('article').id;
   const savedYoutubesTargetIndex = state.savedYoutubeIds.indexOf(targetId);
   const targetData = state.savedYoutubes[savedYoutubesTargetIndex];
@@ -34,40 +41,83 @@ const onClickYoutubeCardButtons = e => {
   };
   let targetIndex;
 
-  state.savedYoutubes.splice(savedYoutubesTargetIndex, 1, updatedYoutubeData);
-  localStorage.setItem('savedYoutubes', JSON.stringify(state.savedYoutubes));
-
-  if (targetIsWatched) {
-    lectureRoomPageInfo.watched.videos.forEach(({ id: { videoId } }, index) => {
+  const initializeTargetIndex = datas => {
+    datas.forEach(({ id: { videoId } }, index) => {
       if (videoId !== targetId) return;
       targetIndex = index;
     });
+  };
+  const updateData = (willDelete, willAdd) => {
+    willDelete.splice(targetIndex, 1);
+    willAdd.push(updatedYoutubeData);
+  };
 
-    lectureRoomPageInfo.watched.videos.splice(targetIndex, 1);
-    lectureRoomPageInfo.notWatched.videos.push(updatedYoutubeData);
+  state.savedYoutubes.splice(savedYoutubesTargetIndex, 1, updatedYoutubeData);
+  setData('savedYoutubes', state.savedYoutubes);
+
+  if (targetIsWatched) {
+    initializeTargetIndex(lecturePageInfo.watched.videos);
+    updateData(
+      lecturePageInfo.watched.videos,
+      lecturePageInfo.notWatched.videos
+    );
 
     targetNode.classList.remove('checked');
   } else {
-    lectureRoomPageInfo.notWatched.videos.forEach(
-      ({ id: { videoId } }, index) => {
-        if (videoId !== targetId) return;
-        targetIndex = index;
-      }
+    initializeTargetIndex(lecturePageInfo.notWatched.videos);
+    updateData(
+      lecturePageInfo.notWatched.videos,
+      lecturePageInfo.watched.videos
     );
-
-    lectureRoomPageInfo.notWatched.videos.splice(targetIndex, 1);
-    lectureRoomPageInfo.watched.videos.push(updatedYoutubeData);
 
     targetNode.classList.add('checked');
   }
+};
 
-  initializingUtils.initializeElementInner($lectureRoomVideoWrapper);
-  renderingUtils.renderYoutubeCards(
+const removeSavedYoutube = targetNode => {
+  const targetId = targetNode.closest('article').id;
+  const updatedYoutubeIds = filterId(state.savedYoutubeIds, targetId);
+  const updatedYoutubeData = filterDataById(state.savedYoutubes, targetId);
+
+  state.savedYoutubeIds = updatedYoutubeIds;
+  state.savedYoutubes = updatedYoutubeData;
+
+  lecturePageInfo.notWatched.videos = filterDataById(
+    lecturePageInfo.notWatched.videos,
+    targetId
+  );
+  lecturePageInfo.watched.videos = filterDataById(
+    lecturePageInfo.watched.videos,
+    targetId
+  );
+
+  setData('savedYoutubeIds', updatedYoutubeIds);
+  setData('savedYoutubes', updatedYoutubeData);
+};
+
+const clickSavedYoutubeButtons = (targetClassname, callback) => e => {
+  const targetNode = e.target;
+  if (!checkRightTarget(targetNode, targetClassname)) return;
+
+  callback(targetNode);
+
+  initializeElementInner($lectureRoomVideoWrapper);
+  renderYoutubeCards(
     $lectureRoomVideoWrapper,
-    lectureRoomPageInfo[state.currentLectureRoomPage].videos,
-    templateUtils.getSavedYoutubeCardTemplate
+    lecturePageInfo[lecturePageInfo.currentPage].videos,
+    getSavedYoutubeCardTemplate
   );
 };
+
+const onRemoveYoutube = clickSavedYoutubeButtons(
+  'delete-btn',
+  removeSavedYoutube
+);
+
+const onChangeStateOfIsWatched = clickSavedYoutubeButtons(
+  'check-btn',
+  changeStateOfIsWatched
+);
 
 const onClickNav = e => {
   const targetClassname = e.target.classList;
@@ -76,9 +126,9 @@ const onClickNav = e => {
   const type = [...targetClassname]
     .find(classname => classname.match(/-btn$/))
     .split('-')[0];
-  const lectureRoomPage = lectureRoomPageInfo[type];
+  const lectureRoomPage = lecturePageInfo[type];
 
-  state.currentLectureRoomPage = type;
+  lecturePageInfo.currentPage = type;
 
   [...$nav.querySelectorAll('.filterBtn')].forEach(button => {
     button.classList.remove('bg-cyan-100');
@@ -86,21 +136,22 @@ const onClickNav = e => {
   targetClassname.add('bg-cyan-100');
 
   if (lectureRoomPage.videos.length) {
-    initializingUtils.initializeElementInner($lectureRoomVideoWrapper);
-    renderingUtils.renderYoutubeCards(
+    initializeElementInner($lectureRoomVideoWrapper);
+    renderYoutubeCards(
       $lectureRoomVideoWrapper,
       lectureRoomPage.videos,
-      templateUtils.getSavedYoutubeCardTemplate
+      getSavedYoutubeCardTemplate
     );
   } else {
-    renderingUtils.renderNoResult(
+    renderNoResult(
       $lectureRoomVideoWrapper,
-      templateUtils.getNoSavedYoutubeTemplate,
+      getNoSavedYoutubeTemplate,
       lectureRoomPage.noResultMessage
     );
   }
 };
 
 document.addEventListener('DOMContentLoaded', renderLectureRoom);
-$lectureRoomVideoWrapper.addEventListener('click', onClickYoutubeCardButtons);
+$lectureRoomVideoWrapper.addEventListener('click', onChangeStateOfIsWatched);
+$lectureRoomVideoWrapper.addEventListener('click', onRemoveYoutube);
 $nav.addEventListener('click', onClickNav);

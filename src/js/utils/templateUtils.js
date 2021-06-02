@@ -99,12 +99,12 @@ export const getYoutubeCardSkeleton = () => `<div class="image"></div>
 <p class="line"></p>
 <div class="btn"></div>`;
 
+export const getChipTemplate = content => `<a class="chip">${content}</a>`;
+
 export const getNoResultTemplate = text => `<div class="no-result">
 <img class="image" src="${notFoundImageURL}" alt="">
 <p class="text">${text}</p>
 </div>`;
-
-export const getChipTemplate = content => `<a class="chip">${content}</a>`;
 
 export const getNoSavedYoutubeTemplate = text =>
   `<p class="no-result">${text}</p>`;
