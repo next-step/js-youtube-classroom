@@ -1,11 +1,12 @@
 import getSearchedData from 'api/getSearchedData';
 import {
+  initializingUtils,
   renderingUtils,
   templateUtils,
   skeletonUtils,
   createObservedTarget
 } from 'utils';
-import state from './state';
+import { state, lectureRoomPageInfo } from './state';
 
 const $searchBtn = document.querySelector('.modal form .btn');
 const $searchInput = document.querySelector('.modal .pl-2');
@@ -16,21 +17,32 @@ const $modalInner = document.querySelector('.modal-inner');
 
 // functions
 const hideSaveButton = targetNode => {
-  targetNode.parentNode.innerHTML = '';
+  initializingUtils.initializeElementInner(targetNode.parentNode);
 };
 
 const saveYoutube = targetNode => {
   const isSavedYoutubesFull = state.savedYoutubes.length === 100;
 
-  if (targetNode.tagName !== 'BUTTON' || isSavedYoutubesFull) return;
+  if (targetNode.tagName !== 'BUTTON') return;
+  if (isSavedYoutubesFull) {
+    alert(
+      '저장 공간이 꽉 찼어요ㅜㅜ 기존의 동영상을 지우고 다시 저장해주세요😃'
+    );
+    return;
+  }
 
   const youtubeId = targetNode.closest('article').id;
-  const youtubeData = state.renderedYoutubes.find(
-    ({ id: { videoId } }) => videoId === youtubeId
-  );
+  const youtubeData = {
+    ...state.renderedYoutubes.find(
+      ({ id: { videoId } }) => videoId === youtubeId
+    ),
+    isWatched: false,
+    isLiked: false
+  };
 
   state.savedYoutubes.push(youtubeData);
   state.savedYoutubeIds.push(youtubeId);
+  lectureRoomPageInfo.notWatched.videos.push(youtubeData);
 
   localStorage.setItem('savedYoutubes', JSON.stringify(state.savedYoutubes));
   localStorage.setItem(
@@ -69,7 +81,7 @@ const setSearchModal = newValue => {
   state.searchedValue = newValue;
 
   if (newValue) {
-    $searchModalVideoWrapper.innerHTML = '';
+    initializingUtils.initializeElementInner($searchModalVideoWrapper);
     state.isSearchModalFirstPage = true;
   }
 };
@@ -103,6 +115,7 @@ const searchYoutube = (() => {
         '검색 결과가 없어요ㅜㅜ 다시 검색해 주세요'
       );
     else {
+      state.renderedYoutubes = [...state.renderedYoutubes, ...datas];
       skeletonUtils.hideSkeleton($searchModalVideoWrapper);
       renderingUtils.renderYoutubeCards(
         $searchModalVideoWrapper,
@@ -113,7 +126,6 @@ const searchYoutube = (() => {
 
       state.isSearchModalFirstPage = false;
       nextPageToken = data.nextPageToken;
-      state.renderedYoutubes = [...datas];
     }
   };
 })();
@@ -149,24 +161,28 @@ const onSaveButtonClick = e => {
     'main .video-wrapper'
   );
 
-  if (!state.savedYoutubeIds.length) $lectureRoomVideoWrapper.innerHTML = '';
+  if (e.target.tagName !== 'BUTTON') return;
+  if (!state.savedYoutubeIds.length)
+    initializingUtils.initializeElementInner($lectureRoomVideoWrapper);
+
   const newSavedYoutubeData = saveYoutube(targetNode);
+
   hideSaveButton(targetNode);
   renderingUtils.renderSavedYoutubeNumber();
-  renderingUtils.renderYoutubeCards(
-    $lectureRoomVideoWrapper,
-    [newSavedYoutubeData],
-    templateUtils.getSavedYoutubeCardTemplate
-  );
+  state.currentLectureRoomPage === 'notWatched' &&
+    renderingUtils.renderYoutubeCards(
+      $lectureRoomVideoWrapper,
+      [newSavedYoutubeData],
+      templateUtils.getSavedYoutubeCardTemplate
+    );
 };
 
 const onInitializeSearchInput = e => {
   if (!state.isAfterSearching) return;
-  e.target.value = '';
+  initializingUtils.initializeValue(e.target);
   state.isAfterSearching = false;
 };
 
-// watch interection
 $searchBtn.addEventListener('click', onSearchBtnClick);
 $searchInput.addEventListener('keypress', onSearchInputKeypress);
 $searchInput.addEventListener('click', onInitializeSearchInput);

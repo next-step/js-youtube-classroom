@@ -1,4 +1,4 @@
-import { getNoResultTemplate, getChipTemplate } from 'utils/templateUtils';
+import { getChipTemplate } from 'utils/templateUtils';
 
 export const renderMoreYoutubeCards = (
   isIntersecting,
@@ -35,7 +35,7 @@ export const renderSavedYoutubeNumber = () => {
   const savedYoutubeNumber = localSavedYoutubeIds
     ? JSON.parse(localSavedYoutubeIds).length
     : 0;
-  $savedVideoNumber.innerHTML = `저장된 영상 갯수: ${savedYoutubeNumber}개`;
+  $savedVideoNumber.innerHTML = `저장된 영상 갯수: ${savedYoutubeNumber}/100개`;
 };
 
 export const renderLatestSearchedYoutubeChip = () => {
@@ -51,4 +51,8 @@ export const renderLatestSearchedYoutubeChip = () => {
       ? values.map(content => getChipTemplate(content)).join('')
       : ''
   }`;
+};
+
+export const initializeElementInner = node => {
+  node.innerHTML = '';
 };

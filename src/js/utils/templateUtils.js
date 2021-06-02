@@ -37,13 +37,22 @@ export const getSearchedYoutubeCardTemplate = (
         <p>${date}</p>
       </div>
       <div class="d-flex justify-end btn-container">
-        ${isSavedYoutube ? '' : '<button class="btn">⬇️ 저장</button>'}
+        ${
+          isSavedYoutube
+            ? '<button class="btn">↪️ 저장 취소</button>'
+            : '<button class="btn">⬇️ 저장</button>'
+        }
       </div>
     </div>
   </div>`;
 };
 
-export const getSavedYoutubeCardTemplate = ({ id, snippet }) => {
+export const getSavedYoutubeCardTemplate = ({
+  id,
+  snippet,
+  isWatched,
+  isLiked
+}) => {
   const { videoId } = id;
   const { title, channelTitle, channelId, publishedAt } = snippet;
   const date = getDateInKorean(publishedAt);
@@ -72,10 +81,12 @@ export const getSavedYoutubeCardTemplate = ({ id, snippet }) => {
         <p>${date}</p>
       </div>
       <div>
-        <span class="opacity-hover">✅</span>
-        <span class="opacity-hover">👍</span>
+        <span class="opacity-hover check-btn ${
+          isWatched ? 'checked' : ''
+        }">✅</span>
+        <span class="opacity-hover like-btn ${isLiked ? 'liked' : ''}">👍</span>
         <span class="opacity-hover">💬</span>
-        <span class="opacity-hover">🗑️</span>
+        <span class="opacity-hover delete-btn">🗑️</span>
       </div>
     </div>
   </div>`;
@@ -95,4 +106,5 @@ export const getNoResultTemplate = text => `<div class="no-result">
 
 export const getChipTemplate = content => `<a class="chip">${content}</a>`;
 
-export const getNoSavedYoutubeTemplate = text => `<p>${text}</p>`;
+export const getNoSavedYoutubeTemplate = text =>
+  `<p class="no-result">${text}</p>`;
