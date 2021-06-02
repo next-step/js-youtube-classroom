@@ -1,8 +1,4 @@
 export const iterate = (cb, array, obj) => {
-  const { youtubeItemType, node } = obj;
-
-  if (youtubeItemType === 'lecture') node.innerHTML = null;
-
   array.forEach(element => {
     cb(element, obj);
   });
