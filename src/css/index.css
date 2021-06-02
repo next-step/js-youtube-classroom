@@ -1,5 +1,5 @@
-@import "./shared/index.css";
-@import "./ui/index.css";
+@import './shared/index.css';
+@import './ui/index.css';
 
 html,
 body {
@@ -21,6 +21,7 @@ a {
   opacity: 0.3;
 }
 
-.opacity-hover:hover {
+.opacity-hover:hover,
+.checked {
   opacity: 1;
 }
