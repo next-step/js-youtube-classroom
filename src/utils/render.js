@@ -5,6 +5,7 @@ import {
   getChipTemplate,
   getNoResultTemplate,
 } from './htmlTemplate';
+import { iterate } from './iterate';
 
 const $chips = document.querySelector('.chips');
 const $snackBar = document.getElementById('snackBar');
@@ -59,4 +60,46 @@ export const renderSnackBar = message => {
   setTimeout(() => {
     $snackBar.classList.toggle('show');
   }, 3000);
+};
+
+export const renderNotWatchedItems = (items, node) => {
+  const notWatchedItems = items.filter(item => {
+    const {
+      state: { isWatched },
+    } = item;
+
+    return !isWatched;
+  });
+  iterate(renderYoutubeItems, notWatchedItems, {
+    node,
+    youtubeItemType: 'lecture',
+  });
+};
+
+export const renderWatchedItems = (items, node) => {
+  const watchedItems = items.filter(item => {
+    const {
+      state: { isWatched },
+    } = item;
+
+    return isWatched;
+  });
+  iterate(renderYoutubeItems, watchedItems, {
+    node,
+    youtubeItemType: 'lecture',
+  });
+};
+
+export const renderLikedItems = (items, node) => {
+  const likedItems = items.filter(item => {
+    const {
+      state: { isLiked },
+    } = item;
+
+    return isLiked;
+  });
+  iterate(renderYoutubeItems, likedItems, {
+    node,
+    youtubeItemType: 'lecture',
+  });
 };
