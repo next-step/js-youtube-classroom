@@ -10,14 +10,12 @@ import { ClassRoomProps, ClassRoomHandlers } from "@/types/index";
 
 class ClassRoom extends Component<unknown, ClassRoomProps, ClassRoomHandlers> {
   constructor(
-    $root: HTMLElement,
+    readonly $root: HTMLElement,
     props: ClassRoomProps,
-    handlers: ClassRoomHandlers
+    readonly handlers: ClassRoomHandlers
   ) {
     super();
-    this.$root = $root;
     this.props = props;
-    this.handlers = handlers;
   }
 
   bindEvents(): void {

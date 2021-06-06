@@ -3,10 +3,11 @@ import { $ } from "@/utils/dom";
 import { SearchBarHandlers } from "@/types/index";
 
 class SearchBar extends Component<unknown, unknown, SearchBarHandlers> {
-  constructor($root: HTMLElement, handlers: SearchBarHandlers) {
+  constructor(
+    readonly $root: HTMLElement,
+    readonly handlers: SearchBarHandlers
+  ) {
     super();
-    this.$root = $root;
-    this.handlers = handlers;
   }
 
   bindEvents(): void {

@@ -5,14 +5,12 @@ import template from "@/templates/Header";
 
 class Header extends Component<unknown, HeaderProps, HeaderHanlders> {
   constructor(
-    $root: HTMLElement,
+    readonly $root: HTMLElement,
     props: HeaderProps,
-    handlers: HeaderHanlders
+    readonly handlers: HeaderHanlders
   ) {
     super();
-    this.$root = $root;
     this.props = props;
-    this.handlers = handlers;
   }
 
   bindEvents(): void {

@@ -38,14 +38,12 @@ class SearchModal extends Component<
   $storedVideoCounterComponent: Component | null = null;
 
   constructor(
-    $root: HTMLElement,
+    readonly $root: HTMLElement,
     props: SearchModalProps,
-    handlers: SearchModalHandlers
+    readonly handlers: SearchModalHandlers
   ) {
     super();
-    this.$root = $root;
     this.props = props;
-    this.handlers = handlers;
     this.state = {
       datas: [],
       searchKeyword: "",
@@ -157,8 +155,7 @@ class SearchModal extends Component<
     let filteredHistory = this.state.searchHistory.filter(
       (history) => history !== keyword
     );
-    if (filteredHistory.length === 3)
-      filteredHistory = filteredHistory.slice(0, 2);
+    filteredHistory = filteredHistory.slice(0, 2);
     const updatedHistory = [...new Set([keyword, ...filteredHistory])];
     const nextState = {
       ...this.state,

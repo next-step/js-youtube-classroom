@@ -15,13 +15,12 @@ import {
 } from "@/constants/index";
 
 class App extends Component<AppState> {
-  $headerComponent: Component | null = null;
-  $searchModalComponent: Component | null = null;
-  $classRoomComponent: Component | null = null;
+  $headerComponent: Component = {} as Component;
+  $searchModalComponent: Component = {} as Component;
+  $classRoomComponent: Component = {} as Component;
 
-  constructor($root: HTMLElement) {
+  constructor(readonly $root: HTMLElement) {
     super();
-    this.$root = $root;
     this.state = {
       filter: FILTER_ID.later,
       videoList: videoDB.get(),
@@ -89,11 +88,11 @@ class App extends Component<AppState> {
   }
 
   handleChangeFilter(id: Navigations): void {
-    const nextState =
+    this.setState(
       id === SEARCH_BUTTON_ID
         ? { ...this.state, isModalOpen: true }
-        : ({ ...this.state, filter: id } as AppState);
-    this.setState(nextState);
+        : { ...this.state, filter: id }
+    );
   }
 
   handleCloseModal(): void {

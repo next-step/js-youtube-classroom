@@ -2,9 +2,8 @@ import Component from "@/libs/component";
 import { StoredVideoCounterProps } from "@/types/index";
 
 class StoredVideoCounter extends Component<unknown, StoredVideoCounterProps> {
-  constructor($root: HTMLElement, props: StoredVideoCounterProps) {
+  constructor(readonly $root: HTMLElement, props: StoredVideoCounterProps) {
     super();
-    this.$root = $root;
     this.props = props;
   }
 

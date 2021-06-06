@@ -10,14 +10,12 @@ class SearchHistory extends Component<
   SearchHistoryHandlers
 > {
   constructor(
-    $root: HTMLElement,
+    readonly $root: HTMLElement,
     props: SearchHistoryProps,
-    handlers: SearchHistoryHandlers
+    readonly handlers: SearchHistoryHandlers
   ) {
     super();
-    this.$root = $root;
     this.props = props;
-    this.handlers = handlers;
   }
 
   bindEvents(): void {

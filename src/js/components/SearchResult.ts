@@ -21,14 +21,12 @@ class SearchResult extends Component<
   SearchResultHandlers
 > {
   constructor(
-    $root: HTMLElement,
+    readonly $root: HTMLElement,
     props: SearchResultProps,
-    handlers: SearchResultHandlers
+    readonly handlers: SearchResultHandlers
   ) {
     super();
-    this.$root = $root;
     this.props = props;
-    this.handlers = handlers;
   }
 
   bindEvents(): void {
