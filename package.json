@@ -1,0 +1,29 @@
+{
+  "name": "js-youtube-classroom",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HaJunRyu/js-youtube-classroom.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HaJunRyu/js-youtube-classroom/issues"
+  },
+  "homepage": "https://github.com/HaJunRyu/js-youtube-classroom#readme",
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/plugin-transform-runtime": "^7.14.5",
+    "parcel-bundler": "^1.12.5",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "modules": "^0.4.0"
+  }
+}
