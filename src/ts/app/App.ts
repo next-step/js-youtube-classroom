@@ -3,7 +3,7 @@ import { Home } from '../pages';
 import { Component } from '../types';
 
 const App: Component = () => {
-  const $app = createNode(`<div></div>`, [Home]);
+  const $app = createNode(`<div id="app"></div>`, [Home]);
 
   return $app;
 };
