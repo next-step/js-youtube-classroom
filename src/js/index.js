@@ -1,14 +1,10 @@
-const $searchButton = document.querySelector("#search-button");
-const $modalClose = document.querySelector(".modal-close");
-const $modal = document.querySelector(".modal");
+import {initEvent, initState} from './init.js';
 
-const onModalShow = () => {
-  $modal.classList.add("open");
+export const App = () => {
+    initState();
+    initEvent();
 };
 
-const onModalClose = () => {
-  $modal.classList.remove("open");
+window.onload = () => {
+    App();
 };
-
-$searchButton.addEventListener("click", onModalShow);
-$modalClose.addEventListener("click", onModalClose);
