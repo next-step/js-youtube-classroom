@@ -3,6 +3,7 @@ import {searchResult} from '../API.js';
 import {createSearchedVideoList} from '../templates/searchedVideoList.js';
 import {videoSkeletonTemplate} from '../templates/videoSkeleton.js';
 import {FETCH_VIDEO_COUNT} from '../constants/classroom.js';
+import {searchNotFoundTemplate} from '../templates/searchNotFound.js';
 
 export const onSearchVideo = async (e) => {
     e.preventDefault();
@@ -14,5 +15,7 @@ export const onSearchVideo = async (e) => {
 
     const {nextPageToken, items} = await searchResult(keyword);
     $videoSearchResult.innerHTML = '';
+
+    if (items.length === 0) $videoSearchResult.innerHTML = searchNotFoundTemplate();
     createSearchedVideoList(items);
 };
