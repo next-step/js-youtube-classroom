@@ -1,4 +1,5 @@
 import { on, qs } from "./helpers.js";
+
 import ModalView from "./View/ModalView.js";
 import Controller from "./Controller/Controller.js";
 import ModalSearchResult from "./View/ModalSearchResult.js";
@@ -13,7 +14,6 @@ const onModalShow = () => {
 const onModalClose = () => {
   $modal.classList.remove("open");
 };
-
 $searchButton.addEventListener("click", onModalShow);
 $modalClose.addEventListener("click", onModalClose);
 

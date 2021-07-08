@@ -1,5 +1,5 @@
 import { qs, on } from "./helpers.js";
-
+import {data} from "../../config.js"
 
 const $search = qs(".w-100.mr-2.pl-2")
 on($search, "keyup", (event)=> ytSearch(event))
@@ -16,7 +16,7 @@ async function ytSearch(event){
 }
 
 function fetchData(str){
-  return fetch(`https://www.googleapis.com/youtube/v3/search?key=AIzaSyC-AakFMMghWMpRUdksbBKGPcnb5yCApBw&q=${str}&maxResults=1&order=date`)
+  return fetch(`https://www.googleapis.com/youtube/v3/search?key=${data.KEY1}&q=${str}&maxResults=1&order=date`)
     .then(function(response) {
       return response.json();
     })

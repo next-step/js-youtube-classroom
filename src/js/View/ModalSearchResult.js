@@ -30,7 +30,7 @@ class Template{
           ></iframe>
         </div>
         <div class="content-container pt-2 px-1">
-          <h3>${data.snippet.title[0]}</h3>
+          <h3>${data.snippet.title}</h3>
           <div>
             <a
               href="https://www.youtube.com/channel/${data.snippet.channelId}"
@@ -40,7 +40,7 @@ class Template{
             ${data.snippet.channelTitle}
             </a>
             <div class="meta">
-              <p>${data.snippet.publishTime.slice(0,4)}년 ${data.snippet.publishTime.slice(5,2)}월 ${data.snippet.publishTime.slice(8,2)}</p>
+              <p>${data.snippet.publishTime.slice(0,4)}년 ${data.snippet.publishTime.slice(5,7)}월 ${data.snippet.publishTime.slice(8,10)}일</p>
             </div>
             <div class="d-flex justify-end">
               <button class="btn">⬇️ 저장</button>
