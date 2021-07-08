@@ -11,7 +11,7 @@ async function ytSearch(event){
   if(event.keyCode === 13){
     const str = encodeURI(event.target.value)
     const a = await fetchData(str)
-    console.log(a.items[0].id.videoId)
+    // console.log(a.items[0].id.videoId)
   }
 }
 

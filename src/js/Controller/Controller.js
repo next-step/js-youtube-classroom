@@ -13,7 +13,6 @@ export default class Controller{
   async search(value=""){
     const {items: videos} = await this.fetchData(value)
     this.modalSearchResult.show(videos)
-
   }
   async fetchData(value=""){
     const str = encodeURI(value)

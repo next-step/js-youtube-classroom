@@ -3,7 +3,7 @@
   grid-template-columns: repeat(auto-fill, 236px);
   grid-row-gap: 0px;
   grid-column-gap: 4px;
-  justify-content: center;
+  /* justify-content: center; */
 }
 
 .clip {

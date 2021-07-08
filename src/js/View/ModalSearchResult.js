@@ -9,13 +9,26 @@ export default class ModalSearchResult extends View {
   show(data = []) {
     // console.log(data, "ModalSearchResult")
     if(data.length>0){
+      this.element.classList.add("video-wrapper")
       this.element.innerHTML = this.template.getList(data) 
+    } else {
+      this.element.classList.remove("video-wrapper")
+      this.element.innerHTML = this.template.getEmptyList()
     }
   }
 }
 
 class Template{
+  getEmptyList(){
+    return `
+      <div style="display:flex; align-items:center; flex-direction: column;">
+        <img src="/src/images/status/not_found.png" style="width:30%"/>
+        <h3 class="font-bold">검색 결과가 존재하지 않습니다.</h2>
+      </div>
+    `
+  }
     getList(datas){
+      this.element.style.display=""
       console.log(datas, "ModalSearchResult")
       return datas.map(data=> `
         <article class="clip">
