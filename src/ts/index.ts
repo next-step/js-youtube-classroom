@@ -1,14 +1,20 @@
-const $searchButton = document.querySelector("#search-button");
-const $modalClose = document.querySelector(".modal-close");
-const $modal = document.querySelector(".modal");
+import '../css/index.css';
+import App from './app/App';
+const $root = document.querySelector('#root');
+
+$root.appendChild(App());
+
+const $searchButton = document.querySelector('#search-button');
+const $modalClose = document.querySelector('.modal-close');
+const $modal = document.querySelector('.modal');
 
 const onModalShow = () => {
-  $modal.classList.add("open");
+  $modal.classList.add('open');
 };
 
 const onModalClose = () => {
-  $modal.classList.remove("open");
+  $modal.classList.remove('open');
 };
 
-$searchButton.addEventListener("click", onModalShow);
-$modalClose.addEventListener("click", onModalClose);
+$searchButton.addEventListener('click', onModalShow);
+$modalClose.addEventListener('click', onModalClose);
