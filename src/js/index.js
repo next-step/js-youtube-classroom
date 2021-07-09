@@ -3,6 +3,7 @@ import { on, qs } from "./helpers.js";
 import ModalView from "./View/ModalView.js";
 import Controller from "./Controller/Controller.js";
 import ModalSearchResult from "./View/ModalSearchResult.js";
+import ModalScrollView from "./View/ModalScrollView.js";
 const $searchButton = qs("#search-button");
 const $modalClose = qs(".modal-close");
 const $modal = qs(".modal");
@@ -27,7 +28,8 @@ function index(){
   console.log(tag, "main")
   const views = {
     modalView: new ModalView(),
-    modalSearchResult: new ModalSearchResult()
+    modalSearchResult: new ModalSearchResult(),
+    modalScrollView: new ModalScrollView(),
   }
   new Controller(views)
 }

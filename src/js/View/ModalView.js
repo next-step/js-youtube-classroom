@@ -13,8 +13,8 @@ export default class ModalView extends View{
     this.bindEvent()
   }
   bindEvent() {
-    on(this.element,"submit", (event) =>this.handleSubmit(event))
-    on(this.searchBtnElement, "click", (event)=>this.handleSubmit(event))
+    on(this.element,"submit", (event) => this.handleSubmit(event))
+    // on(this.searchBtnElement, "click", (event)=>this.handleSubmit(event))
   }
   handleSubmit(event){
     event.preventDefault()

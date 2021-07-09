@@ -5,15 +5,16 @@ export default class ModalSearchResult extends View {
   constructor() {
     super(qs(".modal .video-wrapper"))
     this.template = new Template()
+    // console.log(this.element.innerHTML,"innerHTML")
   }
   show(data = []) {
     // console.log(data, "ModalSearchResult")
     if(data.length>0){
       this.element.classList.add("video-wrapper")
-      this.element.innerHTML = this.template.getList(data) 
+      this.element.innerHTML = this.element.innerHTML + this.template.getList(data) 
     } else {
       this.element.classList.remove("video-wrapper")
-      this.element.innerHTML = this.template.getEmptyList()
+      this.element.innerHTML =this.template.getEmptyList()
     }
   }
 }
@@ -28,8 +29,7 @@ class Template{
     `
   }
     getList(datas){
-      this.element.style.display=""
-      console.log(datas, "ModalSearchResult")
+      // console.log(this.element.innerHTML, "ModalSearchResult")
       return datas.map(data=> `
         <article class="clip">
         <div class="preview-container">
@@ -61,6 +61,6 @@ class Template{
           </div>
         </div>
       </article>
-    `)
+    `).join('')
   }
 }

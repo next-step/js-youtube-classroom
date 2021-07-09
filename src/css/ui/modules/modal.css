@@ -15,6 +15,7 @@
 .modal.open {
   opacity: 1;
   visibility: visible;
+  overflow: scroll
 }
 
 .modal-inner {
