@@ -1,6 +1,6 @@
 const baseURL = 'https://www.googleapis.com/youtube/v3/search'
 const myKey = "AIzaSyAZN_SOZwx9TByggrDt0lEelljOSbe0FNg";
-const searchCnt = 10;
+const searchCnt = 17;
 
 
 export const getYoutubeResult = async (keyword, nextToken = '') => {

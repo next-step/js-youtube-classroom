@@ -22,3 +22,4 @@ export default class App {
 //     const t2 = await getYoutubeResult('커피', "CAoQAA")
 //     console.log(t2)
 // }, 2000)
+

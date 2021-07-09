@@ -13,22 +13,21 @@ export default class ModalResultController {
 
   render() {
     if (this.state.receivedData === undefined) {
-        this.$resultSection.innerHTML = "스켈레톤1";
+        //this.$resultSection.innerHTML = ""
       } else {
         console.log("how may : ", Object.keys(this.state.receivedData).length);
         const domElement = buildResultSection(this.state.receivedData)
         setTimeout(() => {
-          
           this.$resultSection.innerHTML = domElement;
           
         }, 3000);
-        this.$resultSection.innerHTML = "스켈레톤2";
+        //this.$resultSection.innerHTML = "스켈레톤2";
       }
   }
 
-  setState(receivedData) {
-    this.state.receivedData = receivedData.items
-    this.state.nextPageToken = receivedData.nextPageToken
+  setState({ items, nextPageToken }) {
+    this.state.receivedData = items
+    this.state.nextPageToken = nextPageToken
     this.render()
   }
 }
@@ -38,49 +37,64 @@ const buildResultSection = (receivedData) => {
     let resultDomElement = ``
 
     for(let item of items){
-        //console.log(item)
         let data = {
             channelId: item.snippet.channelId,
             channelTitle: item.snippet.channelTitle,
             videoId: item.id.videoId,
             videoTitle: item.snippet.title,
-            videoPublished: item.snippet.publishTime,
+            publishTime: item.snippet.publishTime,
         }
         console.log(data)
+        resultDomElement += buildVideoArticle(data)
     }
 
-    return (`<div>예스</div>`)
+    return (resultDomElement)
 };
 
-const buildVideoArticle = (videoData) => {
-  `<article class="clip">
+const buildVideoArticle = ({channelId, channelTitle, videoId, videoTitle, publishTime}) => {
+    return `<article class="clip relative" 
+        data-video-id=${videoId} 
+        data-title=${encodeURI(videoTitle)} 
+        data-chanel-id=${channelId} 
+        data-channel-title=${encodeURI(channelTitle)} 
+        data-publish-time=${publishTime}>
     <div class="preview-container">
       <iframe
+        class="js-preview"
         width="100%"
         height="118"
-        src="https://www.youtube.com/embed/Ngj3498Tm_0"
+        src="https://www.youtube.com/embed/${videoId}"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen
       ></iframe>
     </div>
     <div class="content-container pt-2 px-1">
-      <h3>아두이노 무드등</h3>
+      <h3>${videoTitle}</h3>
       <div>
         <a
-          href="https://www.youtube.com/channel/UC-mOekGSesms0agFntnQang"
-          target="_blank"
-          class="channel-name mt-1"
+        href="https://www.youtube.com/channel/${channelId}"
+        target="_blank"
+        class="channel-name mt-1"
         >
-          메이커준
+            ${channelTitle}
         </a>
         <div class="meta">
-          <p>2021년 3월 2일</p>
+            <p>${getPublishedTime(publishTime)}</p>
         </div>
-        <div class="d-flex justify-end">
-          <button class="btn">⬇️ 저장</button>
-        </div>
-      </div>
     </div>
+    </div>
+    <div class="button-list d-flex justify-end js-save-btn">
+    <button class="btn">⬇️ 저장</button>
+</div>
+   
+    
+   
   </article>`;
 };
+
+const getPublishedTime = (publishTime) => {
+    const cutPos = publishTime.match(/T/).index
+    const timeAry = publishTime.substring(0, cutPos).split("-")
+    return `${timeAry[0]}년 ${parseInt(timeAry[1])}월 ${parseInt(timeAry[2])}일`
+}
