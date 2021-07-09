@@ -8,6 +8,7 @@ let INITIAL_STATE: GlobalState = JSON.parse(window.localStorage.getItem(GLOBAL_S
   error: null,
   searchList: [],
   recentSearchList: [],
+  saveVideoList: [],
 };
 
 const createStore = (reducer: Reducer): Store => {
@@ -44,7 +45,7 @@ const createStore = (reducer: Reducer): Store => {
   return {
     subscribe,
     dispatch,
-    getState: callback => callback(state),
+    getState: () => state,
   };
 };
 

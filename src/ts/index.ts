@@ -2,7 +2,7 @@ import '../css/index.css';
 import App from './app/App';
 const $root = document.querySelector('#root');
 
-$root.appendChild(App());
+$root.appendChild(App({}));
 
 const $searchButton = document.querySelector('#search-button');
 const $modalClose = document.querySelector('.modal-close');

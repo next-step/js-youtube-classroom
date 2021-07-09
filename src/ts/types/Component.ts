@@ -1,5 +1,5 @@
-interface Component {
-  (props?: object): Node;
+interface Component<Props> {
+  (props: Props): Element;
 }
 
 export default Component;

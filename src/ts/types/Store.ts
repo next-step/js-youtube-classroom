@@ -4,13 +4,23 @@
   검색 로딩중임을 알 수 있는 상태
   검색결과 리스트 (비었을때를 보고 결과 없음 이미지를 보여줄 수도 있음) - 모달에 다시 접근했을때 보여줘야함
   최근 검색 키워드 - localstorage와 동기화
+  모달이 열리고 닫힘
 */
+
+interface Video {
+  src: string;
+  title: string;
+  channelName: string;
+  channelUrl: string;
+  registeDate: string;
+}
 
 export interface GlobalState {
   isSearchLoading: boolean;
   error: Error;
-  searchList: object[];
+  searchList: Video[];
   recentSearchList: [string?, string?, string?];
+  saveVideoList: Video[];
 }
 
 export interface Action {
@@ -22,7 +32,7 @@ export interface Action {
 export interface Store {
   subscribe(listener: Function): Function;
   dispatch(action: Action): void;
-  getState(callback: Function): GlobalState;
+  getState(): GlobalState;
 }
 
 export interface Reducer {

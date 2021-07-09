@@ -1,6 +1,9 @@
 import { createNode } from '../domHelper';
+import { Component } from '../types';
 
-const Modal = () => {
+interface Props {}
+
+const Modal: Component<Props> = () => {
   const $modal = createNode(`
     <div class="modal">
       <div class="modal-inner p-8">
