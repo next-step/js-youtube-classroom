@@ -21,7 +21,6 @@ function fetchData(str){
       return response.json();
     })
     .then(function(myJson) {
-      console.log("sibal")
       // console.log(JSON.stringify(myJson))
       return myJson
     });

@@ -6,7 +6,7 @@ export default class ModalScrollView extends ModalView {
   timer
   constructor(){
     super()
-    console.log(this.element, tag)
+    // console.log(this.element, tag)
     this.bindEvent()
   }
   bindEvent(){
@@ -25,9 +25,7 @@ export default class ModalScrollView extends ModalView {
       const {value} = this.inputElement
       // console.log(value,"inputElement")
       this.emit("@scroll", {value})
-      console.log("gimoring")
     }  
-
   }
 }
 

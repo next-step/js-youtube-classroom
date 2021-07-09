@@ -4,6 +4,8 @@ import ModalView from "./View/ModalView.js";
 import Controller from "./Controller/Controller.js";
 import ModalSearchResult from "./View/ModalSearchResult.js";
 import ModalScrollView from "./View/ModalScrollView.js";
+import ModalLatestKeywordList from "./View/ModalLatestKeywordList.js";
+
 const $searchButton = qs("#search-button");
 const $modalClose = qs(".modal-close");
 const $modal = qs(".modal");
@@ -30,6 +32,7 @@ function index(){
     modalView: new ModalView(),
     modalSearchResult: new ModalSearchResult(),
     modalScrollView: new ModalScrollView(),
+    modalLatestKeywordList: new ModalLatestKeywordList(),
   }
   new Controller(views)
 }

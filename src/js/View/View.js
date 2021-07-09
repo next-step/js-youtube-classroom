@@ -6,6 +6,7 @@ export default class View {
     this.element = element
     this.originalDisplay = this.element.style.display || ""
     return this
+    
   }
   show(){
     this.element.style.display = this.originalDisplay

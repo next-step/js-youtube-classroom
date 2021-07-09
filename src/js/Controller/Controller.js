@@ -1,15 +1,18 @@
 const tag = "[Controller]"
+const COOKIETYPE = "searchLog"
 export default class Controller{
 
-  constructor({modalView, modalSearchResult, modalScrollView}){
+  constructor({modalView, modalSearchResult, modalScrollView, modalLatestKeywordList}){
     console.log(tag, "controller")
 
     this.modalView = modalView
     this.modalSearchResult = modalSearchResult
     this.modalScrollView = modalScrollView
+    this.modalLatestKeywordList = modalLatestKeywordList
 
     this.nextPageToken = ""
     this.subscribeViewEvents()
+    this.render()
   }
   subscribeViewEvents(){
     this.modalView.on("@submit", event=> this.search(event.detail.value))
@@ -17,20 +20,48 @@ export default class Controller{
   }
   async search(value=""){
     const data = await this.fetchData(value)
-    console.log(data,"asdfqwer")
     this.nextPageToken = data.nextPageToken
     this.modalSearchResult.show(data.items)
+    this.saveLog(COOKIETYPE,value)
+    this.render()
   }
   fetchData(value=""){
     const str = encodeURI(value)
-    return fetch(`https://www.googleapis.com/youtube/v3/search?key=AIzaSyC-AakFMMghWMpRUdksbBKGPcnb5yCApBw&q=${str}&pageToken=${this.nextPageToken}&part=snippet&maxResults=10&order=date`)
+    return fetch(`https://www.googleapis.com/youtube/v3/search?key=AIzaSyC-AakFMMghWMpRUdksbBKGPcnb5yCApBw&q=${str}&pageToken=${this.nextPageToken}&part=snippet&maxResults=1&order=date`)
     .then(function(response) {
       return response.json();
     })
     .then(function(myJson) {
-      // console.log(JSON.stringify(myJson),'fetch controller');
       return myJson
     });
   }
-
+  saveLog(logtype, keyword){ 
+    const cookieValue = this.getCookie(logtype)
+    if(!cookieValue){
+      this.setCookie(logtype, [keyword])
+    } else {
+      console.log(cookieValue, cookieValue.length)
+      cookieValue.length>2 && cookieValue.shift()
+      this.setCookie(logtype, [...cookieValue, keyword])
+    }
+  }
+  getCookie(cookieName){
+    try{
+      const cookieValue = document.cookie
+      .split(";")
+      .find(row => row.startsWith(cookieName))
+      .split('=')[1]
+      .split(',')
+      return cookieValue
+    } catch(e){
+      return false
+    }
+  }
+  setCookie(logtype, cookieNames){
+    // console.log('setcookie')
+    document.cookie = `${logtype}=${[...cookieNames].join(',')}; max-age=60*60`
+  }
+  render(){
+    this.modalLatestKeywordList.show(this.getCookie(COOKIETYPE))
+  }
 }
