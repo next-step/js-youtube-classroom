@@ -5,55 +5,68 @@ export default class ModalResultController {
     this.$resultSection = $("#search-result");
 
     this.state = {
-        receivedData : {},
-        nextPageToken : "",
-    }
+      receivedData: {},
+      nextPageToken: "",
+    };
   }
-
 
   render() {
     if (this.state.receivedData === undefined) {
-        this.$resultSection.innerHTML = ""
-      } else {
-        const resultLen = Object.keys(this.state.receivedData).length
-        console.log("how may : ", resultLen);
-        const domElement = buildResultSection(this.state.receivedData)
+      this.$resultSection.innerHTML = "";
+    } else {
+      const resultLen = Object.keys(this.state.receivedData).length;
+      if (resultLen === 0){
+        this.$resultSection.innerHTML = `
+        <div>
+          <img class="js-not-found"
+          src="src/images/status/not_found.png"
+          alt="searchResult not found">
+          <p class="js-not-found font-semibold"> 검색 결과를 찾을 수 없습니다! </p>
+        </div>`;
+      } else {  
+        const domElement = buildResultSection(this.state.receivedData);
         setTimeout(() => {
           this.$resultSection.innerHTML = domElement;
-          
         }, 3000);
         this.$resultSection.innerHTML = buildSkeletonSection(resultLen);
       }
+    }
   }
 
   setState({ items, nextPageToken }) {
-    this.state.receivedData = items
-    this.state.nextPageToken = nextPageToken
-    this.render()
+    this.state.receivedData = items;
+    this.state.nextPageToken = nextPageToken;
+    this.render();
   }
 }
 
 const buildResultSection = (receivedData) => {
-    const items = receivedData
-    let resultDomElement = ``
+  const items = receivedData;
+  let resultDomElement = ``;
 
-    for(let item of items){
-        let data = {
-            channelId: item.snippet.channelId,
-            channelTitle: item.snippet.channelTitle,
-            videoId: item.id.videoId,
-            videoTitle: item.snippet.title,
-            publishTime: item.snippet.publishTime,
-        }
-        console.log(data)
-        resultDomElement += buildVideoArticle(data)
-    }
+  for (let item of items) {
+    let data = {
+      channelId: item.snippet.channelId,
+      channelTitle: item.snippet.channelTitle,
+      videoId: item.id.videoId,
+      videoTitle: item.snippet.title,
+      publishTime: item.snippet.publishTime,
+    };
+    // console.log(data);
+    resultDomElement += buildVideoArticle(data);
+  }
 
-    return (resultDomElement)
+  return resultDomElement;
 };
 
-const buildVideoArticle = ({channelId, channelTitle, videoId, videoTitle, publishTime}) => {
-    return `<article class="clip relative" 
+const buildVideoArticle = ({
+  channelId,
+  channelTitle,
+  videoId,
+  videoTitle,
+  publishTime,
+}) => {
+  return `<article class="clip relative" 
         data-video-id=${videoId} 
         data-title=${encodeURI(videoTitle)} 
         data-chanel-id=${channelId} 
@@ -68,6 +81,7 @@ const buildVideoArticle = ({channelId, channelTitle, videoId, videoTitle, publis
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen
+        loading="lazy"
       ></iframe>
     </div>
     <div class="content-container pt-2 px-1">
@@ -92,10 +106,10 @@ const buildVideoArticle = ({channelId, channelTitle, videoId, videoTitle, publis
 };
 
 const getPublishedTime = (publishTime) => {
-    const cutPos = publishTime.match(/T/).index
-    const timeAry = publishTime.substring(0, cutPos).split("-")
-    return `${timeAry[0]}년 ${parseInt(timeAry[1])}월 ${parseInt(timeAry[2])}일`
-}
+  const cutPos = publishTime.match(/T/).index;
+  const timeAry = publishTime.substring(0, cutPos).split("-");
+  return `${timeAry[0]}년 ${parseInt(timeAry[1])}월 ${parseInt(timeAry[2])}일`;
+};
 
 const buildSkeletonSection = (resultCnt) => {
   const skeletonDiv = `<article class="clip relative">
@@ -105,9 +119,9 @@ const buildSkeletonSection = (resultCnt) => {
                           <p class="line"></p>
                         </div>
                       </article>`;
-  let result = ``
-  for(let i = 0; i < resultCnt; i++){
-    result += skeletonDiv
+  let result = ``;
+  for (let i = 0; i < resultCnt; i++) {
+    result += skeletonDiv;
   }
   return result;
-}
+};
