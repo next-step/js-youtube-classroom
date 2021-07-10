@@ -19,6 +19,7 @@ export default class Controller{
     this.modalScrollView.on("@scroll", event => this.search(event.detail.value))
   }
   async search(value=""){
+    // console.log("controller search")
     const data = await this.fetchData(value)
     this.nextPageToken = data.nextPageToken
     this.modalSearchResult.show(data.items)
@@ -40,9 +41,11 @@ export default class Controller{
     if(!cookieValue){
       this.setCookie(logtype, [keyword])
     } else {
-      console.log(cookieValue, cookieValue.length)
-      cookieValue.length>2 && cookieValue.shift()
-      this.setCookie(logtype, [...cookieValue, keyword])
+      if(!cookieValue.includes(keyword)){
+        console.log(cookieValue, cookieValue.length)
+        cookieValue.length>2 && cookieValue.shift()
+        this.setCookie(logtype, [...cookieValue, keyword])
+      }
     }
   }
   getCookie(cookieName){
@@ -62,6 +65,7 @@ export default class Controller{
     document.cookie = `${logtype}=${[...cookieNames].join(',')}; max-age=60*60`
   }
   render(){
-    this.modalLatestKeywordList.show(this.getCookie(COOKIETYPE))
+    this.getCookie(COOKIETYPE) && this.modalLatestKeywordList.show(this.getCookie(COOKIETYPE))
+    
   }
 }
