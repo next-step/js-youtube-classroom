@@ -36,6 +36,9 @@ export default class ModalController {
   bindEvents() {
     this.$searchButton.addEventListener("click", () => this.onModalShow());
     this.$modalCloseButton.addEventListener("click", () => this.onModalClose());
+    window.addEventListener("click", (event) => {
+      event.target === this.$modal ? this.onModalClose() : false
+    })
   }
 
   async setState(keyword){
