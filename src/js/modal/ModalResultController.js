@@ -13,15 +13,16 @@ export default class ModalResultController {
 
   render() {
     if (this.state.receivedData === undefined) {
-        //this.$resultSection.innerHTML = ""
+        this.$resultSection.innerHTML = ""
       } else {
-        console.log("how may : ", Object.keys(this.state.receivedData).length);
+        const resultLen = Object.keys(this.state.receivedData).length
+        console.log("how may : ", resultLen);
         const domElement = buildResultSection(this.state.receivedData)
         setTimeout(() => {
           this.$resultSection.innerHTML = domElement;
           
         }, 3000);
-        //this.$resultSection.innerHTML = "스켈레톤2";
+        this.$resultSection.innerHTML = buildSkeletonSection(resultLen);
       }
   }
 
@@ -87,9 +88,6 @@ const buildVideoArticle = ({channelId, channelTitle, videoId, videoTitle, publis
     <div class="button-list d-flex justify-end js-save-btn">
       <button class="btn">⬇️ 저장</button>
     </div>
-   
-    
-   
   </article>`;
 };
 
@@ -97,4 +95,19 @@ const getPublishedTime = (publishTime) => {
     const cutPos = publishTime.match(/T/).index
     const timeAry = publishTime.substring(0, cutPos).split("-")
     return `${timeAry[0]}년 ${parseInt(timeAry[1])}월 ${parseInt(timeAry[2])}일`
+}
+
+const buildSkeletonSection = (resultCnt) => {
+  const skeletonDiv = `<article class="clip relative">
+                        <div class="skeleton">
+                          <div class="image"></div>
+                          <p class="line"></p>
+                          <p class="line"></p>
+                        </div>
+                      </article>`;
+  let result = ``
+  for(let i = 0; i < resultCnt; i++){
+    result += skeletonDiv
+  }
+  return result;
 }
