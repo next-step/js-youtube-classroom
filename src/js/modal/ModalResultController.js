@@ -27,7 +27,6 @@ export default class ModalResultController {
         const domElement = buildResultSection(this.state.receivedData);
         setTimeout(() => {
           const skeltonDiv = $$('.temp-skel', this.$resultSection)
-          //console.log(skeltonDiv)
           for(let i of skeltonDiv){
             this.$resultSection.removeChild(i)
           }
@@ -57,7 +56,6 @@ const buildResultSection = (receivedData) => {
       videoTitle: item.snippet.title,
       publishTime: item.snippet.publishTime,
     };
-    // console.log(data);
     resultDomElement += buildVideoArticle(data);
   }
 

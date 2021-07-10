@@ -40,16 +40,19 @@ export default class ModalController {
   }
 
   bindEvents() {
-    let throttle
+    let throttle;
     this.$searchButton.addEventListener("click", () => this.onModalShow());
     this.$modalCloseButton.addEventListener("click", () => this.onModalClose());
     this.$modalInner.addEventListener("scroll", () => {
       if (!throttle) {
         throttle = setTimeout(() => {
           throttle = null;
-          if (this.$modalInner.scrollTop + this.$modalInner.clientHeight >= this.$modalInner.scrollHeight) {
-            console.log("check")
-          } 
+          if (
+            this.$modalInner.scrollTop + this.$modalInner.clientHeight >=
+            this.$modalInner.scrollHeight
+          ) {
+            this.setState(this.state.searchKeyword)
+          }
         }, 300);
       }
     });
@@ -58,31 +61,32 @@ export default class ModalController {
     });
   }
 
-  search(keyword) {
-    console.log("before  : ", this.state.searchKeyword);
-    console.log("current : ", keyword);
-    const receivedResult = getYoutubeResult(keyword);
-    return receivedResult;
-  }
-
   async setState(keyword) {
-    this.ModalResultController.setState({});
-    if (keyword.length > 0) {
-      const receivedResult = await this.search(keyword);
+    let receivedResult;
+    if (keyword.length > 0){
+      if (this.state.searchKeyword === keyword){
+        console.log("get more")
+        receivedResult = await getYoutubeResult(keyword, this.state.nextPageToken)
+      }
+      else{
+        console.log("get new")
+        this.ModalResultController.setState({});
+        receivedResult = await getYoutubeResult(keyword);
+      }
       this.state.nextPageToken = receivedResult.nextPageToken;
       this.state.searchKeyword = keyword;
       this.ModalResultController.setState(receivedResult);
+    } else{
+      this.ModalResultController.setState({});
     }
   }
 }
-
-
 
 // const onScrollEndCheck = (scrollTop, clientHeight, scrollHeight) => {
 //   if (!throttle) {
 //     throttle = setTimeout(() => {
 //       throttle = null;
-//       console.log(scrollTop, clientHeight, scrollHeight) 
+//       console.log(scrollTop, clientHeight, scrollHeight)
 //       if (scrollTop + clientHeight >= scrollHeight) {
 //         return true;
 //       } else {

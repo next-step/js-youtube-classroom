@@ -14,12 +14,4 @@ export default class App {
     }
 }
 
-// const test = await getYoutubeResult('커피')
-
-// console.log(test)
-
-// setTimeout(async () => {
-//     const t2 = await getYoutubeResult('커피', "CAoQAA")
-//     console.log(t2)
-// }, 2000)
 
