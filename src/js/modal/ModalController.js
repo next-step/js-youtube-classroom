@@ -8,9 +8,12 @@ export default class ModalController {
     this.$searchButton = $("#search-button");
     this.$modalCloseButton = $(".modal-close");
     this.$modal = $(".modal");
+    this.$modalInner = $(".modal-inner");
+    this.throttle;
 
     this.state = {
       searchKeyword: "",
+      searchResult: {},
       nextPageToken: "",
     };
 
@@ -37,36 +40,67 @@ export default class ModalController {
   }
 
   bindEvents() {
-    let throt;
+    let throttle
     this.$searchButton.addEventListener("click", () => this.onModalShow());
     this.$modalCloseButton.addEventListener("click", () => this.onModalClose());
-    $('.modal-inner').addEventListener('scroll', (event) => {
-      if (!throt) {
-        throt = setTimeout(() => {
-          throt = null;
-          console.log("check ", event)
-        }, 300)
+    this.$modalInner.addEventListener("scroll", () => {
+      if (!throttle) {
+        throttle = setTimeout(() => {
+          throttle = null;
+          if (this.$modalInner.scrollTop + this.$modalInner.clientHeight >= this.$modalInner.scrollHeight) {
+            console.log("check")
+          } 
+        }, 300);
       }
-    })
+    });
     window.addEventListener("click", (event) => {
       event.target === this.$modal ? this.onModalClose() : false;
     });
   }
 
-  search(keyword){
-    console.log("before  : ", this.state.searchKeyword)
-    console.log("current : ", keyword)
-    const receivedResult = getYoutubeResult(keyword)
-    return receivedResult
+  search(keyword) {
+    console.log("before  : ", this.state.searchKeyword);
+    console.log("current : ", keyword);
+    const receivedResult = getYoutubeResult(keyword);
+    return receivedResult;
   }
 
   async setState(keyword) {
     this.ModalResultController.setState({});
     if (keyword.length > 0) {
-      const receivedResult = await this.search(keyword)
+      const receivedResult = await this.search(keyword);
       this.state.nextPageToken = receivedResult.nextPageToken;
       this.state.searchKeyword = keyword;
       this.ModalResultController.setState(receivedResult);
     }
   }
 }
+
+
+
+// const onScrollEndCheck = (scrollTop, clientHeight, scrollHeight) => {
+//   if (!throttle) {
+//     throttle = setTimeout(() => {
+//       throttle = null;
+//       console.log(scrollTop, clientHeight, scrollHeight) 
+//       if (scrollTop + clientHeight >= scrollHeight) {
+//         return true;
+//       } else {
+//         return false;
+//       }
+//     }, 400);
+//   }
+// };
+
+// {
+//   if (!throt) {
+//     throt = setTimeout(() => {
+//       throt = null;
+//       console.log(this.$modalInner.scrollTop, this.$modalInner.clientHeight, this.$modalInner.scrollHeight)
+//       if (this.$modalInner.scrollTop +  this.$modalInner.clientHeight >= this.$modalInner.scrollHeight){
+//         console.log("check")
+//       }
+
+//     }, 1000)
+//   }
+// }

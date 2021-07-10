@@ -26,9 +26,14 @@ export default class ModalResultController {
       } else {  
         const domElement = buildResultSection(this.state.receivedData);
         setTimeout(() => {
-          this.$resultSection.innerHTML = domElement;
+          const skeltonDiv = $$('.temp-skel', this.$resultSection)
+          //console.log(skeltonDiv)
+          for(let i of skeltonDiv){
+            this.$resultSection.removeChild(i)
+          }
+          this.$resultSection.innerHTML += domElement;
         }, 3000);
-        this.$resultSection.innerHTML = buildSkeletonSection(resultLen);
+        this.$resultSection.innerHTML += buildSkeletonDiv(resultLen);
       }
     }
   }
@@ -111,8 +116,8 @@ const getPublishedTime = (publishTime) => {
   return `${timeAry[0]}년 ${parseInt(timeAry[1])}월 ${parseInt(timeAry[2])}일`;
 };
 
-const buildSkeletonSection = (resultCnt) => {
-  const skeletonDiv = `<article class="clip relative">
+const buildSkeletonDiv = (resultCnt) => {
+  const skeletonArticle = `<article class="clip relative temp-skel">
                         <div class="skeleton">
                           <div class="image"></div>
                           <p class="line"></p>
@@ -121,7 +126,7 @@ const buildSkeletonSection = (resultCnt) => {
                       </article>`;
   let result = ``;
   for (let i = 0; i < resultCnt; i++) {
-    result += skeletonDiv;
+    result += skeletonArticle;
   }
   return result;
 };
