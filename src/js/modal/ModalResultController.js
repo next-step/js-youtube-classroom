@@ -82,11 +82,11 @@ const buildVideoArticle = ({channelId, channelTitle, videoId, videoTitle, publis
         <div class="meta">
             <p>${getPublishedTime(publishTime)}</p>
         </div>
-    </div>
+      </div>
     </div>
     <div class="button-list d-flex justify-end js-save-btn">
-    <button class="btn">⬇️ 저장</button>
-</div>
+      <button class="btn">⬇️ 저장</button>
+    </div>
    
     
    
