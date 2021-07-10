@@ -1,30 +1,28 @@
-import { on } from "../helpers.js";
-import ModalView from "./ModalView.js";
+import { on,qs } from "../helpers.js";
+import View from "./View.js";
 
 const tag = "[ModalScrollView]"
-export default class ModalScrollView extends ModalView {
-  timer
+export default class ModalScrollView extends View {
   constructor(){
-    super()
-    // console.log(this.element, tag)
+    super(qs(".modal"))
+    this.inputElement = qs("[type=text]", this.element) 
     this.bindEvent()
   }
   bindEvent(){
-    on(this.element,"scroll", (event)=> {
-      if(this.timer){
-        clearTimeout(this.timer)
-      }
-      this.timer = setTimeout(()=> {
-        this.handleScroll(event)
-      },100)
+    let timer
+    on(this.element,"scroll", ()=> {
+      if(timer) clearTimeout(timer)
+      timer = setTimeout(()=> {
+        this.handleScroll()
+      },200)
     })
   }
-  handleScroll(event){
+  handleScroll(){
     // console.log(this.element.scrollHeight, this.element.clientHeight, this.element.scrollTop, this.element.scrollHeight - this.element.clientHeight - this.element.scrollTop ===0)
-    if(this.element.scrollHeight - this.element.clientHeight - this.element.scrollTop ===0){
-      const {value} = this.inputElement
-      // console.log(value,"inputElement")
+    const {value} = this.inputElement
+    if(value && (this.element.scrollHeight - this.element.clientHeight - this.element.scrollTop ===0)){
       this.emit("@scroll", {value})
+      console.log("스크롤 이벤트 호출됨")
     }  
   }
 }

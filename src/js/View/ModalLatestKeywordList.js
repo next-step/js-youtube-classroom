@@ -1,18 +1,17 @@
-import ModalView from "./ModalView.js"
 import  {qs, on} from "../helpers.js"
+import View from "./View.js"
 
 const tag = "[ModalLatestKeywordList]"
 
-export default class ModalLatestKeywordList extends ModalView{
+export default class ModalLatestKeywordList extends View{
   constructor(){
-    super()
-    this.element = qs(".mt-2")
+    super(qs(".mt-2"))
     this.template = new Template()
     this.show()
   }
 
   show(datas = []){
-    this.element.innerHTML = this.template.getList(datas)
+    datas.length >0 && (this.element.innerHTML = this.template.getList(datas))
   }
 }
 class Template{

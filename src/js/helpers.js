@@ -11,3 +11,7 @@ export function emit(target, eventName, detail){
   const event = new CustomEvent(eventName, {detail})
   target.dispatchEvent(event)
 }
+export function qsAll(selector, scope=document){
+  if(!selector) throw 'no Selector'
+  return scope.querySelectorAll(selector)
+}

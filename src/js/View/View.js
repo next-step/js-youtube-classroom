@@ -12,6 +12,10 @@ export default class View {
     this.element.style.display = this.originalDisplay
     return this
   }
+  hide(element=this.element){
+    element.style.display = 'none'
+    return this
+  }
   on(eventName, handler) {
     on(this.element, eventName, handler)
     return this

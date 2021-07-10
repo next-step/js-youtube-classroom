@@ -1,5 +1,8 @@
 const tag = "[Controller]"
-const COOKIETYPE = "searchLog"
+const COOKIETYPE = {
+  LOGCOOKOIE: "searchLog",
+  VIDEOCOOKIE: "videoLog"
+}
 export default class Controller{
 
   constructor({modalView, modalSearchResult, modalScrollView, modalLatestKeywordList}){
@@ -16,14 +19,15 @@ export default class Controller{
   }
   subscribeViewEvents(){
     this.modalView.on("@submit", event=> this.search(event.detail.value))
+    this.modalView.on("@save", event=>this.saveVideo(event.detail.value))
     this.modalScrollView.on("@scroll", event => this.search(event.detail.value))
   }
   async search(value=""){
-    // console.log("controller search")
+    console.log("controller search")
     const data = await this.fetchData(value)
     this.nextPageToken = data.nextPageToken
     this.modalSearchResult.show(data.items)
-    this.saveLog(COOKIETYPE,value)
+    this.saveLog(COOKIETYPE.LOGCOOKOIE,value)
     this.render()
   }
   fetchData(value=""){
@@ -51,10 +55,12 @@ export default class Controller{
   getCookie(cookieName){
     try{
       const cookieValue = document.cookie
-      .split(";")
-      .find(row => row.startsWith(cookieName))
-      .split('=')[1]
+      .replace(/ /, "")
+      .split(';')
+      .map(el=>el.split('='))
+      .find(row=> row[0].startsWith(cookieName))[1]
       .split(',')
+      
       return cookieValue
     } catch(e){
       return false
@@ -64,8 +70,17 @@ export default class Controller{
     // console.log('setcookie')
     document.cookie = `${logtype}=${[...cookieNames].join(',')}; max-age=60*60`
   }
+  saveVideo(videoId){
+    const cookieValues = this.getCookie(COOKIETYPE.VIDEOCOOKIE)
+    console.log(cookieValues)
+    if(!cookieValues){
+      this.setCookie(COOKIETYPE.VIDEOCOOKIE,videoId)
+    } else {
+      // console.log(cookieValues, "saveVideo")
+      cookieValues.length<=100 && this.setCookie(COOKIETYPE.VIDEOCOOKIE, [...cookieValues, videoId])
+    }
+  }
   render(){
-    this.getCookie(COOKIETYPE) && this.modalLatestKeywordList.show(this.getCookie(COOKIETYPE))
-    
+    this.getCookie(COOKIETYPE.LOGCOOKOIE) && this.modalLatestKeywordList.show(this.getCookie(COOKIETYPE.LOGCOOKOIE))
   }
 }
