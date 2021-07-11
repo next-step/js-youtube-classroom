@@ -1,5 +1,5 @@
 import { $, $$ } from "../utils.js";
-import { buildResultSection, buildSkeletonDiv } from "../DOM.js"
+import { buildResultSection, buildSkeletonDiv, cannotFoundKeyword } from "../DOM.js"
 
 export default class ModalResultController {
   constructor() {
@@ -7,7 +7,6 @@ export default class ModalResultController {
 
     this.state = {
       receivedData: {},
-      nextPageToken: "",
     };
   }
 
@@ -34,13 +33,7 @@ export default class ModalResultController {
     } else {
       const resultLen = Object.keys(this.state.receivedData).length;
       if (resultLen === 0) {
-        this.$resultSection.innerHTML = `
-        <div>
-          <img class="js-not-found"
-          src="src/images/status/not_found.png"
-          alt="searchResult not found">
-          <p class="js-not-found font-semibold"> 검색 결과를 찾을 수 없습니다! </p>
-        </div>`;
+        this.$resultSection.innerHTML = cannotFoundKeyword();
       } else {
         const domElement = buildResultSection(this.state.receivedData);
         setTimeout(() => {
@@ -55,9 +48,8 @@ export default class ModalResultController {
     }
   }
 
-  setState({ items, nextPageToken }) {
+  setState({ items }) {
     this.state.receivedData = items;
-    this.state.nextPageToken = nextPageToken;
     this.render();
   }
 }

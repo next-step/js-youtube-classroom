@@ -1,5 +1,15 @@
 import { getPublishedTime } from "./utils.js"
 
+export const cannotFoundKeyword = () => {
+  return `
+  <div>
+    <img class="js-not-found"
+    src="src/images/status/not_found.png"
+    alt="searchResult not found">
+    <p class="js-not-found font-semibold"> 검색 결과를 찾을 수 없습니다! </p>
+  </div>`
+}
+
 export const buildResultSection = (dataAry) => {
   let resultDomElement = ``;
 

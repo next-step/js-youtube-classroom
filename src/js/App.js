@@ -4,13 +4,7 @@ import { $, $$ } from "./utils.js";
 
 export default class App {
     constructor(){
-
-
-        this.ModalController = new ModalController({
-            onSubmit: (keyword) => {
-                console.log(keyword)
-            },
-        })
+        this.ModalController = new ModalController()
     }
 }
 
