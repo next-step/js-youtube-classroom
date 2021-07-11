@@ -21,7 +21,6 @@ export default class ModalController {
 
     this.ModalSearchController = new ModalSearchController({
       onSubmit: (keyword) => {
-        console.log("keyword : ", keyword);
         this.setState(keyword);
       },
     });
@@ -65,11 +64,9 @@ export default class ModalController {
     let receivedResult;
     if (keyword.length > 0){
       if (this.state.searchKeyword === keyword){
-        console.log("get more")
         receivedResult = await getYoutubeResult(keyword, this.state.nextPageToken)
       }
       else{
-        console.log("get new")
         this.ModalResultController.setState({});
         receivedResult = await getYoutubeResult(keyword);
       }
@@ -81,30 +78,3 @@ export default class ModalController {
     }
   }
 }
-
-// const onScrollEndCheck = (scrollTop, clientHeight, scrollHeight) => {
-//   if (!throttle) {
-//     throttle = setTimeout(() => {
-//       throttle = null;
-//       console.log(scrollTop, clientHeight, scrollHeight)
-//       if (scrollTop + clientHeight >= scrollHeight) {
-//         return true;
-//       } else {
-//         return false;
-//       }
-//     }, 400);
-//   }
-// };
-
-// {
-//   if (!throt) {
-//     throt = setTimeout(() => {
-//       throt = null;
-//       console.log(this.$modalInner.scrollTop, this.$modalInner.clientHeight, this.$modalInner.scrollHeight)
-//       if (this.$modalInner.scrollTop +  this.$modalInner.clientHeight >= this.$modalInner.scrollHeight){
-//         console.log("check")
-//       }
-
-//     }, 1000)
-//   }
-// }
