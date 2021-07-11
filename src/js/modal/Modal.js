@@ -1,10 +1,10 @@
 import { $ } from "../utils.js";
 import { getYoutubeResult } from "../API.js";
-import ModalSearchController from "./ModalSearchController.js";
-import ModalResultController from "./ModalResultController.js";
+import ModalSearch from "./ModalSearch.js";
+import ModalResult from "./ModalResult.js";
 
-export default class ModalController {
-  constructor({}) {
+export default class Modal{
+  constructor() {
     this.$searchButton = $("#search-button");
     this.$modalCloseButton = $(".modal-close");
     this.$modal = $(".modal");
@@ -19,13 +19,13 @@ export default class ModalController {
 
     this.bindEvents();
 
-    this.ModalSearchController = new ModalSearchController({
+    this.ModalSearch= new ModalSearch({
       onSubmit: (keyword) => {
         this.setState(keyword);
       },
     });
 
-    this.ModalResultController = new ModalResultController({});
+    this.ModalResult = new ModalResult();
 
     this.setState("");
   }
@@ -67,14 +67,14 @@ export default class ModalController {
         receivedResult = await getYoutubeResult(keyword, this.state.nextPageToken)
       }
       else{
-        this.ModalResultController.setState({});
+        this.ModalResult.setState({});
         receivedResult = await getYoutubeResult(keyword);
       }
       this.state.nextPageToken = receivedResult.nextPageToken;
       this.state.searchKeyword = keyword;
-      this.ModalResultController.setState(receivedResult);
+      this.ModalResult.setState(receivedResult);
     } else{
-      this.ModalResultController.setState({});
+      this.ModalResult.setState({});
     }
   }
 }

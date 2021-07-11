@@ -1,4 +1,6 @@
-import { getPublishedTime } from "./utils.js"
+import { getPublishedTime, checkDuplicateID } from "./utils.js";
+
+const MODAL = 1;
 
 export const cannotFoundKeyword = () => {
   return `
@@ -7,29 +9,27 @@ export const cannotFoundKeyword = () => {
     src="src/images/status/not_found.png"
     alt="searchResult not found">
     <p class="js-not-found font-semibold"> 검색 결과를 찾을 수 없습니다! </p>
-  </div>`
-}
+  </div>`;
+};
 
-export const buildResultSection = (dataAry) => {
+export const buildResultSection = (dataAry, savedVideos, position) => {
   let resultDomElement = ``;
 
   for (let data of dataAry) {
-    resultDomElement += buildVideoArticle(data);
+    resultDomElement += buildVideoArticle(data, savedVideos, position);
   }
   return resultDomElement;
 };
 
-const buildVideoArticle = ({
-  channelId,
-  channelTitle,
-  videoId,
-  videoTitle,
-  publishTime,
-}) => {
+const buildVideoArticle = (
+  { channelId, channelTitle, videoId, videoTitle, publishTime },
+  savedVideos,
+  position
+) => {
   return `<article class="clip relative" 
           data-video-id=${videoId} 
           data-title=${encodeURI(videoTitle)} 
-          data-chanel-id=${channelId} 
+          data-channel-id=${channelId} 
           data-channel-title=${encodeURI(channelTitle)} 
           data-publish-time=${publishTime}>
       <div class="preview-container">
@@ -59,11 +59,26 @@ const buildVideoArticle = ({
           </div>
         </div>
       </div>
-      <div class="button-list d-flex justify-end js-save-btn">
-        <button class="btn">⬇️ 저장</button>
-      </div>
+      ${
+        position === MODAL
+          ? ` <div class="button-list d-flex justify-end js-save-btn">
+      ${
+        checkDuplicateID(videoId, savedVideos) >= 0
+          ? `<button class="btn saved">↪️ 저장 취소</button>`
+          : `<button class="btn">⬇️ 저장</button>`
+      }
+      </div>`
+          : `<div>
+      <span class="opacity-hover">✅</span>
+      <span class="opacity-hover">👍</span>
+      <span class="opacity-hover">💬</span>
+      <span class="opacity-hover">🗑️</span>
+    </div>`
+      }
+     
     </article>`;
 };
+//↪️ 저장 취소
 
 export const buildSkeletonDiv = (resultCnt) => {
   const skeletonArticle = `<article class="clip relative temp-skel">
