@@ -9,11 +9,9 @@ export default class Modal{
     this.$modalCloseButton = $(".modal-close");
     this.$modal = $(".modal");
     this.$modalInner = $(".modal-inner");
-    this.throttle;
 
     this.state = {
       searchKeyword: "",
-      searchResult: {},
       nextPageToken: "",
     };
 
