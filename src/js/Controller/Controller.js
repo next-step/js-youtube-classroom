@@ -1,4 +1,5 @@
 const tag = "[Controller]"
+
 const COOKIETYPE = {
   LOGCOOKOIE: "searchLog",
   VIDEOCOOKIE: "videoLog"
@@ -32,7 +33,7 @@ export default class Controller{
   }
   fetchData(value=""){
     const str = encodeURI(value)
-    return fetch(`https://www.googleapis.com/youtube/v3/search?key=AIzaSyC-AakFMMghWMpRUdksbBKGPcnb5yCApBw&q=${str}&pageToken=${this.nextPageToken}&part=snippet&maxResults=1&order=date`)
+    return fetch(`https://www.googleapis.com/youtube/v3/search?key=AIzaSyC-AakFMMghWMpRUdksbBKGPcnb5yCApBw&q=${str}&pageToken=${this.nextPageToken}&part=snippet&maxResults=10&order=date`)
     .then(function(response) {
       return response.json();
     })
@@ -60,7 +61,6 @@ export default class Controller{
       .map(el=>el.split('='))
       .find(row=> row[0].startsWith(cookieName))[1]
       .split(',')
-      
       return cookieValue
     } catch(e){
       return false

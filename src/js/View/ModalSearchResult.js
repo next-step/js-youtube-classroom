@@ -5,17 +5,24 @@ export default class ModalSearchResult extends View {
   constructor() {
     super(qs(".modal .video-wrapper"))
     this.template = new Template()
+    this.data = []
     // console.log(this.element.innerHTML,"innerHTML")
   }
-  show(data = []) {
+  show(newData = []) {
     // console.log(data, "ModalSearchResult")
-    if(data.length>0){
+    if(newData.length>0){
       this.element.classList.add("video-wrapper")
-      this.element.innerHTML = this.element.innerHTML + this.template.getList(data) 
+      this.data.push(...newData)
+      this.element.innerHTML = this.template.getSkeleton().repeat(this.data.length)
+      setTimeout(()=>{this.element.innerHTML = this.template.getList(this.data)}, 1000)
+      
     } else {
       this.element.classList.remove("video-wrapper")
       this.element.innerHTML =this.template.getEmptyList()
     }
+  }
+  showSkeleton(dataLen){
+    this.element.innerHTML = this.template.getSkeleton().repeat(dataLen)
   }
 }
 
@@ -63,4 +70,21 @@ class Template{
       </article>
     `).join('')
   }
+  getSkeleton(){
+    return `
+      <article class="clip skeleton">
+      <div class="preview-container image">
+      <div></div>
+      </div>
+      <div class="content-container pt-2">
+      <div>
+          <div class="meta line">
+          <p></p>
+          </div>
+          <div class="d-flex justify-end line mt-3"></div>
+      </div>
+      </div>
+  </article>`;
+  }
+
 }

@@ -5,13 +5,11 @@ const tag = "[ModalView]"
 
 export default class ModalView extends View{
   constructor(){
-    // console.log(tag, "constructor")
     super(qs(".modal"))
 
     this.inputElement = qs("[type=text]", this.element)
     this.searchBtnElement = qs("[type=button]",this.element)
     
-    // this.searchBtnElement = qs(".btn.bg-cyan-500",this.element)
     this.bindEvent()
     this.render()
   }
@@ -50,7 +48,6 @@ export default class ModalView extends View{
         saveList.includes(element.dataset.videoId) && this.hide(element)
       }) 
     }
-
   }
   getCookie(cookieName){
     try{
@@ -60,7 +57,6 @@ export default class ModalView extends View{
       .map(el=>el.split('='))
       .find(row=> row[0].startsWith(cookieName))[1]
       .split(',')
-      
       return cookieValue
     } catch(e){
       return false
