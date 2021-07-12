@@ -1,3 +1,6 @@
+import {getCookie, setCookie} from "../helpers.js"
+import {APIKEY} from "../../../config.js"
+
 const tag = "[Controller]"
 
 const COOKIETYPE = {
@@ -7,7 +10,7 @@ const COOKIETYPE = {
 export default class Controller{
 
   constructor({modalView, modalSearchResult, modalScrollView, modalLatestKeywordList}){
-    console.log(tag, "controller")
+    // console.log(tag, "controller")
 
     this.modalView = modalView
     this.modalSearchResult = modalSearchResult
@@ -15,6 +18,7 @@ export default class Controller{
     this.modalLatestKeywordList = modalLatestKeywordList
 
     this.nextPageToken = ""
+    this.beforeInputValue = ""
     this.subscribeViewEvents()
     this.render()
   }
@@ -24,63 +28,43 @@ export default class Controller{
     this.modalScrollView.on("@scroll", event => this.search(event.detail.value))
   }
   async search(value=""){
-    console.log("controller search")
+    // console.log("controller search")
     const data = await this.fetchData(value)
     this.nextPageToken = data.nextPageToken
-    this.modalSearchResult.show(data.items)
+    const newSearch = this.beforeInputValue === value
+    this.beforeInputValue = value
+    this.modalSearchResult.show(data.items, newSearch)
     this.saveLog(COOKIETYPE.LOGCOOKOIE,value)
     this.render()
   }
   fetchData(value=""){
     const str = encodeURI(value)
-    return fetch(`https://www.googleapis.com/youtube/v3/search?key=AIzaSyC-AakFMMghWMpRUdksbBKGPcnb5yCApBw&q=${str}&pageToken=${this.nextPageToken}&part=snippet&maxResults=10&order=date`)
+    return fetch(`https://www.googleapis.com/youtube/v3/search?key=${APIKEY.KEY1}&q=${str}&pageToken=${this.nextPageToken}&part=snippet&maxResults=1&order=date`)
     .then(function(response) {
       return response.json();
     })
-    .then(function(myJson) {
-      return myJson
-    });
   }
   saveLog(logtype, keyword){ 
-    const cookieValue = this.getCookie(logtype)
+    const cookieValue = getCookie(logtype)
     if(!cookieValue){
-      this.setCookie(logtype, [keyword])
+      setCookie(logtype, [keyword])
     } else {
       if(!cookieValue.includes(keyword)){
-        console.log(cookieValue, cookieValue.length)
         cookieValue.length>2 && cookieValue.shift()
-        this.setCookie(logtype, [...cookieValue, keyword])
+        setCookie(logtype, [...cookieValue, keyword])
       }
     }
   }
-  getCookie(cookieName){
-    try{
-      const cookieValue = document.cookie
-      .replace(/ /, "")
-      .split(';')
-      .map(el=>el.split('='))
-      .find(row=> row[0].startsWith(cookieName))[1]
-      .split(',')
-      return cookieValue
-    } catch(e){
-      return false
-    }
-  }
-  setCookie(logtype, cookieNames){
-    // console.log('setcookie')
-    document.cookie = `${logtype}=${[...cookieNames].join(',')}; max-age=60*60`
-  }
+  
   saveVideo(videoId){
-    const cookieValues = this.getCookie(COOKIETYPE.VIDEOCOOKIE)
-    console.log(cookieValues)
+    const cookieValues = getCookie(COOKIETYPE.VIDEOCOOKIE)
     if(!cookieValues){
-      this.setCookie(COOKIETYPE.VIDEOCOOKIE,videoId)
+      setCookie(COOKIETYPE.VIDEOCOOKIE,videoId)
     } else {
-      // console.log(cookieValues, "saveVideo")
-      cookieValues.length<=100 && this.setCookie(COOKIETYPE.VIDEOCOOKIE, [...cookieValues, videoId])
+      cookieValues.length<=100 && setCookie(COOKIETYPE.VIDEOCOOKIE, [...cookieValues, videoId])
     }
   }
   render(){
-    this.getCookie(COOKIETYPE.LOGCOOKOIE) && this.modalLatestKeywordList.show(this.getCookie(COOKIETYPE.LOGCOOKOIE))
+    getCookie(COOKIETYPE.LOGCOOKOIE) && this.modalLatestKeywordList.show(getCookie(COOKIETYPE.LOGCOOKOIE))
   }
 }

@@ -1,4 +1,4 @@
-import { qs, on, qsAll } from "../helpers.js"
+import { qs, on, qsAll, getCookie } from "../helpers.js"
 import View from "./View.js"
 
 const tag = "[ModalView]"
@@ -16,7 +16,7 @@ export default class ModalView extends View{
   bindEvent() {
     const BtnElement = qsAll(".btn", this.element)
     let clickEventTimer
-    on(this.element, "submit", () => this.handleSubmit())
+    on(this.element, "submit", (event) => this.handleSubmit(event))
     on(this.element, "click", (event)=>{
       if(clickEventTimer) { clearTimeout(clickEventTimer) }
       clickEventTimer = setTimeout(()=>{
@@ -24,15 +24,13 @@ export default class ModalView extends View{
           if(event.target === this.searchBtnElement){
             this.handleSubmit()
           } else {
-            // console.log(event.target.dataset.videoId)
             this.handleSaveBtn(event.target, event.target.dataset.videoId)
           }
         }
       }, 200)
     })
   }
-  handleSubmit(){
-    console.log("호출됨")
+  handleSubmit(event){
    const {value} = this.inputElement
     this.emit("@submit", {value}) 
   }
@@ -42,24 +40,11 @@ export default class ModalView extends View{
   }
   render(){
     const saveBtnElement = qsAll(".content-container.pt-2.px-1 .btn", this.element)
-    const saveList = this.getCookie("videoLog")
+    const saveList = getCookie("videoLog")
     if(saveList){
       saveBtnElement.forEach((element)=> {
         saveList.includes(element.dataset.videoId) && this.hide(element)
       }) 
-    }
-  }
-  getCookie(cookieName){
-    try{
-      const cookieValue = document.cookie
-      .replace(/ /, "")
-      .split(';')
-      .map(el=>el.split('='))
-      .find(row=> row[0].startsWith(cookieName))[1]
-      .split(',')
-      return cookieValue
-    } catch(e){
-      return false
     }
   }
 }

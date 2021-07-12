@@ -1,27 +1,9 @@
-import { on, qs } from "./helpers.js";
-
 import ModalView from "./View/ModalView.js";
 import Controller from "./Controller/Controller.js";
 import ModalSearchResult from "./View/ModalSearchResult.js";
 import ModalScrollView from "./View/ModalScrollView.js";
 import ModalLatestKeywordList from "./View/ModalLatestKeywordList.js";
-
-const $searchButton = qs("#search-button");
-const $modalClose = qs(".modal-close");
-const $modal = qs(".modal");
-
-const onModalShow = () => {
-  $modal.classList.add("open");
-};
-
-const onModalClose = () => {
-  $modal.classList.remove("open");
-};
-$searchButton.addEventListener("click", onModalShow);
-$modalClose.addEventListener("click", onModalClose);
-
-on($modal, "submit", (event)=> event.preventDefault())
-
+import MainView from "./View/MainView.js";
 
 
 const tag = "[INDEX]"
@@ -29,6 +11,7 @@ document.addEventListener("DOMContentLoaded", index)
 function index(){
   console.log(tag, "main")
   const views = {
+    mainView: new MainView(),
     modalView: new ModalView(),
     modalSearchResult: new ModalSearchResult(),
     modalScrollView: new ModalScrollView(),

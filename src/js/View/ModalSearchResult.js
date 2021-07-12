@@ -1,18 +1,24 @@
 import { qs } from "../helpers.js"
 import View from "./View.js"
 
+const tag = "[ModalSearchResult]"
+
 export default class ModalSearchResult extends View {
   constructor() {
     super(qs(".modal .video-wrapper"))
     this.template = new Template()
     this.data = []
+
     // console.log(this.element.innerHTML,"innerHTML")
   }
-  show(newData = []) {
+  show(newData = [], newSearch=false) {
     // console.log(data, "ModalSearchResult")
+    console.log(newSearch, tag)
     if(newData.length>0){
       this.element.classList.add("video-wrapper")
+      newSearch || (this.data = [])
       this.data.push(...newData)
+      
       this.element.innerHTML = this.template.getSkeleton().repeat(this.data.length)
       setTimeout(()=>{this.element.innerHTML = this.template.getList(this.data)}, 1000)
       
@@ -36,7 +42,6 @@ class Template{
     `
   }
     getList(datas){
-      // console.log(this.element.innerHTML, "ModalSearchResult")
       return datas.map(data=> `
         <article class="clip">
         <div class="preview-container">
@@ -72,19 +77,18 @@ class Template{
   }
   getSkeleton(){
     return `
-      <article class="clip skeleton">
+    <article class="clip skeleton">
       <div class="preview-container image">
-      <div></div>
+        <div ></div>
       </div>
       <div class="content-container pt-2">
-      <div>
+        <div>
           <div class="meta line">
-          <p></p>
+            <p></p>
           </div>
           <div class="d-flex justify-end line mt-3"></div>
+        </div>
       </div>
-      </div>
-  </article>`;
+    </article>`;
   }
-
 }

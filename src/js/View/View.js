@@ -5,8 +5,7 @@ export default class View {
     if (!element) throw "no element"
     this.element = element
     this.originalDisplay = this.element.style.display || ""
-    return this
-    
+    return this 
   }
   show(){
     this.element.style.display = this.originalDisplay

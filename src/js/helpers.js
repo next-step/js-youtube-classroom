@@ -15,3 +15,21 @@ export function qsAll(selector, scope=document){
   if(!selector) throw 'no Selector'
   return scope.querySelectorAll(selector)
 }
+
+export function getCookie(cookieName){
+  try{
+    const cookieValue = document.cookie
+    .replace(/ /, "")
+    .split(';')
+    .map(el=>el.split('='))
+    .find(row=> row[0].startsWith(cookieName))[1]
+    .split(',')
+    return cookieValue
+  } catch(e){
+    return false
+  }
+}
+export function setCookie(logtype, cookieNames){
+  // console.log('setcookie')
+  document.cookie = `${logtype}=${[...cookieNames].join(',')}; max-age=60*60`
+}
