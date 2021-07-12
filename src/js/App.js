@@ -9,8 +9,8 @@ export default function App($el) {
         isShowSearchModal: false,
     };
 
-    const setState = ({isShowSearchModal} = state) => {
-        state.isShowSearchModal = isShowSearchModal;
+    const setState = ({isShowSearchModal}) => {
+        state.isShowSearchModal = isShowSearchModal ?? state.isShowSearchModal;
         render();
     };
 
