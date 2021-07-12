@@ -1,5 +1,10 @@
 import { Action, GlobalState, Reducer } from '../types';
-import { YOUTUBE_SEARCH_ERROR, YOUTUBE_SEARCH_LOADING, YOUTUBE_SEARCH_SUCCESS } from './actionType';
+import {
+  YOUTUBE_SEARCH_ERROR,
+  YOUTUBE_SEARCH_LOADING,
+  YOUTUBE_SEARCH_SUCCESS,
+  INPUT_VALUE_CHANGE,
+} from './actionType';
 
 const reducer: Reducer = (state: GlobalState, action: Action): GlobalState => {
   switch (action.type) {
@@ -19,6 +24,11 @@ const reducer: Reducer = (state: GlobalState, action: Action): GlobalState => {
         ...state,
         isSearchLoading: false,
         error: action.payload.error,
+      };
+    case INPUT_VALUE_CHANGE:
+      return {
+        ...state,
+        inputValue: action.payload.value,
       };
     default:
       return state;

@@ -1,22 +1,22 @@
 import { createNode } from '../domHelper';
-import { Component } from '../types';
+import { CommonProps, Component } from '../types';
 
-interface Props {
-  src: string;
+interface Props extends CommonProps {
+  thumbnailUrl: string;
   title: string;
   channelName: string;
-  channelUrl: string;
+  channelId: string;
   registeDate: string;
 }
 
-const Video: Component<Props> = ({ src, channelName, channelUrl, registeDate, title }) => {
+const Video: Component<Props> = ({ thumbnailUrl, channelName, channelId, registeDate, title }) => {
   const $video = createNode(`
     <article class="clip">
       <div class="preview-container">
         <iframe
           width="100%"
           height="118"
-          src="${src}
+          src="${thumbnailUrl}
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
@@ -26,7 +26,7 @@ const Video: Component<Props> = ({ src, channelName, channelUrl, registeDate, ti
         <h3>${title}</h3>
         <div>
           <a
-            href="${channelUrl}"
+            href="https://www.youtube.com/channel/${channelId}"
             target="_blank"
             class="channel-name mt-1"
           >

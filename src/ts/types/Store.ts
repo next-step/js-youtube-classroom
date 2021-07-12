@@ -7,20 +7,48 @@
   모달이 열리고 닫힘
 */
 
-interface Video {
-  src: string;
-  title: string;
-  channelName: string;
-  channelUrl: string;
-  registeDate: string;
+export interface YoutubeVideo {
+  kind: string;
+  etag: string;
+  id: {
+    kind: string;
+    videoId: string;
+  };
+  snippet: {
+    publishedAt: string;
+    channelId: string;
+    title: string;
+    description: string;
+    thumbnails: {
+      default: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      medium: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      high: {
+        url: string;
+        width: number;
+        height: number;
+      };
+    };
+    channelTitle: string;
+    liveBroadcastContent: string;
+    publishTime: string;
+  };
 }
 
 export interface GlobalState {
   isSearchLoading: boolean;
   error: Error;
-  searchList: Video[];
+  searchList: YoutubeVideo[];
   recentSearchList: [string?, string?, string?];
-  saveVideoList: Video[];
+  saveVideoList: YoutubeVideo[];
+  inputValue: string;
 }
 
 export interface Action {

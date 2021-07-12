@@ -6,3 +6,6 @@ export { default as Video } from './Video';
 export { default as Button } from './Button';
 export { default as Navigator } from './Navigator';
 export { default as Heading } from './Heading';
+export { default as Form } from './Form';
+export { default as Input } from './Input';
+export { default as SearchVideoSection } from './SearchVideoSection';

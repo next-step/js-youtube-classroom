@@ -9,10 +9,18 @@ interface Props {}
 const Main: Component<Props> = ({}) => {
   const state = store.getState();
 
-  console.log(state);
-
   const $main = createNode('<main class="mt-10"></main>', [
-    SaveVideoSection({ children: state.saveVideoList.map(video => Video({ ...video })) }),
+    SaveVideoSection({
+      children: state.saveVideoList.map(video =>
+        Video({
+          channelId: video.snippet.channelId,
+          channelName: video.snippet.channelTitle,
+          registeDate: video.snippet.publishTime,
+          thumbnailUrl: video.snippet.thumbnails.default.url,
+          title: video.snippet.title,
+        })
+      ),
+    }),
   ]);
 
   return $main;

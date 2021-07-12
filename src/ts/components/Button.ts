@@ -1,12 +1,9 @@
 import { createNode } from '../domHelper';
-import { Component } from '../types';
+import { CommonProps, Component } from '../types';
 
-interface Props {
+interface Props extends CommonProps {
   onClick?: EventListener;
-  textContent: string;
-  className?: string;
   type?: string;
-  id?: string;
 }
 
 const Button: Component<Props> = ({
