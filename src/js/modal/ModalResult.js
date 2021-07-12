@@ -118,5 +118,3 @@ export default class ModalResult {
     this.render();
   }
 }
-
-

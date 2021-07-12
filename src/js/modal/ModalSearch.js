@@ -75,5 +75,3 @@ const buildSearchHistorySection = (searchHistory) => {
   }
   return searchHistoryDom;
 };
-
-
