@@ -1,10 +1,37 @@
-export default function SearchModal($el) {
+/**
+ * 검색 모달
+ * @param $el
+ * @param props
+ * @param {boolean} props.isShowModal
+ * @param {function} props.closeModal
+ * @constructor
+ */
+export default function SearchModal($el, props) {
+
+    const state = {
+        isShowModal: props.isShowModal,
+    };
+
+    const bindEvents = () => {
+        // $el.addEventListener('click', ({target: {dataset: {action}}}) => {
+        $el.addEventListener('click', ({target}) => {
+            if (target.closest('[data-click=close]')) {
+                closeModal();
+            }
+        });
+    };
+
+    const closeModal = () => {
+        props.closeModal();
+    };
 
     const render = () => {
+        const {isShowModal} = state;
+
         $el.innerHTML = `
-            <div class="modal">
+            <div class="modal ${isShowModal && 'open'}">
                 <div class="modal-inner p-8">
-                    <button class="modal-close">
+                    <button class="modal-close" data-click="close">
                         <svg viewBox="0 0 40 40">
                             <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30"/>
                         </svg>
@@ -65,4 +92,5 @@ export default function SearchModal($el) {
     };
 
     render();
+    bindEvents();
 }

@@ -1,4 +1,23 @@
-export function Header($el) {
+/**
+ * GNB
+ * @param $el
+ * @param props
+ * @param {function} props.openSearchModal
+ * @constructor
+ */
+export function Header($el, props) {
+
+    const bindEvents = () => {
+        $el.addEventListener('click', ({target}) => {
+            if (target.dataset.click === 'openSearchModal') {
+                openSearchModal();
+            }
+        });
+    };
+
+    const openSearchModal = () => {
+        props.openSearchModal();
+    };
 
     const render = () => {
         $el.innerHTML = `
@@ -7,13 +26,12 @@ export function Header($el) {
                 <nav class="d-flex justify-center">
                     <button class="btn bg-cyan-100 mx-1">👁️ 볼 영상</button>
                     <button class="btn mx-1">✅ 본 영상</button>
-                    <button id="search-button" class="btn mx-1">
-                        🔍 동영상 검색
-                    </button>
+                    <button class="btn mx-1" data-click="openSearchModal">🔍 동영상 검색</button>
                 </nav>
             </header>
         `;
     };
 
     render();
+    bindEvents();
 }
