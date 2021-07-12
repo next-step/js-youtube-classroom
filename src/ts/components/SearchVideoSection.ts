@@ -1,6 +1,7 @@
 import { createNode } from '../domHelper';
 import store from '../store';
 import { CommonProps, Component, GlobalState, YoutubeVideo } from '../types';
+import NotFound from './NotFound';
 import Skeleton from './Skeleton';
 import Video from './Video';
 
@@ -17,7 +18,8 @@ const SearchVideoSection: Component<Props> = ({}) => {
       `<section class="video-wrapper"></section>`,
       isSearchLoading
         ? Array.from({ length: 10 }, (_, i) => i).map(() => Skeleton({}))
-        : searchList.map(video =>
+        : searchList.length
+        ? searchList.map(video =>
             Video({
               type: 'search',
               channelId: video.snippet.channelId,
@@ -27,6 +29,7 @@ const SearchVideoSection: Component<Props> = ({}) => {
               title: video.snippet.title,
             })
           )
+        : [NotFound({})]
     ),
   ]);
 

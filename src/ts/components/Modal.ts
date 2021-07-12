@@ -11,6 +11,7 @@ import { CommonProps, Component, YoutubeVideo } from '../types';
 import { Button, Header, Heading } from './';
 import Form from './Form';
 import Input from './Input';
+import NotFound from './NotFound';
 import SearchVideoSection from './SearchVideoSection';
 import Skeleton from './Skeleton';
 
