@@ -1,6 +1,6 @@
 import { createNode } from '../domHelper';
 import store from '../store';
-import { changeInputValueAction } from '../store/actionCreator';
+import { changeInputValueAction, modalCloseAction } from '../store/actionCreator';
 import { Component } from '../types';
 import { Button, Header, Heading } from './';
 import Form from './Form';
@@ -17,6 +17,10 @@ const Modal: Component<Props> = () => {
     dispatch(changeInputValueAction(inputValue));
   };
 
+  const onModalOpenHandler = () => {
+    dispatch(modalCloseAction());
+  };
+
   const $modalInner = createNode(`<div class="modal-inner p-8"></div>`, [
     Button({
       className: 'modal-close',
@@ -26,6 +30,7 @@ const Modal: Component<Props> = () => {
           <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
         </svg>`),
       ],
+      onClick: onModalOpenHandler,
     }),
     Header({
       children: [Heading({ className: 'text-center', level: 2, textContent: '🔎 유튜브 검색' })],

@@ -4,6 +4,8 @@ import {
   YOUTUBE_SEARCH_LOADING,
   YOUTUBE_SEARCH_SUCCESS,
   INPUT_VALUE_CHANGE,
+  MODAL_OPEN,
+  MODAL_CLOSE,
 } from './actionType';
 
 const reducer: Reducer = (state: GlobalState, action: Action): GlobalState => {
@@ -29,6 +31,16 @@ const reducer: Reducer = (state: GlobalState, action: Action): GlobalState => {
       return {
         ...state,
         inputValue: action.payload.value,
+      };
+    case MODAL_OPEN:
+      return {
+        ...state,
+        isModalOpen: true,
+      };
+    case MODAL_CLOSE:
+      return {
+        ...state,
+        isModalOpen: false,
       };
     default:
       return state;

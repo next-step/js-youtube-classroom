@@ -10,6 +10,7 @@ let INITIAL_STATE: GlobalState = JSON.parse(window.localStorage.getItem(GLOBAL_S
   recentSearchList: [],
   saveVideoList: [],
   inputValue: '',
+  isModalOpen: false,
 };
 
 const createStore = (reducer: Reducer): Store => {

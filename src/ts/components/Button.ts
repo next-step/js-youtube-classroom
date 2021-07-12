@@ -1,4 +1,5 @@
 import { createNode } from '../domHelper';
+import store from '../store';
 import { CommonProps, Component } from '../types';
 
 interface Props extends CommonProps {
@@ -12,14 +13,15 @@ const Button: Component<Props> = ({
   type = 'button',
   className = '',
   id = '',
+  children,
 }) => {
-  const $button = createNode('<button></button>') as HTMLButtonElement;
+  const $button = createNode('<button></button>', children) as HTMLButtonElement;
 
   if (onClick) $button.addEventListener('click', onClick);
 
-  $button.className = className;
-  $button.id = id;
-  $button.textContent = textContent;
+  if (className) $button.className = className;
+  if (id) $button.id = id;
+  if (textContent) $button.textContent = textContent;
   $button.type = type;
 
   return $button;

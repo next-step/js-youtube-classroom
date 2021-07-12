@@ -1,20 +1,16 @@
 import '../css/index.css';
 import App from './app/App';
+import store from './store';
+
 const $root = document.querySelector('#root');
 
-$root.appendChild(App({}));
-
-const $searchButton = document.querySelector('#search-button');
-const $modalClose = document.querySelector('.modal-close');
-const $modal = document.querySelector('.modal');
-
-const onModalShow = () => {
-  $modal.classList.add('open');
+const render = () => {
+  window.requestAnimationFrame(() => {
+    $root.innerHTML = '';
+    $root.appendChild(App({}));
+  });
 };
 
-const onModalClose = () => {
-  $modal.classList.remove('open');
-};
+store.subscribe(render);
 
-$searchButton.addEventListener('click', onModalShow);
-$modalClose.addEventListener('click', onModalClose);
+render();

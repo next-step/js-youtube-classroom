@@ -49,6 +49,7 @@ export interface GlobalState {
   recentSearchList: [string?, string?, string?];
   saveVideoList: YoutubeVideo[];
   inputValue: string;
+  isModalOpen: boolean;
 }
 
 export interface Action {
