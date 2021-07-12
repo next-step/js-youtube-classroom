@@ -7,6 +7,8 @@ interface Props extends CommonProps {}
 
 const SearchVideoSection: Component<Props> = ({}) => {
   const { searchList } = store.getState();
+  console.log(searchList);
+
   const $searchVideoSection = createNode('<section></section>', [
     createNode(
       `<div class="d-flex justify-end text-gray-700">저장된 영상 갯수: ${searchList.length}개</div>`
@@ -15,10 +17,11 @@ const SearchVideoSection: Component<Props> = ({}) => {
       `<section class="video-wrapper"></section>`,
       searchList.map(video =>
         Video({
+          type: 'search',
           channelId: video.snippet.channelId,
           channelName: video.snippet.channelTitle,
           registeDate: video.snippet.publishTime,
-          thumbnailUrl: video.snippet.thumbnails.default.url,
+          videoId: video.id.videoId,
           title: video.snippet.title,
         })
       )

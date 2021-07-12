@@ -9,7 +9,6 @@ let INITIAL_STATE: GlobalState = JSON.parse(window.localStorage.getItem(GLOBAL_S
   searchList: [],
   recentSearchList: [],
   saveVideoList: [],
-  inputValue: '',
   isModalOpen: false,
 };
 

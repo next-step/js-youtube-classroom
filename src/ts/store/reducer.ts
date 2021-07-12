@@ -3,7 +3,6 @@ import {
   YOUTUBE_SEARCH_ERROR,
   YOUTUBE_SEARCH_LOADING,
   YOUTUBE_SEARCH_SUCCESS,
-  INPUT_VALUE_CHANGE,
   MODAL_OPEN,
   MODAL_CLOSE,
 } from './actionType';
@@ -26,11 +25,6 @@ const reducer: Reducer = (state: GlobalState, action: Action): GlobalState => {
         ...state,
         isSearchLoading: false,
         error: action.payload.error,
-      };
-    case INPUT_VALUE_CHANGE:
-      return {
-        ...state,
-        inputValue: action.payload.value,
       };
     case MODAL_OPEN:
       return {

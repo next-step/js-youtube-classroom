@@ -13,10 +13,11 @@ const Main: Component<Props> = ({}) => {
     SaveVideoSection({
       children: state.saveVideoList.map(video =>
         Video({
+          type: 'save',
           channelId: video.snippet.channelId,
           channelName: video.snippet.channelTitle,
           registeDate: video.snippet.publishTime,
-          thumbnailUrl: video.snippet.thumbnails.default.url,
+          videoId: video.id.videoId,
           title: video.snippet.title,
         })
       ),
