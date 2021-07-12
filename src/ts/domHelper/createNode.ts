@@ -1,6 +1,6 @@
 import { Component } from '../types';
 
-const createNode = (DOMstring: string, children?: Element[]) => {
+const createNode = (DOMstring: string, children?: Array<Element | null | false | undefined>) => {
   const template = document.createElement('template');
   template.innerHTML = DOMstring;
 
@@ -8,6 +8,7 @@ const createNode = (DOMstring: string, children?: Element[]) => {
 
   if (children) {
     children.forEach(child => {
+      if (!child) return;
       node.appendChild(child);
     });
   }
