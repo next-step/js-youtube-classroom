@@ -1,12 +1,13 @@
 import { createNode } from '../domHelper';
 import { CommonProps, Component } from '../types';
+import transferCreationDate from '../utils/transferCreateData';
 
 interface Props extends CommonProps {
   videoId: string;
   title: string;
   channelName: string;
   channelId: string;
-  registeDate: string;
+  publishTime: string;
   type: 'search' | 'save';
 }
 
@@ -14,10 +15,12 @@ const Video: Component<Props> = ({
   videoId,
   channelName,
   channelId,
-  registeDate,
+  publishTime,
   title,
   type = 'save',
 }) => {
+  const publishDate = transferCreationDate(publishTime);
+
   const $video = createNode(`
     <article class="clip">
       <div class="preview-container">
@@ -31,7 +34,14 @@ const Video: Component<Props> = ({
         </iframe>
       </div>
       <div class="content-container pt-2 px-1">
-        <h3>${title}</h3>
+        <h3>
+          <a
+          href="https://www.youtube.com/watch?v=${videoId}"
+          target="_blank"
+          class="video-name"
+          >${title}
+          </a>
+        </h3>
         <div>
           <a
             href="https://www.youtube.com/channel/${channelId}"
@@ -41,7 +51,7 @@ const Video: Component<Props> = ({
             ${channelName}
           </a>
           <div class="meta">
-            <p>${registeDate}</p>
+            <p>${publishDate}</p>
           </div>
           ${
             type === 'save'

@@ -20,7 +20,7 @@ const SearchVideoSection: Component<Props> = ({}) => {
           type: 'search',
           channelId: video.snippet.channelId,
           channelName: video.snippet.channelTitle,
-          registeDate: video.snippet.publishTime,
+          publishTime: video.snippet.publishTime,
           videoId: video.id.videoId,
           title: video.snippet.title,
         })

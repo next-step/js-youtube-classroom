@@ -48,6 +48,12 @@
   color: #0a0a0a;
 }
 
+.clip .content-container .video-name {
+  color: #212121;
+  display: block;
+  width: 100%;
+}
+
 .clip .content-container .channel-name {
   font-size: 12px;
   color: #606060;
