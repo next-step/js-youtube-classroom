@@ -7,16 +7,17 @@ import {
   searchYoutubeLoadingAction,
   searchYoutubeSuccessAction,
 } from '../store/actionCreator';
-import { Component, YoutubeVideo } from '../types';
+import { CommonProps, Component, YoutubeVideo } from '../types';
 import { Button, Header, Heading } from './';
 import Form from './Form';
 import Input from './Input';
 import SearchVideoSection from './SearchVideoSection';
+import Skeleton from './Skeleton';
 
-interface Props {}
+interface Props extends CommonProps {}
 
 const Modal: Component<Props> = () => {
-  const { searchList, recentSearchList } = store.getState();
+  const { recentSearchList } = store.getState();
   const { dispatch } = store;
 
   const onModalOpenHandler = () => {

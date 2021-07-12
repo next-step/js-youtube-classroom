@@ -1,13 +1,13 @@
 import { createNode } from '../domHelper';
 import store from '../store';
 import { CommonProps, Component, GlobalState, YoutubeVideo } from '../types';
+import Skeleton from './Skeleton';
 import Video from './Video';
 
 interface Props extends CommonProps {}
 
 const SearchVideoSection: Component<Props> = ({}) => {
-  const { searchList } = store.getState();
-  console.log(searchList);
+  const { searchList, isSearchLoading } = store.getState();
 
   const $searchVideoSection = createNode('<section></section>', [
     createNode(
@@ -15,16 +15,18 @@ const SearchVideoSection: Component<Props> = ({}) => {
     ),
     createNode(
       `<section class="video-wrapper"></section>`,
-      searchList.map(video =>
-        Video({
-          type: 'search',
-          channelId: video.snippet.channelId,
-          channelName: video.snippet.channelTitle,
-          publishTime: video.snippet.publishTime,
-          videoId: video.id.videoId,
-          title: video.snippet.title,
-        })
-      )
+      isSearchLoading
+        ? Array.from({ length: 10 }, (_, i) => i).map(() => Skeleton({}))
+        : searchList.map(video =>
+            Video({
+              type: 'search',
+              channelId: video.snippet.channelId,
+              channelName: video.snippet.channelTitle,
+              publishTime: video.snippet.publishTime,
+              videoId: video.id.videoId,
+              title: video.snippet.title,
+            })
+          )
     ),
   ]);
 

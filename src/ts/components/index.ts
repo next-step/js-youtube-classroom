@@ -9,3 +9,4 @@ export { default as Heading } from './Heading';
 export { default as Form } from './Form';
 export { default as Input } from './Input';
 export { default as SearchVideoSection } from './SearchVideoSection';
+export { default as Skeleton } from './Skeleton';
