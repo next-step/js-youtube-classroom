@@ -3,6 +3,7 @@ import {LectureVideo, YoutubeClipItem, YoutubeSearchResult} from "~@domain";
 import {SearchModalVideos} from "~components/modal/SearchModalVideos";
 import {youtubeSearchService} from "~services";
 import {SkeletonClip} from "~components/skeletons";
+import notFoundImage from "../../assets/images/status/not_found.png";
 
 export interface SearchModalProps {
   visibleModal: boolean;
@@ -71,6 +72,9 @@ export const SearchModal = ({
           <div class="d-flex justify-end text-gray-700">
             저장된 영상 갯수: ${lectureVideos.length}개
           </div>
+          ${videos.length === 0
+            ? `<div style="text-align: center"><img src="${notFoundImage}" alt="검색 결과가 없습니다." width="200" /></div>`
+            : ''}
           ${searchModalVideos}
           ${skeletonClip}
         </section>
