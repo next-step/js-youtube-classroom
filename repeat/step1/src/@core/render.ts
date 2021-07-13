@@ -5,6 +5,7 @@ interface Container {
   currentStateKey: number;
   states: any[];
 }
+
 const container: Container = {
   root: null,
   rootComponent: null,
