@@ -23,13 +23,15 @@ export const App = () => {
     addSearchKey,
     lectureVideos,
   });
+  const header = Header({ openModal });
+  const movies = Movies();
 
   return `
     <div class="d-flex justify-center mt-5 w-100">
       <div class="w-100">
-        ${Header({ openModal })}
+        ${header}
         <main class="mt-10">
-          ${Movies()}
+          ${movies}
         </main>
       </div>
     </div>
