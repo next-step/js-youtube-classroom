@@ -91,3 +91,12 @@ live-server 폴더명
 ## 📝 License
 
 This project is [MIT](https://github.com/next-step/js-youtube-classroom/blob/main/LICENSE) licensed.
+
+
+---
+
+### 구현계획
+
+- [x] youtube data api 키 발급받기 
+- [ ] 동영상 검색 버튼 클릭시 검색어 쿼리에 해당하는 영상의 제목이 콘솔에 뜨도록 출력해보기 (api key 이용 테스트)
+- [ ] 동영상 검색 버튼 클릭시 검색창 인풋이 뜨도록 UI 작업하기 
