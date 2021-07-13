@@ -20,7 +20,7 @@ import Skeleton from './Skeleton';
 interface Props extends CommonProps {}
 
 const Modal: Component<Props> = () => {
-  const { recentSearchList, currentSearchInfo } = store.getState();
+  const { recentSearchKeywords, currentSearchInfo } = store.getState();
   const { dispatch } = store;
 
   const onModalOpenHandler = () => {
@@ -93,7 +93,7 @@ const Modal: Component<Props> = () => {
     createNode(`
       <section class="mt-2">
         <span class="text-gray-700">최근 검색어: </span>
-        ${recentSearchList.map(keyword => `<a class="chip">${keyword}</a>`).join('')}
+        ${recentSearchKeywords.map(keyword => `<a class="chip">${keyword}</a>`).join('')}
       </section>
     `),
     SearchVideoSection({}),

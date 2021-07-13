@@ -46,7 +46,7 @@ export interface GlobalState {
   isSearchLoading: boolean;
   error: Error;
   searchList: YoutubeVideo[];
-  recentSearchList: [string?, string?, string?];
+  recentSearchKeywords: [string?, string?, string?];
   saveVideoList: YoutubeVideo[];
   currentSearchInfo: {
     nextPageToken: string;

@@ -18,10 +18,13 @@ export const searchYoutubeSuccessAction = (
     nextPageToken: string;
     keyword: string;
   }
-): Action => ({
-  type: YOUTUBE_SEARCH_SUCCESS,
-  payload: { searchList, currentSearchInfo },
-});
+): Action => {
+  window.localStorage.setItem('searchList', JSON.stringify(searchList));
+  return {
+    type: YOUTUBE_SEARCH_SUCCESS,
+    payload: { searchList, currentSearchInfo },
+  };
+};
 
 export const searchYoutubeErrorAction = (): Action => ({
   type: YOUTUBE_SEARCH_ERROR,
