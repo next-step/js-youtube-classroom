@@ -9,6 +9,8 @@ interface Props extends CommonProps {
   channelId: string;
   publishTime: string;
   type: 'search' | 'save';
+  index: number;
+  isSave: boolean;
 }
 
 const Video: Component<Props> = ({
@@ -18,8 +20,12 @@ const Video: Component<Props> = ({
   publishTime,
   title,
   type = 'save',
+  index,
+  isSave,
 }) => {
   const publishDate = transferCreationDate(publishTime);
+
+  console.log(isSave);
 
   const $video = createNode(`
     <article class="clip">
@@ -62,11 +68,13 @@ const Video: Component<Props> = ({
             <span class="opacity-hover">💬</span>
             <span class="opacity-hover">🗑️</span>
           </div>`
-              : `
+              : !isSave
+              ? `
           <div class="d-flex justify-end">
-            <button class="btn">⬇️ 저장</button>
+            <button class="btn" data-index="${index}">⬇️ 저장</button>
           </div>
           `
+              : ''
           }
         </div>
       </div>

@@ -3,6 +3,7 @@ import { Action, GlobalState, Reducer, Store } from '../types';
 const GLOBAL_STATE = 'globalState';
 
 const localSearchList = JSON.parse(window.localStorage.getItem('searchList'));
+const localSaveVideoList = JSON.parse(window.localStorage.getItem('saveVideoList'));
 
 // 라이브러리로써 사용한다면 reducer파일에 있는게 맞지만 현재는 제가 만들어쓰는 한정된 함수로써 취급하였습니다.
 let INITIAL_STATE: GlobalState = {
@@ -10,7 +11,7 @@ let INITIAL_STATE: GlobalState = {
   error: null,
   searchList: localSearchList ?? [],
   recentSearchKeywords: [],
-  saveVideoList: [],
+  saveVideoList: localSaveVideoList ?? [],
   currentSearchInfo: {
     nextPageToken: '',
     keyword: '',

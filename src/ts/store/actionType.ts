@@ -6,3 +6,5 @@ export const YOUTUBE_FETCH_MORE_SUCCESS = 'YOUTUBE_FETCH_MORE_SUCCESS';
 
 export const MODAL_OPEN = 'MODAL_OPEN';
 export const MODAL_CLOSE = 'MODAL_CLOSE';
+
+export const VIDEO_SAVE = 'VIDEO_SAVE';

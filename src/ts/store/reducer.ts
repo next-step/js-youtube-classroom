@@ -6,6 +6,7 @@ import {
   MODAL_OPEN,
   MODAL_CLOSE,
   YOUTUBE_FETCH_MORE_SUCCESS,
+  VIDEO_SAVE,
 } from './actionType';
 
 const reducer: Reducer = (state: GlobalState, action: Action): GlobalState => {
@@ -44,6 +45,11 @@ const reducer: Reducer = (state: GlobalState, action: Action): GlobalState => {
       return {
         ...state,
         isModalOpen: false,
+      };
+    case VIDEO_SAVE:
+      return {
+        ...state,
+        saveVideoList: [...state.saveVideoList, action.payload.videoData],
       };
     default:
       return state;

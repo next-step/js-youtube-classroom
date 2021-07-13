@@ -11,7 +11,7 @@ const Main: Component<Props> = ({}) => {
 
   const $main = createNode('<main class="mt-10"></main>', [
     SaveVideoSection({
-      children: state.saveVideoList.map(video =>
+      children: state.saveVideoList.map((video, index) =>
         Video({
           type: 'save',
           channelId: video.snippet.channelId,
@@ -19,6 +19,8 @@ const Main: Component<Props> = ({}) => {
           publishTime: video.snippet.publishTime,
           videoId: video.id.videoId,
           title: video.snippet.title,
+          index,
+          isSave: true,
         })
       ),
     }),
