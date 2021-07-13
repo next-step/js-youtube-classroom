@@ -2,33 +2,34 @@ interface Container {
   root: HTMLElement | null;
   rootComponent: Function | null;
   isInit: boolean;
+  currentStateKey: number;
+  states: any[];
 }
-
-const allStates: any = [];
-
 const container: Container = {
   root: null,
   rootComponent: null,
   isInit: false,
+  currentStateKey: 0,
+  states: [],
 }
 
-let currentStateKey = 0;
-
 export const useState = <State>(state: State) => {
-  const key = currentStateKey;
-  allStates[key] = state;
+  const { states, currentStateKey } = container;
+
+  states[currentStateKey] = state;
   const setState = (newState: State) => {
-    allStates[key] = newState;
+    states[currentStateKey] = newState;
     _render();
   }
 
-  currentStateKey += 1;
+  container.currentStateKey += 1;
 
   return [state, setState];
 }
 
 export const _render = () => {
   const { root, rootComponent } = container;
+  container.currentStateKey = 0;
   root!.innerHTML = rootComponent!();
 }
 
@@ -36,7 +37,6 @@ export const render = (
   root: HTMLElement,
   rootComponent: Function
 ) => {
-  currentStateKey = 0;
   if (!container.isInit) {
     container.root = root;
     container.rootComponent = rootComponent;
