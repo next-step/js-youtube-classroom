@@ -48,7 +48,10 @@ export interface GlobalState {
   searchList: YoutubeVideo[];
   recentSearchList: [string?, string?, string?];
   saveVideoList: YoutubeVideo[];
-  inputValue: string;
+  currentSearchInfo: {
+    nextPageToken: string;
+    keyword: string;
+  };
   isModalOpen: boolean;
 }
 

@@ -2,6 +2,7 @@ import youtubeAPI from '../api/youtube';
 import { createNode } from '../domHelper';
 import store from '../store';
 import {
+  fetchMoreYoutubeSuccessAction,
   modalCloseAction,
   searchYoutubeErrorAction,
   searchYoutubeLoadingAction,
@@ -12,13 +13,14 @@ import { Button, Header, Heading } from './';
 import Form from './Form';
 import Input from './Input';
 import NotFound from './NotFound';
+import Observe from './Observe';
 import SearchVideoSection from './SearchVideoSection';
 import Skeleton from './Skeleton';
 
 interface Props extends CommonProps {}
 
 const Modal: Component<Props> = () => {
-  const { recentSearchList } = store.getState();
+  const { recentSearchList, currentSearchInfo } = store.getState();
   const { dispatch } = store;
 
   const onModalOpenHandler = () => {
@@ -34,14 +36,34 @@ const Modal: Component<Props> = () => {
 
     dispatch(searchYoutubeLoadingAction());
     try {
-      const responseData = await youtubeAPI.searchYoutubeByTitle(searchInput.value);
-      dispatch(searchYoutubeSuccessAction(responseData.items));
+      const { items, nextPageToken } = await youtubeAPI.searchYoutubeByTitle(searchInput.value);
+      dispatch(searchYoutubeSuccessAction(items, { nextPageToken, keyword: searchInput.value }));
     } catch (error) {
       dispatch(searchYoutubeErrorAction());
     }
 
     searchInput.value = '';
   };
+
+  const $observe = Observe({});
+
+  const fetchMoreObserver = new IntersectionObserver(async ([{ isIntersecting }]) => {
+    if (!isIntersecting) return;
+
+    try {
+      const { items, nextPageToken } = await youtubeAPI.nextPage(
+        currentSearchInfo.keyword,
+        currentSearchInfo.nextPageToken
+      );
+      dispatch(
+        fetchMoreYoutubeSuccessAction(items, { nextPageToken, keyword: currentSearchInfo.keyword })
+      );
+    } catch (error) {
+      dispatch(searchYoutubeErrorAction());
+    }
+  });
+
+  fetchMoreObserver.observe($observe);
 
   const $modalInner = createNode(`<div class="modal-inner p-8"></div>`, [
     Button({
@@ -75,6 +97,7 @@ const Modal: Component<Props> = () => {
       </section>
     `),
     SearchVideoSection({}),
+    $observe,
   ]);
 
   const $modal = createNode(

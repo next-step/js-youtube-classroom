@@ -5,6 +5,7 @@ import {
   YOUTUBE_SEARCH_SUCCESS,
   MODAL_OPEN,
   MODAL_CLOSE,
+  YOUTUBE_FETCH_MORE_SUCCESS,
 } from './actionType';
 
 const reducer: Reducer = (state: GlobalState, action: Action): GlobalState => {
@@ -19,12 +20,20 @@ const reducer: Reducer = (state: GlobalState, action: Action): GlobalState => {
         ...state,
         isSearchLoading: false,
         searchList: action.payload.searchList,
+        currentSearchInfo: action.payload.currentSearchInfo,
       };
     case YOUTUBE_SEARCH_ERROR:
       return {
         ...state,
         isSearchLoading: false,
         error: action.payload.error,
+      };
+    case YOUTUBE_FETCH_MORE_SUCCESS:
+      return {
+        ...state,
+        isSearchLoading: false,
+        searchList: [...state.searchList, ...action.payload.searchList],
+        currentSearchInfo: action.payload.currentSearchInfo,
       };
     case MODAL_OPEN:
       return {
