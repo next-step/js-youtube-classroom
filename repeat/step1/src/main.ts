@@ -113,4 +113,4 @@ const template = () => `
   </div>
 `;
 
-document.querySelector('#app').innerHTMl = template();
+document.querySelector('#app').innerHTML = template();
