@@ -1,6 +1,7 @@
-import {addEvent} from "~@core";
-import {LectureVideo} from "~@domain";
+import {addEvent, useState} from "~@core";
+import {LectureVideo, YoutubeSearchResult} from "~@domain";
 import {SearchModalVideos} from "~components/modal/SearchModalVideos";
+import {youtubeSearchService} from "~services";
 
 export interface SearchModalProps {
   visibleModal: boolean;
@@ -15,9 +16,20 @@ export const SearchModal = ({
   closeModal,
   recentSearches,
   lectureVideos,
+  addSearchKey,
 }: SearchModalProps) => {
 
+  const [searchKey, setSearchKey] = useState("");
+
   addEvent('.modal-close', 'click', closeModal);
+
+  addEvent('#youtube-search', 'submit', e => {
+    e.preventDefault();
+    const target = e.target as HTMLFormElement;
+    const searchKey = target.searchKey.value;
+    addSearchKey(searchKey);
+    // youtubeSearchService.search(searchKey);
+  })
 
   return `
     <div class="modal ${visibleModal ? 'open' : 'close'}">
@@ -30,13 +42,13 @@ export const SearchModal = ({
         <header>
           <h2 class="text-center">🔎 유튜브 검색</h2>
         </header>
-        <form class="d-flex">
-          <input type="text" class="w-100 mr-2 pl-2" placeholder="검색" />
-          <button type="button" class="btn bg-cyan-500">검색</button>
+        <form class="d-flex" id="youtube-search">
+          <input name="searchKey" type="text" class="w-100 mr-2 pl-2" placeholder="검색" value="${searchKey}" />
+          <button type="submit" class="btn bg-cyan-500">검색</button>
         </form>
         <section class="mt-2">
           <span class="text-gray-700">최근 검색어: </span>
-          ${[ ...recentSearches ].map(searchKey => `
+          ${[ ...recentSearches ].reverse().map(searchKey => `
             <a class="chip">${searchKey}</a>
           `).join('')}
           ${recentSearches.size === 0 ? '최근 검색 내역이 존재하지 않습니다.' : ''}

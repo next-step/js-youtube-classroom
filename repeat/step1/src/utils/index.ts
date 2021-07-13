@@ -13,6 +13,10 @@ export const cloneNode = <T extends HTMLElement = HTMLElement>(
 ) => element.cloneNode(true) as T;
 
 export const simpleDeepEquals = (obj1: any, obj2: any) => {
+  if (obj1 instanceof Set && obj2 instanceof Set) {
+    return JSON.stringify([ ...obj1 ]) === JSON.stringify([ ...obj2 ]);
+  }
+
   return (
     obj1 === obj2 ||
     JSON.stringify(obj1) === JSON.stringify(obj2)

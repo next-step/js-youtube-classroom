@@ -30,12 +30,11 @@ export const useState = <State>(initState: State): [State, (arg: State) => void]
   const setState = (newState: State) => {
     if (simpleDeepEquals(newState, state)) return;
     states[currentStateKey] = newState;
+    console.log({ state, newState });
     debounceFrame(_render);
   }
 
   container.currentStateKey += 1;
-
-  // console.log('useState', JSON.stringify(container, null, 2));
 
   return [state, setState];
 }
@@ -70,7 +69,13 @@ export const addEvent = (
   eventType: string,
   callback: (event: Event) => void
 ) => {
-  const { currentEventKey, events } = container;
+  const { root, currentEventKey, events } = container;
+
+  if (root && events[currentEventKey]) {
+    const { callback: beforeCallback } = events[currentEventKey];
+    selectAll(selector, root).forEach(el => el.removeEventListener(eventType, beforeCallback));
+  }
+
   events[currentEventKey] = { selector, eventType, callback };
   container.currentEventKey += 1;
 
@@ -82,10 +87,7 @@ export const registerEvents = () => {
   if (!root) return;
 
   for (const { selector, eventType, callback } of events) {
-    selectAll(selector, root).forEach(el => {
-      el.removeEventListener(eventType, callback);
-      el.addEventListener(eventType, callback);
-    })
+    selectAll(selector, root).forEach(el => el.addEventListener(eventType, callback))
   }
 
   // console.log('registerEvents', JSON.stringify(container, null, 2));
