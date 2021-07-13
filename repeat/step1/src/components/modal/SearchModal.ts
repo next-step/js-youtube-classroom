@@ -56,7 +56,7 @@ export const SearchModal = ({
 
   const searchModalVideos = SearchModalVideos({ videos, addLectureVideos });
 
-  console.log({ searchKey, nextPageToken, videos, loading });
+  // console.log({ searchKey, nextPageToken, videos, loading });
 
   return `
     <div class="modal ${visibleModal ? 'open' : 'close'}">

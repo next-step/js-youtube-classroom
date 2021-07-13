@@ -1,5 +1,5 @@
 import {YoutubeClipItem} from "~@domain";
-import {dateformat} from "~utils";
+import {dateformat, selectParent} from "~utils";
 import {addEvent} from "~@core";
 
 export interface SearchModalVideosProps {
@@ -12,13 +12,15 @@ export const SearchModalVideos = ({
   addLectureVideos,
 }: SearchModalVideosProps) => {
 
-  addEvent('.vieo-clip-save', 'click', (e) => {
-    console.log('저장');
+  addEvent('.video-clip-save', 'click', (e) => {
+    const target = e.currentTarget as HTMLElement;
+    const key = Number(target.dataset.key);
+    addLectureVideos(videos[key]);
   });
 
   return `
     <section class="video-wrapper">
-      ${videos.map(({ id, snippet }) => `
+      ${videos.map(({ id, snippet }, key) => `
         <article class="clip">
           <div class="preview-container">
             <iframe
@@ -44,7 +46,7 @@ export const SearchModalVideos = ({
               <div class="meta">
                 <p>${dateformat(snippet.publishedAt)}</p>
               </div>
-              <div class="d-flex justify-end video-clip-save">
+              <div class="d-flex justify-end video-clip-save" data-key="${key}">
                 <button class="btn">⬇️ 저장</button>
               </div>
             </div>

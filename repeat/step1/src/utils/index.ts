@@ -8,6 +8,11 @@ export const selectAll = <T extends HTMLElement = HTMLElement>(
   parent: HTMLElement | Document = document
 ): T[] => [ ...parent.querySelectorAll(selector) ] as unknown as T[];
 
+export const selectParent = <T extends HTMLElement = HTMLElement>(
+  selector: string,
+  target: HTMLElement
+): T => target.closest(selector) as unknown as T;
+
 export const cloneNode = <T extends HTMLElement = HTMLElement>(
   element: T
 ) => element.cloneNode(true) as T;

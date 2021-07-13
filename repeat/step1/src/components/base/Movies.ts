@@ -1,40 +1,49 @@
-export const Movies = () => {
+import {LectureVideo} from "~@domain";
+import {dateformat} from "~utils";
+
+export interface MoviesProps {
+  videos: LectureVideo[];
+}
+
+export const Movies = ({ videos }: MoviesProps) => {
   return `
     <section class="video-wrapper">
-      <article class="clip">
-        <div class="preview-container">
-          <iframe
-            width="100%"
-            height="118"
-            src="https://www.youtube.com/embed/Ngj3498Tm_0"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-            loading="lazy"
-          ></iframe>
-        </div>
-        <div class="content-container pt-2 px-1">
-          <h3>아두이노 무드등</h3>
-          <div>
-            <a
-              href="https://www.youtube.com/channel/UC-mOekGSesms0agFntnQang"
-              target="_blank"
-              class="channel-name mt-1"
-            >
-              메이커준
-            </a>
-            <div class="meta">
-              <p>2021년 3월 2일</p>
-            </div>
+      ${videos.map(({ id, item }) => `
+        <article class="clip">
+          <div class="preview-container">
+            <iframec
+              width="100%"
+              height="118"
+              src="https://www.youtube.com/embed/${item.id.videoId}"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              loading="lazy"
+            ></iframec>
+          </div>
+          <div class="content-container pt-2 px-1">
+            <h3>${item.snippet.title}</h3>
             <div>
-              <span class="opacity-hover">✅</span>
-              <span class="opacity-hover">👍</span>
-              <span class="opacity-hover">💬</span>
-              <span class="opacity-hover">🗑️</span>
+              <a
+                href="https://www.youtube.com/channel/UC-mOekGSesms0agFntnQang"
+                target="_blank"
+                class="channel-name mt-1"
+              >
+                ${item.snippet.channelTitle}
+              </a>
+              <div class="meta">
+                <p>${dateformat(item.snippet.publishedAt)}</p>
+              </div>
+              <div>
+                <span class="opacity-hover">✅</span>
+                <span class="opacity-hover">👍</span>
+                <span class="opacity-hover">💬</span>
+                <span class="opacity-hover">🗑️</span>
+              </div>
             </div>
           </div>
-        </div>
-      </article>
+        </article>
+      `).join('')}
     </section>
   `
 }
