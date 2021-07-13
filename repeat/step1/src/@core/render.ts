@@ -60,7 +60,7 @@ export const render = (
   container.root = root;
   container.rootComponent = rootComponent;
   container.isInit = true;
-  _render();
+  debounceFrame(_render);
 }
 
 export const addEvent = (

@@ -1,13 +1,20 @@
 import {YoutubeClipItem} from "~@domain";
 import {dateformat} from "~utils";
+import {addEvent} from "~@core";
 
 export interface SearchModalVideosProps {
   videos: YoutubeClipItem[];
+  addLectureVideos: (videoClip: YoutubeClipItem) => void;
 }
 
 export const SearchModalVideos = ({
-  videos
+  videos,
+  addLectureVideos,
 }: SearchModalVideosProps) => {
+
+  addEvent('.vieo-clip-save', 'click', (e) => {
+    console.log('저장');
+  });
 
   return `
     <section class="video-wrapper">
@@ -37,7 +44,7 @@ export const SearchModalVideos = ({
               <div class="meta">
                 <p>${dateformat(snippet.publishedAt)}</p>
               </div>
-              <div class="d-flex justify-end">
+              <div class="d-flex justify-end video-clip-save">
                 <button class="btn">⬇️ 저장</button>
               </div>
             </div>

@@ -1,6 +1,7 @@
 import {Header, Movies, SearchModal} from "~components";
 import {useState} from "~@core";
 import {lectureVideoService, recentSearchesService} from "~services";
+import {YoutubeClipItem} from "~@domain";
 
 export const App = () => {
 
@@ -16,12 +17,18 @@ export const App = () => {
     setRecentSearches(recentSearchesService.getSearches());
   }
 
+  const addLectureVideos = (videoCip: YoutubeClipItem) => {
+    lectureVideoService.addLectureVideos(videoCip);
+    setLectureVideos(lectureVideoService.fetchLectureVideos());
+  }
+
   const searchModal = SearchModal({
     visibleModal,
     closeModal,
     recentSearches,
     addSearchKey,
     lectureVideos,
+    addLectureVideos,
   });
   const header = Header({ openModal });
   const movies = Movies();
