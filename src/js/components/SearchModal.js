@@ -53,6 +53,11 @@ export default function SearchModal($el, props) {
         const {nextPageToken, items} = await findAllBySearchKey({searchKeyword});
         //todo nextPageToken 다음 페이지 요청 시 사용
 
+        if (items.length === 0) {
+            $el.innerHTML = articleNotFoundTemplate;
+            return;
+        }
+
         const articles = items.map(item => {
             const {
                 videoId,
@@ -98,6 +103,14 @@ export default function SearchModal($el, props) {
 
         $el.innerHTML = articles.join('');
     };
+
+    const articleNotFoundTemplate = `
+        <div class="stretch d-flex flex-col items-center">
+            <img src="../../src/images/status/not_found.png" width="100px" alt="not found">
+            <h2>검색결과가 없습니다.</h2>
+            <div>다른 검색어를 시도해 보거나 검색 필터를 삭제하세요.</div>
+        </div>
+    `;
 
     const articleSkeletonTemplate = Array(10)
         .fill(null)
