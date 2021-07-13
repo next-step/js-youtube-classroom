@@ -30,7 +30,6 @@ export const useState = <State>(initState: State): [State, (arg: State) => void]
   const setState = (newState: State) => {
     if (simpleDeepEquals(newState, state)) return;
     states[currentStateKey] = newState;
-    console.log({ state, newState });
     debounceFrame(_render);
   }
 

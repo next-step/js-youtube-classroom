@@ -1,5 +1,5 @@
 import {addEvent, useState} from "~@core";
-import {LectureVideo, YoutubeSearchResult} from "~@domain";
+import {LectureVideo, YoutubeClipItem, YoutubeSearchResult} from "~@domain";
 import {SearchModalVideos} from "~components/modal/SearchModalVideos";
 import {youtubeSearchService} from "~services";
 
@@ -20,6 +20,8 @@ export const SearchModal = ({
 }: SearchModalProps) => {
 
   const [searchKey, setSearchKey] = useState("");
+  const [nextPageToken, setNextPageToken] = useState("");
+  const [videos, setVideos] = useState<YoutubeClipItem[]>([]);
 
   addEvent('.modal-close', 'click', closeModal);
 
@@ -27,8 +29,14 @@ export const SearchModal = ({
     e.preventDefault();
     const target = e.target as HTMLFormElement;
     const searchKey = target.searchKey.value;
-    addSearchKey(searchKey);
-    // youtubeSearchService.search(searchKey);
+    youtubeSearchService
+      .search(searchKey)
+      .then(result => {
+        console.log(result);
+        setNextPageToken(result.nextPageToken!);
+        setVideos(result.items)
+        addSearchKey(searchKey);
+      })
   })
 
   return `
@@ -57,7 +65,7 @@ export const SearchModal = ({
           <div class="d-flex justify-end text-gray-700">
             저장된 영상 갯수: ${lectureVideos.length}개
           </div>
-          ${SearchModalVideos({ videos: [] })}
+          ${SearchModalVideos({ videos })}
         </section>
       </div>
     </div>
