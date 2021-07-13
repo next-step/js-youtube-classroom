@@ -3,6 +3,7 @@ import {selectOne} from "~utils";
 import {App} from "~App";
 import "./assets/css/index.css";
 
-const $root = selectOne('#app');
-
-render($root, App());
+render(
+  selectOne('#app'),
+  App
+);
