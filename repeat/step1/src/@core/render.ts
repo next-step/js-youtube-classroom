@@ -14,10 +14,10 @@ const container: Container = {
   states: [],
 }
 
-export const useState = <State>(state: State) => {
+export const useState = <State>(state: State): [State, (arg: State) => void] => {
   const { states, currentStateKey } = container;
 
-  states[currentStateKey] = state;
+  states[currentStateKey] = states[currentStateKey] ?? state;
   const setState = (newState: State) => {
     states[currentStateKey] = newState;
     _render();
@@ -25,7 +25,7 @@ export const useState = <State>(state: State) => {
 
   container.currentStateKey += 1;
 
-  return [state, setState];
+  return [states[currentStateKey], setState];
 }
 
 export const _render = () => {
