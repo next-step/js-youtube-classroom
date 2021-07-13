@@ -68,7 +68,6 @@ export const addEvent = (
   callback: (event: Event) => void
 ) => {
   const { currentEventKey, events } = container;
-  if (events[currentEventKey] !== undefined) return;
   events[currentEventKey] = { selector, eventType, callback };
   container.currentEventKey += 1;
 }
