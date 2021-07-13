@@ -22,6 +22,7 @@ const reducer: Reducer = (state: GlobalState, action: Action): GlobalState => {
         isSearchLoading: false,
         searchList: action.payload.searchList,
         currentSearchInfo: action.payload.currentSearchInfo,
+        recentSearchKeywords: action.payload.newRecentSearchKeywords,
       };
     case YOUTUBE_SEARCH_ERROR:
       return {

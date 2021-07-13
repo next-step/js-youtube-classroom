@@ -4,13 +4,14 @@ const GLOBAL_STATE = 'globalState';
 
 const localSearchList = JSON.parse(window.localStorage.getItem('searchList'));
 const localSaveVideoList = JSON.parse(window.localStorage.getItem('saveVideoList'));
+const localrecentSearchKeywords = JSON.parse(window.localStorage.getItem('recentSearchKeywords'));
 
 // 라이브러리로써 사용한다면 reducer파일에 있는게 맞지만 현재는 제가 만들어쓰는 한정된 함수로써 취급하였습니다.
 let INITIAL_STATE: GlobalState = {
   isSearchLoading: false,
   error: null,
   searchList: localSearchList ?? [],
-  recentSearchKeywords: [],
+  recentSearchKeywords: localrecentSearchKeywords ?? [],
   saveVideoList: localSaveVideoList ?? [],
   currentSearchInfo: {
     nextPageToken: '',

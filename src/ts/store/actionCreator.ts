@@ -18,10 +18,11 @@ export const searchYoutubeSuccessAction = (
   currentSearchInfo: {
     nextPageToken: string;
     keyword: string;
-  }
+  },
+  newRecentSearchKeywords: string[]
 ): Action => ({
   type: YOUTUBE_SEARCH_SUCCESS,
-  payload: { searchList, currentSearchInfo },
+  payload: { searchList, currentSearchInfo, newRecentSearchKeywords },
 });
 
 export const searchYoutubeErrorAction = (): Action => ({

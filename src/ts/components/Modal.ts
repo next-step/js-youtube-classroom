@@ -37,8 +37,22 @@ const Modal: Component<Props> = () => {
     dispatch(searchYoutubeLoadingAction());
     try {
       const { items, nextPageToken } = await youtubeAPI.searchYoutubeByTitle(searchInput.value);
-      dispatch(searchYoutubeSuccessAction(items, { nextPageToken, keyword: searchInput.value }));
+
+      const newRecentSearchKeywords = [searchInput.value, ...recentSearchKeywords];
+      newRecentSearchKeywords.length = 3;
+
+      dispatch(
+        searchYoutubeSuccessAction(
+          items,
+          {
+            nextPageToken,
+            keyword: searchInput.value,
+          },
+          newRecentSearchKeywords
+        )
+      );
       window.localStorage.setItem('searchList', JSON.stringify(items));
+      window.localStorage.setItem('recentSearchKeywords', JSON.stringify(newRecentSearchKeywords));
     } catch (error) {
       dispatch(searchYoutubeErrorAction());
     }
