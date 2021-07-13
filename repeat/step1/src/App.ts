@@ -1,13 +1,28 @@
 import {Header, Movies, SearchModal} from "~components";
 import {useState} from "~@core";
+import {lectureVideoService, recentSearchesService} from "~services";
 
 export const App = () => {
 
-  const [visibleModal, setVisibleModal] = useState<boolean>(false);
+  const [visibleModal, setVisibleModal] = useState(false);
+  const [recentSearches, setRecentSearches] = useState(recentSearchesService.getSearches());
+  const [lectureVideos, setLectureVideos] = useState(lectureVideoService.fetchLectureVideos());
+
   const openModal = () => setVisibleModal(true);
   const closeModal = () => setVisibleModal(false);
 
+  const addSearchKey = (key: string) => {
+    recentSearchesService.addSearchKey(key);
+    setRecentSearches(recentSearchesService.getSearches());
+  }
 
+  const searchModal = SearchModal({
+    visibleModal,
+    closeModal,
+    recentSearches,
+    addSearchKey,
+    lectureVideos,
+  });
 
   return `
     <div class="d-flex justify-center mt-5 w-100">
@@ -18,6 +33,6 @@ export const App = () => {
         </main>
       </div>
     </div>
-    ${SearchModal({ visibleModal, closeModal })}
+    ${searchModal}
   `;
 }

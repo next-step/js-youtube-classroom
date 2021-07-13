@@ -1,11 +1,20 @@
 import {addEvent} from "~@core";
+import {LectureVideo} from "~@domain";
 
 export interface SearchModalProps {
   visibleModal: boolean;
   closeModal: () => void;
+  recentSearches: Set<String>;
+  addSearchKey: (key: string) => void;
+  lectureVideos: LectureVideo[];
 }
 
-export const SearchModal = ({ visibleModal, closeModal }: SearchModalProps) => {
+export const SearchModal = ({
+  visibleModal,
+  closeModal,
+  recentSearches,
+  lectureVideos,
+}: SearchModalProps) => {
 
   addEvent('.modal-close', 'click', closeModal);
 
@@ -26,13 +35,14 @@ export const SearchModal = ({ visibleModal, closeModal }: SearchModalProps) => {
         </form>
         <section class="mt-2">
           <span class="text-gray-700">최근 검색어: </span>
-          <a class="chip">메이커준</a>
-          <a class="chip">블랙커피</a>
-          <a class="chip">자바스크립트</a>
+          ${[ ...recentSearches ].map(searchKey => `
+            <a class="chip">${searchKey}</a>
+          `).join('')}
+          ${recentSearches.size === 0 ? '최근 검색 내역이 존재하지 않습니다.' : ''}
         </section>
         <section>
           <div class="d-flex justify-end text-gray-700">
-            저장된 영상 갯수: 50개
+            저장된 영상 갯수: ${lectureVideos.length}개
           </div>
           <section class="video-wrapper">
             <article class="clip">
