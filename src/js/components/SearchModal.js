@@ -1,3 +1,6 @@
+import {findAllBySearchKey} from '../apis/youtubeApis.js';
+import {$} from '../utils/selector.js';
+
 /**
  * 검색 모달
  * @param $el
@@ -6,6 +9,7 @@
  * @param {function} props.closeModal
  * @constructor
  */
+
 export default function SearchModal($el, props) {
 
     const state = {
@@ -45,6 +49,75 @@ export default function SearchModal($el, props) {
         setState({searchKeyword, latestSearchKeywords});
     };
 
+    const loadArticles = async ($el, searchKeyword) => {
+        const {nextPageToken, items} = await findAllBySearchKey({searchKeyword});
+        //todo nextPageToken 다음 페이지 요청 시 사용
+
+        const articles = items.map(item => {
+            const {
+                videoId,
+                channelId,
+                channelTitle,
+                title,
+                publishedAt,
+            } = item;
+
+            return `
+                <article class="clip">
+                    <div class="preview-container">
+                        <iframe
+                            width="100%"
+                            height="118"
+                            src="https://www.youtube.com/embed/${videoId}"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                        ></iframe>
+                    </div>
+                    <div class="content-container pt-2 px-1">
+                        <h3>${title}</h3>
+                        <div>
+                            <a
+                                href="https://www.youtube.com/channel/${channelId}"
+                                target="_blank"
+                                class="channel-name mt-1"
+                            >
+                                ${channelTitle} 
+                            </a>
+                            <div class="meta">
+                                <p>${publishedAt}</p>
+                            </div>
+                            <div class="d-flex justify-end">
+                                <button class="btn">⬇️ 저장</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            `;
+        });
+
+        $el.innerHTML = articles.join('');
+    };
+
+    const articleSkeletonTemplate = Array(10)
+        .fill(null)
+        .map(_ => `
+            <article class="clip skeleton">
+                <div class="preview-container image">
+                    <div></div>
+                </div>
+                <div class="content-container pt-2">
+                    <div>
+                        <div class="meta line">
+                            <p></p>
+                        </div>
+                        <div class="d-flex justify-end line mt-3"></div>
+                    </div>
+                </div>
+            </article>
+        `)
+        .join('');
+
     const render = () => {
         const {isShowModal, latestSearchKeywords, searchKeyword} = state;
         const latestSearchKeywordButtons = latestSearchKeywords.map(keyword => `<a class="chip">${keyword}</a>`)
@@ -73,56 +146,15 @@ export default function SearchModal($el, props) {
                         <div class="d-flex justify-end text-gray-700">
                             저장된 영상 갯수: 50개
                         </div>
-                        <section class="video-wrapper">
-<!--                            <article class="clip">-->
-<!--                                <div class="preview-container">-->
-<!--                                    <iframe-->
-<!--                                        width="100%"-->
-<!--                                        height="118"-->
-<!--                                        src="https://www.youtube.com/embed/Ngj3498Tm_0"-->
-<!--                                        frameBorder="0"-->
-<!--                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"-->
-<!--                                        allowFullScreen-->
-<!--                                    ></iframe>-->
-<!--                                </div>-->
-<!--                                <div class="content-container pt-2 px-1">-->
-<!--                                    <h3>아두이노 무드등</h3>-->
-<!--                                    <div>-->
-<!--                                        <a-->
-<!--                                            href="https://www.youtube.com/channel/UC-mOekGSesms0agFntnQang"-->
-<!--                                            target="_blank"-->
-<!--                                            class="channel-name mt-1"-->
-<!--                                        >-->
-<!--                                            메이커준-->
-<!--                                        </a>-->
-<!--                                        <div class="meta">-->
-<!--                                            <p>2021년 3월 2일</p>-->
-<!--                                        </div>-->
-<!--                                        <div class="d-flex justify-end">-->
-<!--                                            <button class="btn">⬇️ 저장</button>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </article>-->
-                            
-                            <article class="clip skeleton">
-                                <div class="preview-container image">
-                                    <div></div>
-                                </div>
-                                <div class="content-container pt-2">
-                                    <div>
-                                        <div class="meta line">
-                                            <p></p>
-                                        </div>
-                                        <div class="d-flex justify-end line mt-3"></div>
-                                    </div>
-                                </div>
-                            </article>
+                        <section class="video-wrapper" data-ref="articles">
+                            ${searchKeyword && articleSkeletonTemplate}                    
                         </section>
                     </section>
                 </div>
             </div>
         `;
+
+        searchKeyword && loadArticles($('[data-ref=articles]', $el), searchKeyword);
     };
 
     render();

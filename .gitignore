@@ -105,3 +105,6 @@ dist
 
 # IntelliJ
 .idea/
+
+# youtube api key
+/src/js/apis/secretKey.js
