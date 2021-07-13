@@ -1,3 +1,6 @@
+import {diff} from "~@core/diff";
+import {cloneNode, debounceFrame, simpleDeepEquals} from "~utils";
+
 interface Container {
   root: HTMLElement | null;
   rootComponent: Function | null;
@@ -14,24 +17,31 @@ const container: Container = {
   states: [],
 }
 
-export const useState = <State>(state: State): [State, (arg: State) => void] => {
+export const useState = <State>(initState: State): [State, (arg: State) => void] => {
   const { states, currentStateKey } = container;
+  states[currentStateKey] = states[currentStateKey] ?? initState;
 
-  states[currentStateKey] = states[currentStateKey] ?? state;
+  const state = states[currentStateKey];
+
   const setState = (newState: State) => {
+    if (simpleDeepEquals(newState, state)) return;
     states[currentStateKey] = newState;
-    _render();
+    debounceFrame(_render);
   }
 
   container.currentStateKey += 1;
 
-  return [states[currentStateKey], setState];
+  return [state, setState];
 }
 
 export const _render = () => {
   const { root, rootComponent } = container;
+  if (!root || !rootComponent) return;
+
   container.currentStateKey = 0;
-  root!.innerHTML = rootComponent!();
+  const virtualNode: HTMLElement = cloneNode(root);
+  virtualNode.innerHTML = rootComponent();
+  diff(root, virtualNode);
 }
 
 export const render = (
