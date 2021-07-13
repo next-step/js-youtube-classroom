@@ -1,4 +1,11 @@
+import {addEvent} from "~@core";
+
 export const Header = () => {
+
+  addEvent('#search-button', 'click', (e) => {
+    console.log('test');
+  });
+
   return `
     <header class="my-4">
       <h2 class="text-center font-bold">👩🏻‍💻 나만의 유튜브 강의실 👨🏻‍💻</h2>
