@@ -11,7 +11,7 @@ export const SearchModalVideos = ({
 
   return `
     <section class="video-wrapper">
-      ${videos.map(({ kind, etag, id, snippet }) => `
+      ${videos.map(({ id, snippet }) => `
         <article class="clip">
           <div class="preview-container">
             <iframe
@@ -21,6 +21,7 @@ export const SearchModalVideos = ({
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen
+              loading="lazy"
             ></iframe>
           </div>
           <div class="content-container pt-2 px-1">
