@@ -38,6 +38,7 @@ const Modal: Component<Props> = () => {
     try {
       const { items, nextPageToken } = await youtubeAPI.searchYoutubeByTitle(searchInput.value);
       dispatch(searchYoutubeSuccessAction(items, { nextPageToken, keyword: searchInput.value }));
+      window.localStorage.setItem('searchList', JSON.stringify(items));
     } catch (error) {
       dispatch(searchYoutubeErrorAction());
     }

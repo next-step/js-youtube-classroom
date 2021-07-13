@@ -6,6 +6,7 @@ import {
   MODAL_OPEN,
   MODAL_CLOSE,
   YOUTUBE_FETCH_MORE_SUCCESS,
+  VIDEO_SAVE,
 } from './actionType';
 
 export const searchYoutubeLoadingAction = (): Action => ({
@@ -18,13 +19,10 @@ export const searchYoutubeSuccessAction = (
     nextPageToken: string;
     keyword: string;
   }
-): Action => {
-  window.localStorage.setItem('searchList', JSON.stringify(searchList));
-  return {
-    type: YOUTUBE_SEARCH_SUCCESS,
-    payload: { searchList, currentSearchInfo },
-  };
-};
+): Action => ({
+  type: YOUTUBE_SEARCH_SUCCESS,
+  payload: { searchList, currentSearchInfo },
+});
 
 export const searchYoutubeErrorAction = (): Action => ({
   type: YOUTUBE_SEARCH_ERROR,
@@ -47,4 +45,9 @@ export const modalOpenAction = (): Action => ({
 
 export const modalCloseAction = (): Action => ({
   type: MODAL_CLOSE,
+});
+
+export const videoSaveAction = (videoData: YoutubeVideo): Action => ({
+  type: VIDEO_SAVE,
+  payload: { videoData },
 });
