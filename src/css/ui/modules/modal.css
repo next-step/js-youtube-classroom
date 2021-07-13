@@ -19,7 +19,8 @@
 
 .modal-inner {
   transition: top 0.25s ease;
-  width: 960px;
+  width: 90%;
+  height: 90%;
   margin: auto;
   overflow: auto;
   background: #fff;
