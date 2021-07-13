@@ -35,6 +35,8 @@ export const useState = <State>(initState: State): [State, (arg: State) => void]
 
   container.currentStateKey += 1;
 
+  // console.log('useState', JSON.stringify(container, null, 2));
+
   return [state, setState];
 }
 
@@ -42,11 +44,14 @@ const _render = () => {
   const { root, rootComponent } = container;
   if (!root || !rootComponent) return;
 
+  // console.log('_render', JSON.stringify(container, null, 2));
+
   container.currentStateKey = 0;
   container.currentEventKey = 0;
   const virtualNode: HTMLElement = cloneNode(root);
   virtualNode.innerHTML = rootComponent();
   diff(root, virtualNode);
+
   registerEvents();
 }
 
@@ -54,12 +59,10 @@ export const render = (
   root: HTMLElement,
   rootComponent: Function
 ) => {
-  if (!container.isInit) {
-    container.root = root;
-    container.rootComponent = rootComponent;
-    container.isInit = true;
-  }
-  debounceFrame(_render);
+  container.root = root;
+  container.rootComponent = rootComponent;
+  container.isInit = true;
+  _render();
 }
 
 export const addEvent = (
@@ -70,6 +73,8 @@ export const addEvent = (
   const { currentEventKey, events } = container;
   events[currentEventKey] = { selector, eventType, callback };
   container.currentEventKey += 1;
+
+  // console.log('addEvent', JSON.stringify(container, null, 2));
 }
 
 export const registerEvents = () => {
@@ -82,4 +87,6 @@ export const registerEvents = () => {
       el.addEventListener(eventType, callback);
     })
   }
+
+  // console.log('registerEvents', JSON.stringify(container, null, 2));
 }

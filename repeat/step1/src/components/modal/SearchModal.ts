@@ -1,6 +1,16 @@
-export const SearchModal = () => {
+import {addEvent} from "~@core";
+
+export interface SearchModalProps {
+  visibleModal: boolean;
+  closeModal: () => void;
+}
+
+export const SearchModal = ({ visibleModal, closeModal }: SearchModalProps) => {
+
+  addEvent('.modal-close', 'click', closeModal);
+
   return `
-    <div class="modal">
+    <div class="modal ${visibleModal ? 'open' : 'close'}">
       <div class="modal-inner p-8">
         <button class="modal-close">
           <svg viewbox="0 0 40 40">
