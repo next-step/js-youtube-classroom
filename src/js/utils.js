@@ -13,9 +13,9 @@ export const saveDataToLocalStorage = (key, value) => {
 };
 
 export const loadDataFromLocalStorage = (key) => {
-  const searchHistory = JSON.parse(localStorage.getItem(key));
-  if (searchHistory === null) return [];
-  else return searchHistory;
+  const data = JSON.parse(localStorage.getItem(key));
+  if (data === null) return [];
+  else return data;
 };
 
 export const checkDuplicateID = (id, dataAry) => {

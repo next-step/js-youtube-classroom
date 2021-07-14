@@ -78,7 +78,6 @@ const buildVideoArticle = (
      
     </article>`;
 };
-//↪️ 저장 취소
 
 export const buildSkeletonDiv = (resultCnt) => {
   const skeletonArticle = `<article class="clip relative temp-skel">

@@ -63,7 +63,8 @@ export default class ModalSearch {
   }
 
   setState() {
-    this.searchHistoryAry = loadDataFromLocalStorage("searchHistory");
+    if (this.searchHistoryAry.length === 0)
+      this.searchHistoryAry = loadDataFromLocalStorage("searchHistory");
     this.render();
   }
 }

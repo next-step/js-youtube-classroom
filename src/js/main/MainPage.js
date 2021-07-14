@@ -11,7 +11,6 @@ export default class MainPage {
 
     this.$savedResult.addEventListener("@save", (event) => {
       const savedVideos = event.detail.value;
-      console.log(savedVideos);
       this.setState(savedVideos);
     });
 

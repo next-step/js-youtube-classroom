@@ -15,7 +15,7 @@ import {
 export default class ModalResult {
   constructor() {
     this.$resultSection = $("#search-result");
-    this.$saveCount = $(".save-cnt")
+    this.$saveCount = $(".save-cnt");
 
     this.state = {
       receivedData: {},
@@ -29,8 +29,8 @@ export default class ModalResult {
   onClickSaveButtton({ target }) {
     if (target.tagName === "BUTTON") {
       if (this.state.savedVideos.length === 100) {
-        alert("최대로 저장할 수 있는 한도에 도달했습니다!")
-        return ;
+        alert("최대로 저장할 수 있는 한도에 도달했습니다!");
+        return;
       }
       const parentArticle = target.closest("article");
       const data = {
@@ -41,25 +41,25 @@ export default class ModalResult {
         publishTime: parentArticle.dataset.publishTime,
       };
 
-      if (target.classList.contains("saved")) {
-        console.log("saved");
-        if (confirm("정말 저장을 취소하시겠습니까?")){
-          const dataPos = checkDuplicateID(data.videoId, this.state.savedVideos)
+      const dataPos = checkDuplicateID(
+        data.videoId,
+        this.state.savedVideos
+      );
+
+      if (dataPos >= 0) {
+        if (confirm("정말 저장을 취소하시겠습니까?")) {
           this.state.savedVideos.splice(dataPos, 1);
-          target.innerHTML = "⬇️ 저장"
-        } else {
-          return ;
-        }
+          target.innerHTML = "⬇️ 저장";
+        } else return;
       } else {
-        console.log("not saved");
         target.innerHTML = "↪️ 저장 취소";
         this.state.savedVideos.push(data);
       }
+
       saveDataToLocalStorage("savedVideos", this.state.savedVideos);
-      this.$saveCount.innerHTML = `저장된 영상 갯수: ${this.state.savedVideos.length}개`
+      this.$saveCount.innerHTML = `저장된 영상 갯수: ${this.state.savedVideos.length}개`;
       target.classList.toggle("saved");
-      emit($("#saved-result"), "@save", { value: this.state.savedVideos})
-      console.log(this.state.savedVideos)
+      emit($("#saved-result"), "@save", { value: this.state.savedVideos });
     }
   }
 
@@ -109,7 +109,7 @@ export default class ModalResult {
         this.$resultSection.innerHTML += buildSkeletonDiv(resultLen);
       }
     }
-    this.$saveCount.innerHTML = `저장된 영상 갯수: ${this.state.savedVideos.length}개`
+    this.$saveCount.innerHTML = `저장된 영상 갯수: ${this.state.savedVideos.length}개`;
   }
 
   setState({ items }) {
