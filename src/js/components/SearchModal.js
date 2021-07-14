@@ -52,7 +52,7 @@ export default function SearchModal($el, props) {
             if (!pending && scrolledEl.scrollHeight - scrolledEl.offsetHeight === scrolledEl.scrollTop) {
                 pending = true;
                 const {articles, searchKeyword, nextPageToken: pageToken} = state;
-                loadArticles({prevArticles: articles, searchKeyword, pageToken})
+                loadArticles({isScrollLoad: true, prevArticles: articles, searchKeyword, pageToken})
                     .then(() => pending = false);
             }
         });
@@ -66,10 +66,14 @@ export default function SearchModal($el, props) {
         const {articles} = state;
         const latestSearchKeywords = [searchKeyword, ...state.latestSearchKeywords].slice(0, 3);
 
-        loadArticles({prevArticles: articles, latestSearchKeywords, searchKeyword, pageToken: ''});
+        loadArticles({isScrollLoad: false, prevArticles: articles, latestSearchKeywords, searchKeyword, pageToken: ''});
     };
 
-    const loadArticles = async ({prevArticles, latestSearchKeywords, searchKeyword, pageToken}) => {
+    const loadArticles = async ({isScrollLoad, prevArticles, latestSearchKeywords, searchKeyword, pageToken}) => {
+        if (!isScrollLoad) {
+            new SearchModalArticles($('[data-component=search-modal-articles]'), {articles: null});
+        }
+
         const {nextPageToken, items} = await findAllBySearchKey({searchKeyword, pageToken});
         const articles = prevArticles ? [...prevArticles, ...items] : items;
         setState({searchKeyword, latestSearchKeywords, nextPageToken, articles});

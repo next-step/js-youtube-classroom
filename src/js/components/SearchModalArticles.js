@@ -4,7 +4,21 @@
  * @param {[object]} props.articles
  * @constructor
  */
+import {addSavedVideo} from '../store/videoStore.js';
+
 export function SearchModalArticles($el, props) {
+
+    const bindEvents = () => {
+        $el.addEventListener('click', ({target: {dataset: {click, videoId}}}) => {
+            if (click === 'saveVideo') {
+                saveVideo(videoId);
+            }
+        });
+    };
+
+    const saveVideo = (videoId) => {
+        addSavedVideo(videoId);
+    };
 
     const articleNotFoundTemplate = `
         <div class="stretch d-flex flex-col items-center">
@@ -59,7 +73,7 @@ export function SearchModalArticles($el, props) {
                         <p>${publishedAt}</p>
                     </div>
                     <div class="d-flex justify-end">
-                        <button class="btn">⬇️ 저장</button>
+                        <button class="btn" data-click="saveVideo" data-video-id="${videoId}">⬇️ 저장</button>
                     </div>
                 </div>
             </div>
@@ -97,4 +111,5 @@ export function SearchModalArticles($el, props) {
     };
 
     render();
+    bindEvents();
 }

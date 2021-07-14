@@ -107,3 +107,13 @@
     grid-template-columns: repeat(1, 1fr);
   }
 }
+
+@keyframes refresh {
+  0% {
+    background-position: calc(-100px);
+  }
+  40%,
+  100% {
+    background-position: 320px;
+  }
+}
