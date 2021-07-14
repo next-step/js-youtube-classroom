@@ -68,5 +68,5 @@ export interface Store {
 }
 
 export interface Reducer {
-  (state: GlobalState, action: Action): GlobalState;
+  (state?: GlobalState, action?: Action): GlobalState;
 }

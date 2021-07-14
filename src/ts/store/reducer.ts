@@ -9,7 +9,24 @@ import {
   VIDEO_SAVE,
 } from './actionType';
 
-const reducer: Reducer = (state: GlobalState, action: Action): GlobalState => {
+const localSearchList = JSON.parse(window.localStorage.getItem('searchList'));
+const localSaveVideoList = JSON.parse(window.localStorage.getItem('saveVideoList'));
+const localrecentSearchKeywords = JSON.parse(window.localStorage.getItem('recentSearchKeywords'));
+
+let INITIAL_STATE: GlobalState = {
+  isSearchLoading: false,
+  error: null,
+  searchList: localSearchList ?? [],
+  recentSearchKeywords: localrecentSearchKeywords ?? [],
+  saveVideoList: localSaveVideoList ?? [],
+  currentSearchInfo: {
+    nextPageToken: '',
+    keyword: '',
+  },
+  isModalOpen: false,
+};
+
+const reducer: Reducer = (state: GlobalState = INITIAL_STATE, action: Action): GlobalState => {
   switch (action.type) {
     case YOUTUBE_SEARCH_LOADING:
       return {
