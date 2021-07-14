@@ -24,3 +24,24 @@ a {
 .opacity-hover:hover {
   opacity: 1;
 }
+
+.skeleton {
+  width: 236px;
+    background-image: linear-gradient(
+            90deg,
+            #e0e0e0 0px,
+            #ededed 30px,
+            #e0e0e0 60px
+    );
+    animation: refresh 2s infinite ease-out;
+}
+
+@keyframes refresh {
+    0% {
+        background-position: calc(-100px);
+    }
+    40%,
+    100% {
+        background-position: 320px;
+    }
+}
