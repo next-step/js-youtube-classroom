@@ -39,7 +39,7 @@ export default class Controller{
   }
   fetchData(value=""){
     const str = encodeURI(value)
-    return fetch(`https://www.googleapis.com/youtube/v3/search?key=${APIKEY.KEY1}&q=${str}&pageToken=${this.nextPageToken}&part=snippet&maxResults=1&order=date`)
+    return fetch(`https://www.googleapis.com/youtube/v3/search?key=${APIKEY.KEY}&q=${str}&pageToken=${this.nextPageToken}&part=snippet&maxResults=10&order=date`)
     .then(function(response) {
       return response.json();
     })
