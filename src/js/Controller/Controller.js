@@ -57,6 +57,7 @@ export default class Controller{
   }
   
   saveVideo(videoId){
+    console.log("cookieValues")
     const cookieValues = getCookie(COOKIETYPE.VIDEOCOOKIE)
     if(!cookieValues){
       setCookie(COOKIETYPE.VIDEOCOOKIE,videoId)

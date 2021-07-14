@@ -42,6 +42,7 @@ class Template{
     `
   }
     getList(datas){
+      console.log(datas[0],datas[0].id.videoId, "modalSearchResult")
       return datas.map(data=> `
         <article class="clip">
         <div class="preview-container">

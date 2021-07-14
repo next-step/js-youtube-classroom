@@ -14,10 +14,11 @@ export default class ModalView extends View{
     this.render()
   }
   bindEvent() {
-    const BtnElement = qsAll(".btn", this.element)
+    
     let clickEventTimer
     on(this.element, "submit", (event) => this.handleSubmit(event))
     on(this.element, "click", (event)=>{
+      const BtnElement = qsAll(".btn", this.element)
       if(clickEventTimer) { clearTimeout(clickEventTimer) }
       clickEventTimer = setTimeout(()=>{
         if([...BtnElement].includes(event.target)){
@@ -35,8 +36,9 @@ export default class ModalView extends View{
     this.emit("@submit", {value}) 
   }
   handleSaveBtn(saveBtnElement, value){
-    super.hide(saveBtnElement)
+    console.log(value,"asdf")
     this.emit("@save",{value})
+    super.hide(saveBtnElement)
   }
   render(){
     const saveBtnElement = qsAll(".content-container.pt-2.px-1 .btn", this.element)
