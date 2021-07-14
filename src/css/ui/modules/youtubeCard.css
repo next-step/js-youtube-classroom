@@ -7,7 +7,7 @@
 }
 
 .clip {
-  height: 219px;
+  height: 250px;
   cursor: pointer;
   text-decoration: none;
 }
@@ -46,6 +46,12 @@
   -webkit-line-clamp: 2;
   overflow: hidden;
   color: #0a0a0a;
+}
+
+.clip .content-container .video-name {
+  color: #212121;
+  display: block;
+  width: 100%;
 }
 
 .clip .content-container .channel-name {
