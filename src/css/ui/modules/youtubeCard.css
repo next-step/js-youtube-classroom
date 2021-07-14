@@ -2,12 +2,12 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, 236px);
   grid-row-gap: 0px;
-  grid-column-gap: 4px;
+  grid-column-gap: 10px;
   justify-content: center;
 }
 
 .clip {
-  height: 219px;
+  min-height: 300px;
   cursor: pointer;
   text-decoration: none;
 }
