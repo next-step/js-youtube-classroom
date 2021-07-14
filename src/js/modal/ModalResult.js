@@ -13,6 +13,7 @@ import {
 } from "../DOM.js";
 
 export default class ModalResult {
+  $resultSection; $saveCount;
   constructor() {
     this.$resultSection = $("#search-result");
     this.$saveCount = $(".save-cnt");
@@ -29,16 +30,15 @@ export default class ModalResult {
   onClickSaveButtton({ target }) {
     if (target.tagName === "BUTTON") {
       if (this.state.savedVideos.length === 100) {
-        alert("최대로 저장할 수 있는 한도에 도달했습니다!");
-        return;
+        return alert("최대로 저장할 수 있는 한도에 도달했습니다!");
       }
-      const parentArticle = target.closest("article");
+      const {channelId, channelTitle, videoId, title ,publishTime} = target.closest("article").dataset;
       const data = {
-        channelId: parentArticle.dataset.channelId,
-        channelTitle: decodeURI(parentArticle.dataset.channelTitle),
-        videoId: parentArticle.dataset.videoId,
-        videoTitle: decodeURI(parentArticle.dataset.title),
-        publishTime: parentArticle.dataset.publishTime,
+        channelId: channelId,
+        channelTitle: decodeURI(channelTitle),
+        videoId: videoId,
+        videoTitle: decodeURI(title),
+        publishTime: publishTime,
       };
 
       const dataPos = checkDuplicateID(
@@ -47,10 +47,9 @@ export default class ModalResult {
       );
 
       if (dataPos >= 0) {
-        if (confirm("정말 저장을 취소하시겠습니까?")) {
+        if (!confirm("정말 저장을 취소하시겠습니까?")) return;
           this.state.savedVideos.splice(dataPos, 1);
           target.innerHTML = "⬇️ 저장";
-        } else return;
       } else {
         target.innerHTML = "↪️ 저장 취소";
         this.state.savedVideos.push(data);
@@ -71,18 +70,16 @@ export default class ModalResult {
 
   getDataFromItems(receivedData) {
     const items = receivedData;
-    const dataAry = [];
-
-    for (let item of items) {
-      let data = {
-        channelId: item.snippet.channelId,
-        channelTitle: item.snippet.channelTitle,
+    const dataAry = items.map((item) => {
+      const { channelId, channelTitle, title, publishTime} = item.snippet
+      return {
+        channelId: channelId,
+        channelTitle: channelTitle,
         videoId: item.id.videoId,
-        videoTitle: item.snippet.title,
-        publishTime: item.snippet.publishTime,
-      };
-      dataAry.push(data);
-    }
+        videoTitle: title,
+        publishTime: publishTime,
+      }
+    })
     return dataAry;
   }
 

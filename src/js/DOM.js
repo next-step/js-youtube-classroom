@@ -6,32 +6,32 @@ export const cannotFoundKeyword = () => {
   return `
   <div>
     <img class="js-not-found"
-    src="src/images/status/not_found.png"
-    alt="searchResult not found">
+         src="src/images/status/not_found.png"
+         alt="searchResult not found"
+    />
     <p class="js-not-found font-semibold"> 검색 결과를 찾을 수 없습니다! </p>
   </div>`;
 };
 
-export const buildResultSection = (dataAry, savedVideos, position) => {
-  let resultDomElement = ``;
-
-  for (let data of dataAry) {
-    resultDomElement += buildVideoArticle(data, savedVideos, position);
-  }
-  return resultDomElement;
+export const buildResultSection = (dataArray, savedVideos, position) => {
+  return dataArray
+    .map((data) => buildVideoArticle(data, savedVideos, position))
+    .join("");
 };
 
 const buildVideoArticle = (
-  { channelId, channelTitle, videoId, videoTitle, publishTime },
+  { channelId, channelTitle, videoId, videoTitle, publishTime } = [],
   savedVideos,
   position
 ) => {
-  return `<article class="clip relative" 
-          data-video-id=${videoId} 
-          data-title=${encodeURI(videoTitle)} 
-          data-channel-id=${channelId} 
-          data-channel-title=${encodeURI(channelTitle)} 
-          data-publish-time=${publishTime}>
+  return `<article 
+            class="clip relative" 
+            data-video-id=${videoId} 
+            data-title=${encodeURI(videoTitle)} 
+            data-channel-id=${channelId} 
+            data-channel-title=${encodeURI(channelTitle)} 
+            data-publish-time=${publishTime}
+          />
       <div class="preview-container">
         <iframe
           class="js-preview"
@@ -48,9 +48,9 @@ const buildVideoArticle = (
         <h3>${videoTitle}</h3>
         <div>
           <a
-          href="https://www.youtube.com/channel/${channelId}"
-          target="_blank"
-          class="channel-name mt-1"
+            href="https://www.youtube.com/channel/${channelId}"
+            target="_blank"
+            class="channel-name mt-1"
           >
               ${channelTitle}
           </a>
@@ -80,16 +80,18 @@ const buildVideoArticle = (
 };
 
 export const buildSkeletonDiv = (resultCnt) => {
-  const skeletonArticle = `<article class="clip relative temp-skel">
-                          <div class="skeleton">
-                            <div class="image"></div>
-                            <p class="line"></p>
-                            <p class="line"></p>
-                          </div>
-                        </article>`;
-  let result = ``;
-  for (let i = 0; i < resultCnt; i++) {
-    result += skeletonArticle;
-  }
-  return result;
+  return Array(resultCnt)
+    .fill(0)
+    .map(
+      () => `
+    <article class="clip relative temp-skel">
+      <div class="skeleton">
+        <div class="image"></div>
+        <p class="line"></p>
+        <p class="line"></p>
+      </div>
+    </article>
+  `
+    )
+    .join("");
 };

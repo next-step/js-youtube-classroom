@@ -13,16 +13,11 @@ export const saveDataToLocalStorage = (key, value) => {
 };
 
 export const loadDataFromLocalStorage = (key) => {
-  const data = JSON.parse(localStorage.getItem(key));
-  if (data === null) return [];
-  else return data;
+  return JSON.parse(localStorage.getItem(key)) || [];
 };
 
-export const checkDuplicateID = (id, dataAry) => {
-  for (let i = 0; i < dataAry.length; i++) {
-    if (dataAry[i].videoId === id) return i;
-  }
-  return -1;
+export const checkDuplicateID = (id, dataArray) => {
+  return dataArray.findIndex(videoData => videoData.videoId === id);
 };
 
 export function emit(target, eventName, detail) {

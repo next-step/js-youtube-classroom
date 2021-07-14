@@ -2,6 +2,7 @@ import { $, loadDataFromLocalStorage } from "../utils.js";
 import { buildResultSection } from "../DOM.js";
 
 export default class MainPage {
+  $savedResult;
   constructor() {
     this.$savedResult = $("#saved-result");
 
@@ -19,11 +20,10 @@ export default class MainPage {
 
   render() {
     let savedSection = ``;
-    if (this.state.savedVideos.length === 0) {
-      savedSection = `<p> 영상이 없습니다. 😥 </p>`;
-    } else {
-      savedSection = buildResultSection(this.state.savedVideos, [], 2);
-    }
+    savedSection =
+      this.state.savedVideos.length === 0
+        ? `<p> 영상이 없습니다. 😥 </p>`
+        : buildResultSection(this.state.savedVideos, [], 2);
     this.$savedResult.innerHTML = savedSection;
   }
 
