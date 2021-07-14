@@ -1,15 +1,15 @@
 .video-wrapper {
   display: grid;
   grid-template-columns: repeat(auto-fill, 236px);
-  grid-row-gap: 0px;
+  grid-row-gap: 0;
   grid-column-gap: 4px;
   justify-content: center;
 }
 
 .clip {
-  height: 219px;
   cursor: pointer;
   text-decoration: none;
+  margin-bottom: 5px;
 }
 
 .clip .preview-container {
@@ -40,6 +40,7 @@
   display: -webkit-box;
   margin: 0;
   font-size: 14px;
+  line-height: 1.2;
   font-weight: 500;
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
