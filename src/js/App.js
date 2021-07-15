@@ -1,4 +1,4 @@
-import { addEvents, selectDOM } from "./utils.js";
+import { addEvents, selectDOM, addClass, removeClass } from "./utils.js";
 import Modal from "./modal/Modal.js";
 import SavedPage from "./main/SavedPage.js";
 import WatchedPage from "./main/WatchedPage.js";
@@ -12,7 +12,21 @@ export default class App {
     this.$likedButton = selectDOM("#liked-videos");
 
     this.Modal = new Modal();
-    this.SavedPage = new SavedPage();
+    this.SavedPage = new SavedPage({
+        sendVideoData: (id, videoData) => {
+            switch (id){
+                case 'watch' :
+                    this.watchedPage.addNewVideo(videoData)
+                    break;
+                case 'like' :
+                    console.log('like ', videoData)
+                    break;
+                case 'remove' :
+                    console.log('remove ', videoData)
+                    break;
+            }
+        }
+    });
     this.watchedPage = new WatchedPage();
     this.likedPage = new LikedPage();
 
@@ -25,15 +39,15 @@ export default class App {
   }
 
   switchButtonSelect(id) {
-    if (id.length === 0) return this.$savedButton.classList.add("bg-cyan-100");
-    this.$savedButton.classList.remove("bg-cyan-100");
-    this.$watchedButton.classList.remove("bg-cyan-100");
-    this.$likedButton.classList.remove("bg-cyan-100");
-    selectDOM(`#${id}-videos`).classList.add("bg-cyan-100");
+    if (id.length === 0) return addClass(this.$savedButton, "bg-cyan-100");
+    removeClass(this.$savedButton, "bg-cyan-100")
+    removeClass(this.$watchedButton, "bg-cyan-100")
+    removeClass(this.$likedButton, "bg-cyan-100")
+    addClass(selectDOM(`#${id}-videos`), "bg-cyan-100")
   }
 
   onClickHeaderButtons({ target }) {
-    if (target.tagName !== "BUTTON") return;
+    if (target.tagName !== "BUTTON" || target.id === "search-button") return;
     const currentRoute = target.id.split("-")[0];
     history.pushState({ currentRoute: currentRoute }, null, `?${currentRoute}`);
     this.setState(currentRoute);
@@ -43,9 +57,7 @@ export default class App {
     addEvents(this.$buttonHeader, "click", (event) =>
       this.onClickHeaderButtons(event)
     );
-    addEvents(window, "popstate", (event) => {
-      this.setState(event.state.currentRoute);
-    });
+    addEvents(window, "popstate", (event) => this.setState(event.state.currentRoute));
   }
 
   render() {

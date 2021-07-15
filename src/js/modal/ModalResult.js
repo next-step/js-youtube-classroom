@@ -5,6 +5,7 @@ import {
   loadDataFromLocalStorage,
   checkDuplicateID,
   emit,
+  makeDataset,
 } from "../utils.js";
 import {
   buildResultSection,
@@ -33,13 +34,14 @@ export default class ModalResult {
         return alert("최대로 저장할 수 있는 한도에 도달했습니다!");
       }
       const {channelId, channelTitle, videoId, title ,publishTime} = target.closest("article").dataset;
-      const data = {
-        channelId: channelId,
-        channelTitle: decodeURI(channelTitle),
-        videoId: videoId,
-        videoTitle: decodeURI(title),
-        publishTime: publishTime,
-      };
+      const data = makeDataset(channelId, decodeURI(channelTitle), videoId, decodeURI(title), publishTime)
+      // const data = {
+      //   channelId: channelId,
+      //   channelTitle: decodeURI(channelTitle),
+      //   videoId: videoId,
+      //   videoTitle: decodeURI(title),
+      //   publishTime: publishTime,
+      // };
 
       const dataPos = checkDuplicateID(
         data.videoId,
@@ -72,13 +74,7 @@ export default class ModalResult {
     const items = receivedData;
     const dataAry = items.map((item) => {
       const { channelId, channelTitle, title, publishTime} = item.snippet
-      return {
-        channelId: channelId,
-        channelTitle: channelTitle,
-        videoId: item.id.videoId,
-        videoTitle: title,
-        publishTime: publishTime,
-      }
+      return makeDataset (channelId, channelTitle, item.id.videoId, title, publishTime)
     })
     return dataAry;
   }

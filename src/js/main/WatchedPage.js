@@ -1,4 +1,4 @@
-import { selectDOM, loadDataFromLocalStorage } from "../utils.js";
+import { selectDOM, loadDataFromLocalStorage, checkDuplicateID } from "../utils.js";
 import { buildResultSection } from "../DOM.js";
 
 export default class WatchedPage {
@@ -13,6 +13,12 @@ export default class WatchedPage {
     }
 
     this.setState('');
+  }
+
+  addNewVideo (data) {
+    if (checkDuplicateID(data.videoId, this.state.watchedVideos) >= 0) return console.log("dup")
+    this.state.watchedVideos.push(data)
+    console.log(this.state.watchedVideos)
   }
 
   render() {

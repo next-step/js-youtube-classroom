@@ -50,7 +50,7 @@ export default class Modal {
   bindEvents() {
     this.$searchButton.addEventListener("click", this.onModalShow);
     this.$modalCloseButton.addEventListener("click", this.onModalClose);
-    this.$modalInner.addEventListener("scroll",
+    this.$modalInner.addEventListener("scroll", () =>
       this.setThrottle(
         this.$modalInner.scrollTop,
         this.$modalInner.clientHeight,

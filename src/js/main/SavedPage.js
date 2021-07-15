@@ -1,22 +1,37 @@
-import { selectDOM, loadDataFromLocalStorage } from "../utils.js";
+import { selectDOM, loadDataFromLocalStorage, addEvents, makeDataset } from "../utils.js";
 import { buildResultSection } from "../DOM.js";
 
 export default class SavedPage {
   $selectedResult;
-  constructor() {
+  constructor({ sendVideoData }) {
     this.$selectedResult = selectDOM("#selected-result");
     this.$savedButton = selectDOM("#saved-videos");
+    this.sendVideoData = sendVideoData
 
     this.state = {
       savedVideos: [],
     };
 
-    this.$selectedResult.addEventListener("@save", (event) => {
-      const savedVideos = event.detail.value;
-      this.setState(savedVideos);
-    });
 
+    this.bindEvents();
     this.setState(loadDataFromLocalStorage("savedVideos"));
+  }
+
+  onSaved(event) {
+    const savedVideos = event.detail.value;
+    this.setState(savedVideos);
+  }
+
+  onClickButtons({target}) {
+    if (target.tagName !== 'SPAN') return ;
+    const {channelId, channelTitle, videoId, videoTitle, publishTime} = target.closest('article').dataset
+    const dataset = makeDataset(channelId, channelTitle, videoId, videoTitle, publishTime)
+    this.sendVideoData(target.id, dataset)
+  }
+
+  bindEvents() {
+    addEvents(this.$selectedResult, "@save", (event) => this.onSaved(event))
+    addEvents(this.$selectedResult, "click", (event) => this.onClickButtons(event))
   }
 
   render() {

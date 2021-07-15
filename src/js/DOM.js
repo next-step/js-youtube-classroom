@@ -69,10 +69,10 @@ const buildVideoArticle = (
       }
       </div>`
           : `<div>
-      <span class="opacity-hover">✅</span>
-      <span class="opacity-hover">👍</span>
+      <span id="watch" class="opacity-hover">✅</span>
+      <span id="like" class="opacity-hover">👍</span>
       <span class="opacity-hover">💬</span>
-      <span class="opacity-hover">🗑️</span>
+      <span id="remove" class="opacity-hover">🗑️</span>
     </div>`
       }
      

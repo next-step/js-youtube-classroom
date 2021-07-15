@@ -1,5 +1,7 @@
-export const selectDOM = (selector, dom = document) => dom.querySelector(selector)
-export const selectDOMS = (selector, dom = document) => dom.querySelectorAll(selector)
+export const selectDOM = (selector, dom = document) =>
+  dom.querySelector(selector);
+export const selectDOMS = (selector, dom = document) =>
+  dom.querySelectorAll(selector);
 
 export const getPublishedTime = (publishTime) => {
   const cutPos = publishTime.match(/T/).index;
@@ -17,14 +19,36 @@ export const loadDataFromLocalStorage = (key) => {
 };
 
 export const checkDuplicateID = (id, dataArray) => {
-  return dataArray.findIndex(videoData => videoData.videoId === id);
+  return dataArray.findIndex((videoData) => videoData.videoId === id);
 };
 
 export const addEvents = (target, eventName, handler) => {
-    target.addEventListener(eventName, handler)
+  target.addEventListener(eventName, handler);
+};
+
+export const emit = (target, eventName, detail) => {
+  const event = new CustomEvent(eventName, { detail });
+  target.dispatchEvent(event);
+};
+
+export const addClass = (target, className) => target.classList.add(className);
+
+export const removeClass = (target, className) =>
+  target.classList.remove(className);
+
+export const makeDataset = (channelId, channelTitle, videoId, videoTitle, publishTime) => {
+  const data = {
+    channelId,
+    channelTitle,
+    videoId,
+    videoTitle,
+    publishTime,
+  }
+  return data
 }
 
-export function emit(target, eventName, detail) {
-    const event = new CustomEvent(eventName, { detail });
-    target.dispatchEvent(event);
-  }
+// channelId: channelId,
+//         channelTitle: decodeURI(channelTitle),
+//         videoId: videoId,
+//         videoTitle: decodeURI(title),
+//         publishTime: publishTime,
