@@ -24,8 +24,8 @@ export default class SavedPage {
 
   onClickButtons({target}) {
     if (target.tagName !== 'SPAN') return ;
-    const {channelId, channelTitle, videoId, videoTitle, publishTime} = target.closest('article').dataset
-    const dataset = makeDataset(channelId, channelTitle, videoId, videoTitle, publishTime)
+    const {channelId, channelTitle, videoId, title, publishTime} = target.closest('article').dataset
+    const dataset = makeDataset(channelId, decodeURI(channelTitle), videoId, decodeURI(title), publishTime)
     this.sendVideoData(target.id, dataset)
   }
 
