@@ -26,7 +26,10 @@ let INITIAL_STATE: GlobalState = {
   isModalOpen: false,
 };
 
-const reducer: Reducer = (state: GlobalState = INITIAL_STATE, action: Action): GlobalState => {
+const reducer: Reducer = (
+  state: GlobalState = INITIAL_STATE,
+  action: Action = { type: null }
+): GlobalState => {
   switch (action.type) {
     case YOUTUBE_SEARCH_LOADING:
       return {
