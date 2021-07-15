@@ -1,6 +1,6 @@
-import { qs } from "../helpers.js"
+import { qs, qsAll } from "../helpers.js"
+import { STORAGETYPE } from "../util/Static.js"
 import View from "./View.js"
-
 const tag = "[ModalSearchResult]"
 
 export default class ModalSearchResult extends View {
@@ -8,20 +8,16 @@ export default class ModalSearchResult extends View {
     super(qs(".modal .video-wrapper"))
     this.template = new Template()
     this.data = []
-
-    // console.log(this.element.innerHTML,"innerHTML")
   }
   show(newData = [], newSearch=false) {
-    // console.log(data, "ModalSearchResult")
-    console.log(newSearch, tag)
     if(newData.length>0){
       this.element.classList.add("video-wrapper")
-      newSearch || (this.data = [])
+      newSearch && (this.data = [])
       this.data.push(...newData)
-      
+      const videoIds = this.getVideoId(this.data)
       this.element.innerHTML = this.template.getSkeleton().repeat(this.data.length)
-      setTimeout(()=>{this.element.innerHTML = this.template.getList(this.data)}, 1000)
-      
+      this.element.innerHTML = this.template.getList(this.data, videoIds)
+      this.hideSaveBtn()
     } else {
       this.element.classList.remove("video-wrapper")
       this.element.innerHTML =this.template.getEmptyList()
@@ -29,6 +25,20 @@ export default class ModalSearchResult extends View {
   }
   showSkeleton(dataLen){
     this.element.innerHTML = this.template.getSkeleton().repeat(dataLen)
+  }
+  
+  getVideoId(data = []){
+    return data.map(element => {
+      return !element.id.videoId ? element.id.playlistId : element.id.videoId
+    })
+  }
+  hideSaveBtn(){
+    const saveBtns = qsAll(".d-flex.justify-end .btn")
+    let items = JSON.parse(localStorage.getItem(STORAGETYPE.VIDEOTYPE))
+    if(!items) return 
+    saveBtns.forEach(element => {
+      if(items.includes(element.dataset.videoId)) this.hide(element)
+    })
   }
 }
 
@@ -41,9 +51,8 @@ class Template{
       </div>
     `
   }
-    getList(datas){
-      console.log(datas[0],datas[0].id.videoId, "modalSearchResult")
-      return datas.map(data=> `
+    getList(datas, videoIds){
+      return datas.map((data, idx)=> `
         <article class="clip">
         <div class="preview-container">
           <iframe
@@ -56,7 +65,7 @@ class Template{
           ></iframe>
         </div>
         <div class="content-container pt-2 px-1">
-          <h3>${data.snippet.title}</h3>
+          <h3>${data.snippet.title.slice(0,17)}</h3>
           <div>
             <a
               href="https://www.youtube.com/channel/${data.snippet.channelId}"
@@ -69,7 +78,7 @@ class Template{
               <p>${data.snippet.publishTime.slice(0,4)}년 ${data.snippet.publishTime.slice(5,7)}월 ${data.snippet.publishTime.slice(8,10)}일</p>
             </div>
             <div class="d-flex justify-end">
-              <button class="btn" data-video-id="${data.id.videoId}">⬇️ 저장</button>
+              <button class="btn" data-video-id="${videoIds[idx]}">⬇️ 저장</button>
             </div>
           </div>
         </div>

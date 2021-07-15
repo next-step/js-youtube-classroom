@@ -18,11 +18,9 @@ export default class ModalScrollView extends View {
     })
   }
   handleScroll(){
-    // console.log(this.element.scrollHeight, this.element.clientHeight, this.element.scrollTop, this.element.scrollHeight - this.element.clientHeight - this.element.scrollTop ===0)
     const {value} = this.inputElement
     if(value && (this.element.scrollHeight - this.element.clientHeight - this.element.scrollTop ===0)){
       this.emit("@scroll", {value})
-      console.log("스크롤 이벤트 호출됨")
     }  
   }
 }

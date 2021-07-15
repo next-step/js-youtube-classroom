@@ -9,7 +9,6 @@ import MainView from "./View/MainView.js";
 const tag = "[INDEX]"
 document.addEventListener("DOMContentLoaded", index)
 function index(){
-  console.log(tag, "main")
   const views = {
     mainView: new MainView(),
     modalView: new ModalView(),
