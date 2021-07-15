@@ -58,7 +58,7 @@ export default class ModalResult {
       saveDataToLocalStorage("savedVideos", this.state.savedVideos);
       this.$saveCount.innerHTML = `저장된 영상 갯수: ${this.state.savedVideos.length}개`;
       target.classList.toggle("saved");
-      emit(selectDOM("#saved-result"), "@save", { value: this.state.savedVideos });
+      emit(selectDOM("#selected-result"), "@save", { value: this.state.savedVideos });
     }
   }
 

@@ -1,16 +1,17 @@
 import { selectDOM, loadDataFromLocalStorage } from "../utils.js";
 import { buildResultSection } from "../DOM.js";
 
-export default class MainPage {
-  $savedResult;
+export default class SavedPage {
+  $selectedResult;
   constructor() {
-    this.$savedResult = selectDOM("#saved-result");
+    this.$selectedResult = selectDOM("#selected-result");
+    this.$savedButton = selectDOM("#saved-videos");
 
     this.state = {
       savedVideos: [],
     };
 
-    this.$savedResult.addEventListener("@save", (event) => {
+    this.$selectedResult.addEventListener("@save", (event) => {
       const savedVideos = event.detail.value;
       this.setState(savedVideos);
     });
@@ -24,7 +25,7 @@ export default class MainPage {
       this.state.savedVideos.length === 0
         ? `<p> 영상이 없습니다. 😥 </p>`
         : buildResultSection(this.state.savedVideos, [], 2);
-    this.$savedResult.innerHTML = savedSection;
+    this.$selectedResult.innerHTML = savedSection;
   }
 
   setState(savedVideos) {
