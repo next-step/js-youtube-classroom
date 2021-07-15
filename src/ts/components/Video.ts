@@ -25,8 +25,6 @@ const Video: Component<Props> = ({
 }) => {
   const publishDate = transferCreationDate(publishTime);
 
-  console.log(isSave);
-
   const $video = createNode(`
     <article class="clip">
       <div class="preview-container">
