@@ -1,4 +1,4 @@
-import { qs, on, qsAll, getCookie } from "../helpers.js"
+import { qs, on, qsAll } from "../helpers.js"
 import View from "./View.js"
 
 const tag = "[ModalView]"
@@ -31,22 +31,22 @@ export default class ModalView extends View{
       }, 200)
     })
   }
-  handleSubmit(event){
+  handleSubmit(){
    const {value} = this.inputElement
     this.emit("@submit", {value}) 
   }
   handleSaveBtn(saveBtnElement, value){
-    console.log(value,"asdf")
-    this.emit("@save",{value})
-    super.hide(saveBtnElement)
+    // console.log(value,"asdf")
+    // this.emit("@save",{value})
+    // super.hide(saveBtnElement)
   }
   render(){
-    const saveBtnElement = qsAll(".content-container.pt-2.px-1 .btn", this.element)
-    const saveList = getCookie("videoLog")
-    if(saveList){
-      saveBtnElement.forEach((element)=> {
-        saveList.includes(element.dataset.videoId) && this.hide(element)
-      }) 
-    }
+  //   const saveBtnElement = qsAll(".content-container.pt-2.px-1 .btn", this.element)
+  //   const saveList = getCookie("videoLog")
+  //   if(saveList){
+  //     saveBtnElement.forEach((element)=> {
+  //       saveList.includes(element.dataset.videoId) && this.hide(element)
+  //     }) 
+  //   }
   }
 }
