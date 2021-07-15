@@ -1,12 +1,12 @@
-import { $, saveDataToLocalStorage, loadDataFromLocalStorage } from "../utils.js";
+import { selectDOM, saveDataToLocalStorage, loadDataFromLocalStorage } from "../utils.js";
 
 export default class ModalSearch {
   $searchForm; $searchButton; $searchInput; $seacrhHistory; onSubmit;
   constructor({ onSubmit }) {
-    this.$searchForm = $("form");
-    this.$searchButton = $("form>button");
-    this.$searchInput = $("form>input");
-    this.$seacrhHistory = $("#search-history");
+    this.$searchForm = selectDOM("form");
+    this.$searchButton = selectDOM("form>button");
+    this.$searchInput = selectDOM("form>input");
+    this.$seacrhHistory = selectDOM("#search-history");
     this.onSubmit = onSubmit;
 
     this.searchHistoryAry = [];

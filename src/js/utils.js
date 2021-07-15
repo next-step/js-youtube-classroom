@@ -1,5 +1,5 @@
-export const $ = (ele, dom = document) => dom.querySelector(ele);
-export const $$ = (ele, dom = document) => dom.querySelectorAll(ele);
+export const selectDOM = (selector, dom = document) => dom.querySelector(selector)
+export const selectDOMS = (selector, dom = document) => dom.querySelectorAll(selector)
 
 export const getPublishedTime = (publishTime) => {
   const cutPos = publishTime.match(/T/).index;
@@ -20,7 +20,11 @@ export const checkDuplicateID = (id, dataArray) => {
   return dataArray.findIndex(videoData => videoData.videoId === id);
 };
 
-export function emit(target, eventName, detail) {
-  const event = new CustomEvent(eventName, { detail });
-  target.dispatchEvent(event);
+export const addEvents = (target, eventName, handler) => {
+    target.addEventListener(eventName, handler)
 }
+
+export function emit(target, eventName, detail) {
+    const event = new CustomEvent(eventName, { detail });
+    target.dispatchEvent(event);
+  }

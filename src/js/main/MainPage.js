@@ -1,10 +1,10 @@
-import { $, loadDataFromLocalStorage } from "../utils.js";
+import { selectDOM, loadDataFromLocalStorage } from "../utils.js";
 import { buildResultSection } from "../DOM.js";
 
 export default class MainPage {
   $savedResult;
   constructor() {
-    this.$savedResult = $("#saved-result");
+    this.$savedResult = selectDOM("#saved-result");
 
     this.state = {
       savedVideos: [],

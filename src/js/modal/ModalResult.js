@@ -1,6 +1,6 @@
 import {
-  $,
-  $$,
+  selectDOM,
+  selectDOMS,
   saveDataToLocalStorage,
   loadDataFromLocalStorage,
   checkDuplicateID,
@@ -15,8 +15,8 @@ import {
 export default class ModalResult {
   $resultSection; $saveCount;
   constructor() {
-    this.$resultSection = $("#search-result");
-    this.$saveCount = $(".save-cnt");
+    this.$resultSection = selectDOM("#search-result");
+    this.$saveCount = selectDOM(".save-cnt");
 
     this.state = {
       receivedData: {},
@@ -51,14 +51,14 @@ export default class ModalResult {
           this.state.savedVideos.splice(dataPos, 1);
           target.innerHTML = "⬇️ 저장";
       } else {
-        target.innerHTML = "↪️ 저장 취소";
         this.state.savedVideos.push(data);
+        target.innerHTML = "↪️ 저장 취소";
       }
 
       saveDataToLocalStorage("savedVideos", this.state.savedVideos);
       this.$saveCount.innerHTML = `저장된 영상 갯수: ${this.state.savedVideos.length}개`;
       target.classList.toggle("saved");
-      emit($("#saved-result"), "@save", { value: this.state.savedVideos });
+      emit(selectDOM("#saved-result"), "@save", { value: this.state.savedVideos });
     }
   }
 
@@ -97,7 +97,7 @@ export default class ModalResult {
           1
         );
         setTimeout(() => {
-          const skeltonDiv = $$(".temp-skel", this.$resultSection);
+          const skeltonDiv = selectDOMS(".temp-skel", this.$resultSection);
           for (let i of skeltonDiv) {
             this.$resultSection.removeChild(i);
           }

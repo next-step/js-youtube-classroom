@@ -1,4 +1,4 @@
-import { $ } from "../utils.js";
+import { selectDOM } from "../utils.js";
 import { getYoutubeResultFromAPI, getNextYoutubeResultFromAPI } from "../API.js";
 import ModalSearch from "./ModalSearch.js";
 import ModalResult from "./ModalResult.js";
@@ -6,10 +6,10 @@ import ModalResult from "./ModalResult.js";
 export default class Modal {
   $searchButton; $modalCloseButton; $modal; $modalInner; $throttle;
   constructor() {
-    this.$searchButton = $("#search-button");
-    this.$modalCloseButton = $(".modal-close");
-    this.$modal = $(".modal");
-    this.$modalInner = $(".modal-inner");
+    this.$searchButton = selectDOM("#search-button");
+    this.$modalCloseButton = selectDOM(".modal-close");
+    this.$modal = selectDOM(".modal");
+    this.$modalInner = selectDOM(".modal-inner");
     this.throttle
 
     this.state = {
