@@ -16,7 +16,7 @@ export default class WatchedPage {
   }
 
   render() {
-    this.$selectedResult.innerHTML = "None 😥"
+    this.$selectedResult.innerHTML = "Watched : None 😥"
   }
 
   setState() {

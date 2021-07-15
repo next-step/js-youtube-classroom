@@ -16,7 +16,7 @@ export default class LikedPage {
   }
 
   render() {
-    this.$selectedResult.innerHTML = "None 😥"
+    this.$selectedResult.innerHTML = "Likied : None 😥"
   }
 
   setState() {
