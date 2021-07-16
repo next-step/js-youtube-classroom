@@ -13,6 +13,7 @@ const SearchVideoSection: Component<Props> = ({}) => {
 
   const onSaveVideoHandler = ({ target }) => {
     if (target.matches('.btn')) {
+      const { searchList, saveVideoList } = store.getState();
       if (saveVideoList.length >= 100) {
         alert('비디오는 최대 100개까지만 저장할 수 있습니다.');
         return;
@@ -28,7 +29,7 @@ const SearchVideoSection: Component<Props> = ({}) => {
 
   const $searchVideoSection = createNode('<section></section>', [
     createNode(
-      `<div class="d-flex justify-end text-gray-700">저장된 영상 갯수: ${searchList.length}개</div>`
+      `<div class="d-flex justify-end text-gray-700">저장된 영상 갯수: ${saveVideoList.length} / 100</div>`
     ),
     createNode(
       `<section class="video-wrapper"></section>`,

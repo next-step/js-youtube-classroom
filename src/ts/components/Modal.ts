@@ -57,6 +57,13 @@ const Modal: Component<Props> = () => {
       );
       window.localStorage.setItem('searchList', JSON.stringify(items));
       window.localStorage.setItem('recentSearchKeywords', JSON.stringify(newRecentSearchKeywords));
+      window.localStorage.setItem(
+        'currentSearchInfo',
+        JSON.stringify({
+          nextPageToken,
+          keyword: searchInput.value,
+        })
+      );
     } catch (error) {
       dispatch(searchYoutubeErrorAction());
     }

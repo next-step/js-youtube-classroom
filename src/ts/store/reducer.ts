@@ -11,15 +11,16 @@ import {
 
 const localSearchList = JSON.parse(window.localStorage.getItem('searchList'));
 const localSaveVideoList = JSON.parse(window.localStorage.getItem('saveVideoList'));
-const localrecentSearchKeywords = JSON.parse(window.localStorage.getItem('recentSearchKeywords'));
+const localRecentSearchKeywords = JSON.parse(window.localStorage.getItem('recentSearchKeywords'));
+const localcurrentSearchInfo = JSON.parse(window.localStorage.getItem('currentSearchInfo'));
 
 let INITIAL_STATE: GlobalState = {
   isSearchLoading: false,
   error: null,
   searchList: localSearchList ?? [],
-  recentSearchKeywords: localrecentSearchKeywords ?? [],
+  recentSearchKeywords: localRecentSearchKeywords ?? [],
   saveVideoList: localSaveVideoList ?? [],
-  currentSearchInfo: {
+  currentSearchInfo: localcurrentSearchInfo ?? {
     nextPageToken: '',
     keyword: '',
   },
