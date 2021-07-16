@@ -1,8 +1,7 @@
-import { Button, Header, Heading, Modal, Navigator } from '../components';
+import { Header, Heading, Modal, Navigator } from '../components';
 import { createNode } from '../domHelper';
-import { ToWatch } from '../pages';
+import { routerRoot } from '../route';
 import store from '../store';
-import { modalOpenAction } from '../store/actionCreator';
 import { Component } from '../types';
 
 interface Props {}
@@ -11,6 +10,8 @@ const App: Component<Props> = () => {
   const { isModalOpen } = store.getState();
 
   const $app = createNode(`<div id="app"></div>`, []);
+
+  // TODO: setNotFound(component);
 
   const $homeWrapper = createNode('<div class="d-flex justify-center mt-5 w-100"></div>', [
     createNode('<div class="w-100"></div>', [
@@ -25,7 +26,8 @@ const App: Component<Props> = () => {
           Navigator({}),
         ],
       }),
-      ToWatch({}),
+      // pathname에 따라 페이지를 렌더링 해줄것이다.
+      routerRoot,
       isModalOpen ? Modal({}) : null,
     ]),
   ]);
