@@ -13,6 +13,8 @@ const SaveVideoSection: Component<Props> = ({ children }) => {
 
   const onDeleteVideoHandler = ({ target }) => {
     if (!target.matches('.video-delete')) return;
+    if (!confirm('정말 삭제하시겠습니까?')) return;
+
     const videoId = target.parentNode.dataset.videoId;
 
     dispatch(videoDeleteAction(videoId));
