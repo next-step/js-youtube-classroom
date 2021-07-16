@@ -28,6 +28,7 @@ const Home: Component<Props> = () => {
           children: [
             Button({ className: 'btn bg-cyan-100 mx-1', textContent: '👁️ 볼 영상' }),
             Button({ className: 'btn mx-1', textContent: '✅ 본 영상' }),
+            Button({ className: 'btn mx-1', textContent: '👍 좋아하는 영상' }),
             Button({
               id: 'search-button',
               className: 'btn mx-1',

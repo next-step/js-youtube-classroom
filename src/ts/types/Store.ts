@@ -8,6 +8,8 @@
 */
 
 export interface YoutubeVideo {
+  isWatched: boolean;
+  isLike: boolean;
   kind: string;
   etag: string;
   id: {

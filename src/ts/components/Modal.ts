@@ -37,6 +37,13 @@ const Modal: Component<Props> = () => {
     dispatch(searchYoutubeLoadingAction());
     try {
       const { items, nextPageToken } = await youtubeAPI.searchYoutubeByTitle(searchInput.value);
+      const newSearchList: YoutubeVideo[] = items.map(
+        (item: YoutubeVideo): YoutubeVideo => ({
+          ...item,
+          isLike: false,
+          isWatched: false,
+        })
+      );
 
       const { recentSearchKeywords } = getState();
 
@@ -47,7 +54,7 @@ const Modal: Component<Props> = () => {
 
       dispatch(
         searchYoutubeSuccessAction(
-          items,
+          newSearchList,
           {
             nextPageToken,
             keyword: searchInput.value,
@@ -55,7 +62,7 @@ const Modal: Component<Props> = () => {
           newRecentSearchKeywords
         )
       );
-      window.localStorage.setItem('searchList', JSON.stringify(items));
+      window.localStorage.setItem('searchList', JSON.stringify(newSearchList));
       window.localStorage.setItem('recentSearchKeywords', JSON.stringify(newRecentSearchKeywords));
       window.localStorage.setItem(
         'currentSearchInfo',
@@ -83,8 +90,19 @@ const Modal: Component<Props> = () => {
         currentSearchInfo.keyword,
         currentSearchInfo.nextPageToken
       );
+      const newSearchList: YoutubeVideo[] = items.map(
+        (item: YoutubeVideo): YoutubeVideo => ({
+          ...item,
+          isLike: false,
+          isWatched: false,
+        })
+      );
+
       dispatch(
-        fetchMoreYoutubeSuccessAction(items, { nextPageToken, keyword: currentSearchInfo.keyword })
+        fetchMoreYoutubeSuccessAction(newSearchList, {
+          nextPageToken,
+          keyword: currentSearchInfo.keyword,
+        })
       );
     } catch (error) {
       dispatch(searchYoutubeErrorAction());
