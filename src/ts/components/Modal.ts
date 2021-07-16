@@ -20,8 +20,8 @@ import Skeleton from './Skeleton';
 interface Props extends CommonProps {}
 
 const Modal: Component<Props> = () => {
-  const { recentSearchKeywords, currentSearchInfo } = store.getState();
-  const { dispatch } = store;
+  const { dispatch, getState } = store;
+  const { recentSearchKeywords } = getState();
 
   const onModalOpenHandler = () => {
     dispatch(modalCloseAction());
@@ -38,8 +38,12 @@ const Modal: Component<Props> = () => {
     try {
       const { items, nextPageToken } = await youtubeAPI.searchYoutubeByTitle(searchInput.value);
 
-      const newRecentSearchKeywords = [searchInput.value, ...recentSearchKeywords];
-      newRecentSearchKeywords.length = 3;
+      const { recentSearchKeywords } = getState();
+
+      const duplicateKeyword = recentSearchKeywords.find(keyword => keyword === searchInput.value);
+      const newRecentSearchKeywords = duplicateKeyword
+        ? recentSearchKeywords
+        : [searchInput.value, ...recentSearchKeywords].slice(0, 3);
 
       dispatch(
         searchYoutubeSuccessAction(
@@ -66,6 +70,8 @@ const Modal: Component<Props> = () => {
     if (!isIntersecting) return;
 
     try {
+      const { currentSearchInfo } = getState();
+
       const { items, nextPageToken } = await youtubeAPI.nextPage(
         currentSearchInfo.keyword,
         currentSearchInfo.nextPageToken
