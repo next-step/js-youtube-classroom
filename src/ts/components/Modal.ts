@@ -9,6 +9,11 @@ import {
   searchYoutubeSuccessAction,
 } from '../store/actionCreator';
 import { CommonProps, Component, YoutubeVideo } from '../types';
+import {
+  LOCAL_CURRENT_SEARCH_INFO,
+  LOCAL_RECENT_SEARCH_KEYWORDS,
+  LOCAL_SEARCH_LIST,
+} from '../utils/localStorageKey';
 import { Button, Header, Heading } from './';
 import Form from './Form';
 import Input from './Input';
@@ -62,10 +67,13 @@ const Modal: Component<Props> = () => {
           newRecentSearchKeywords
         )
       );
-      window.localStorage.setItem('searchList', JSON.stringify(newSearchList));
-      window.localStorage.setItem('recentSearchKeywords', JSON.stringify(newRecentSearchKeywords));
+      window.localStorage.setItem(LOCAL_SEARCH_LIST, JSON.stringify(newSearchList));
       window.localStorage.setItem(
-        'currentSearchInfo',
+        LOCAL_RECENT_SEARCH_KEYWORDS,
+        JSON.stringify(newRecentSearchKeywords)
+      );
+      window.localStorage.setItem(
+        LOCAL_CURRENT_SEARCH_INFO,
         JSON.stringify({
           nextPageToken,
           keyword: searchInput.value,

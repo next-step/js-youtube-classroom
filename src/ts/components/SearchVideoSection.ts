@@ -2,6 +2,7 @@ import { createNode } from '../domHelper';
 import store from '../store';
 import { videoSaveAction } from '../store/actionCreator';
 import { CommonProps, Component, GlobalState, YoutubeVideo } from '../types';
+import { LOCAL_SAVE_VIDEO_LIST } from '../utils/localStorageKey';
 import NotFound from './NotFound';
 import Skeleton from './Skeleton';
 import Video from './Video';
@@ -23,7 +24,10 @@ const SearchVideoSection: Component<Props> = ({}) => {
       const selectVideo: YoutubeVideo = searchList[selectIndex];
 
       store.dispatch(videoSaveAction(selectVideo));
-      window.localStorage.setItem('saveVideoList', JSON.stringify([...saveVideoList, selectVideo]));
+      window.localStorage.setItem(
+        LOCAL_SAVE_VIDEO_LIST,
+        JSON.stringify([...saveVideoList, selectVideo])
+      );
     }
   };
 

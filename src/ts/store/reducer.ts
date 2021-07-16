@@ -1,5 +1,11 @@
 import { Action, GlobalState, Reducer } from '../types';
 import {
+  LOCAL_CURRENT_SEARCH_INFO,
+  LOCAL_RECENT_SEARCH_KEYWORDS,
+  LOCAL_SAVE_VIDEO_LIST,
+  LOCAL_SEARCH_LIST,
+} from '../utils/localStorageKey';
+import {
   YOUTUBE_SEARCH_ERROR,
   YOUTUBE_SEARCH_LOADING,
   YOUTUBE_SEARCH_SUCCESS,
@@ -7,12 +13,15 @@ import {
   MODAL_CLOSE,
   YOUTUBE_FETCH_MORE_SUCCESS,
   VIDEO_SAVE,
+  VIDEO_DELETE,
 } from './actionType';
 
-const localSearchList = JSON.parse(window.localStorage.getItem('searchList'));
-const localSaveVideoList = JSON.parse(window.localStorage.getItem('saveVideoList'));
-const localRecentSearchKeywords = JSON.parse(window.localStorage.getItem('recentSearchKeywords'));
-const localcurrentSearchInfo = JSON.parse(window.localStorage.getItem('currentSearchInfo'));
+const localSearchList = JSON.parse(window.localStorage.getItem(LOCAL_SEARCH_LIST));
+const localSaveVideoList = JSON.parse(window.localStorage.getItem(LOCAL_SAVE_VIDEO_LIST));
+const localRecentSearchKeywords = JSON.parse(
+  window.localStorage.getItem(LOCAL_RECENT_SEARCH_KEYWORDS)
+);
+const localcurrentSearchInfo = JSON.parse(window.localStorage.getItem(LOCAL_CURRENT_SEARCH_INFO));
 
 let INITIAL_STATE: GlobalState = {
   isSearchLoading: false,
@@ -72,6 +81,13 @@ const reducer: Reducer = (
       return {
         ...state,
         saveVideoList: [...state.saveVideoList, action.payload.videoData],
+      };
+    case VIDEO_DELETE:
+      return {
+        ...state,
+        saveVideoList: state.saveVideoList.filter(
+          saveVideo => saveVideo.id.videoId !== action.payload.videoId
+        ),
       };
     default:
       return state;
