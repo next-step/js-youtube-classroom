@@ -1,4 +1,3 @@
-import { Store } from '../types';
 import createStore from './createStore';
 import reducer from './reducer';
 

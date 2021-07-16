@@ -60,11 +60,11 @@ const Video: Component<Props> = ({
           ${
             type === 'save'
               ? `
-          <div>
-            <span class="opacity-hover">✅</span>
-            <span class="opacity-hover">👍</span>
-            <span class="opacity-hover">💬</span>
-            <span class="opacity-hover">🗑️</span>
+          <div data-video-id="${videoId}">
+            <span class="opacity-hover video-watched">✅</span>
+            <span class="opacity-hover video-like">👍</span>
+            <span class="opacity-hover video-comment">💬</span>
+            <span class="opacity-hover video-delete">🗑️</span>
           </div>`
               : !isSave
               ? `

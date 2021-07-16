@@ -7,6 +7,7 @@ import {
   MODAL_CLOSE,
   YOUTUBE_FETCH_MORE_SUCCESS,
   VIDEO_SAVE,
+  VIDEO_DELETE,
 } from './actionType';
 
 export const searchYoutubeLoadingAction = (): Action => ({
@@ -51,4 +52,9 @@ export const modalCloseAction = (): Action => ({
 export const videoSaveAction = (videoData: YoutubeVideo): Action => ({
   type: VIDEO_SAVE,
   payload: { videoData },
+});
+
+export const videoDeleteAction = (videoId: string): Action => ({
+  type: VIDEO_DELETE,
+  payload: { videoId },
 });
