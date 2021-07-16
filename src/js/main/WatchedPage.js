@@ -2,6 +2,7 @@ import {
   selectDOM,
   loadDataFromLocalStorage,
   checkDuplicateID,
+  saveDataToLocalStorage,
 } from "../utils.js";
 import { buildResultSection } from "../DOM.js";
 
@@ -15,13 +16,14 @@ export default class WatchedPage {
       watchedVideos: [],
     };
 
-    this.setState("");
+    this.setState();
   }
 
   addNewVideo(data) {
     if (checkDuplicateID(data.videoId, this.state.watchedVideos) >= 0)
       return console.log("dup");
     this.state.watchedVideos.push(data);
+    saveDataToLocalStorage('watchedVideos', this.state.watchedVideos)
   }
 
   render() {
@@ -33,6 +35,7 @@ export default class WatchedPage {
   }
 
   setState() {
+    this.state.watchedVideos = loadDataFromLocalStorage('watchedVideos')
     this.render();
   }
 }

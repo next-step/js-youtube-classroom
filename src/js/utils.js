@@ -43,12 +43,13 @@ export const makeDataset = (channelId, channelTitle, videoId, videoTitle, publis
     videoId,
     videoTitle,
     publishTime,
+    watch: 0,
+    liked: 0
   }
   return data
 }
 
-// channelId: channelId,
-//         channelTitle: decodeURI(channelTitle),
-//         videoId: videoId,
-//         videoTitle: decodeURI(title),
-//         publishTime: publishTime,
+export const setVideoState = (watch, like) => {
+  return {watch, like}
+}
+

@@ -35,13 +35,6 @@ export default class ModalResult {
       }
       const {channelId, channelTitle, videoId, title ,publishTime} = target.closest("article").dataset;
       const data = makeDataset(channelId, decodeURI(channelTitle), videoId, decodeURI(title), publishTime)
-      // const data = {
-      //   channelId: channelId,
-      //   channelTitle: decodeURI(channelTitle),
-      //   videoId: videoId,
-      //   videoTitle: decodeURI(title),
-      //   publishTime: publishTime,
-      // };
 
       const dataPos = checkDuplicateID(
         data.videoId,
@@ -60,7 +53,7 @@ export default class ModalResult {
       saveDataToLocalStorage("savedVideos", this.state.savedVideos);
       this.$saveCount.innerHTML = `저장된 영상 갯수: ${this.state.savedVideos.length}개`;
       target.classList.toggle("saved");
-      emit(selectDOM("#selected-result"), "@save", { value: this.state.savedVideos });
+      emit(selectDOM("#selected-result"), "@save", {});
     }
   }
 

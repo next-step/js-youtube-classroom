@@ -1,8 +1,6 @@
-import { addEvents, selectDOM, addClass, removeClass } from "./utils.js";
+import { addEvents, selectDOM, addClass, removeClass, loadDataFromLocalStorage } from "./utils.js";
 import Modal from "./modal/Modal.js";
-import SavedPage from "./main/SavedPage.js";
-import WatchedPage from "./main/WatchedPage.js";
-import LikedPage from "./main/LikedPage.js";
+import MainPage from "./main/MainPage.js";
 
 export default class App {
   constructor() {
@@ -12,23 +10,7 @@ export default class App {
     this.$likedButton = selectDOM("#liked-videos");
 
     this.Modal = new Modal();
-    this.SavedPage = new SavedPage({
-        sendVideoData: (id, videoData) => {
-            switch (id){
-                case 'watch' :
-                    this.watchedPage.addNewVideo(videoData)
-                    break;
-                case 'like' :
-                    console.log('like ', videoData)
-                    break;
-                case 'remove' :
-                    console.log('remove ', videoData)
-                    break;
-            }
-        }
-    });
-    this.watchedPage = new WatchedPage();
-    this.likedPage = new LikedPage();
+    this.MainPage = new MainPage();
 
     this.state = {
       currentRoute: "",
@@ -62,29 +44,21 @@ export default class App {
 
   render() {
     this.switchButtonSelect(this.state.currentRoute);
-    switch (this.state.currentRoute) {
-      case "saved":
-        this.SavedPage.render();
-        break;
-      case "watched":
-        this.watchedPage.render();
-        break;
-      case "liked":
-          this.likedPage.render();
-        break;
-      default:
-        this.state.currentRoute = "saved";
+    console.log("App render")
+    console.log(this.state.currentRoute)
+    if (this.state.currentRoute === ''){
+      this.state.currentRoute = "saved";
         history.replaceState(
           { currentRoute: this.state.currentRoute },
           null,
           "?saved"
         );
-        this.SavedPage.render();
     }
   }
 
   setState(currentRoute) {
     this.state.currentRoute = currentRoute;
+    this.MainPage.setState(this.state.currentRoute)
     this.render();
   }
 }

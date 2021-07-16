@@ -22,8 +22,9 @@ export const buildResultSection = (dataArray, savedVideos, position) => {
 const buildVideoArticle = (
   { channelId, channelTitle, videoId, videoTitle, publishTime } = [],
   savedVideos,
-  position
+  position,
 ) => {
+  let state = {watch: 0, like: 0}
   return `<article 
             class="clip relative" 
             data-video-id=${videoId} 
@@ -69,9 +70,8 @@ const buildVideoArticle = (
       }
       </div>`
           : `<div>
-      <span id="watch" class="opacity-hover">✅</span>
-      <span id="like" class="opacity-hover">👍</span>
-      <span class="opacity-hover">💬</span>
+      <span id="watch" class="${state.watch === 1 ? '' : 'opacity-hover'}">✅</span>
+      <span id="like" class="${state.like === 1 ? '' : 'opacity-hover'}">👍</span>
       <span id="remove" class="opacity-hover">🗑️</span>
     </div>`
       }
