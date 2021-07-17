@@ -1,37 +1,33 @@
-import { selectDOM, loadDataFromLocalStorage, saveDataToLocalStorage, checkDuplicateID } from "../utils.js";
-import { buildResultSection } from "../DOM.js";
+import Page from "./Page.js";
 
-export default class LikedPage {
-  $selectedResult;
+export default class LikedPage extends Page {
   constructor() {
-    this.$selectedResult = selectDOM("#selected-result");
-    this.$likedButton = selectDOM("#liked-videos");
-
-
-    this.state = {
-      likedVideos: []
-    }
-
-    this.setState()
-  }
-
-  addNewVideo(data) {
-    if (checkDuplicateID(data.videoId, this.state.likedVideos) >= 0)
-      return console.log("dup");
-    this.state.likedVideos.push(data);
-    saveDataToLocalStorage('likedVideos', this.state.likedVideos)
-  }
-
-  render() {
-    const resultDom =
-      this.state.likedVideos.length === 0
-        ? "Liked : None 😥"
-        : buildResultSection(this.state.likedVideos, [], 2);
-    this.$selectedResult.innerHTML = resultDom;
-  }
-
-  setState() {
-    this.state.likedVideos = loadDataFromLocalStorage('likedVideos')
-    this.render();
+    super();
+    this.route = "like"
+    this.emptyMessage = "<p> 좋아요 한 영상이 없습니다. 😥 </p>"
   }
 }
+
+
+// export default class LikedPage {
+//   $selectedResult;
+//   constructor() {
+//     this.$selectedResult = selectDOM("#selected-result");
+
+//     this.state = {
+//       savedVideos: []
+//     }
+
+//   }
+
+//   render() {
+//     let resultDom = buildResultSection(this.state.savedVideos, [], 2, 'like');
+//     if (resultDom.length === 0) resultDom = "Liked : None 😥"
+//     this.$selectedResult.innerHTML = resultDom;
+//   }
+
+//   setState(savedVideos) {
+//     this.state.savedVideos = savedVideos
+//     this.render();
+//   }
+// }

@@ -1,6 +1,7 @@
 import { getPublishedTime, checkDuplicateID } from "./utils.js";
 
 const MODAL = 1;
+const MAIN = 2;
 
 export const cannotFoundKeyword = () => {
   return `
@@ -13,18 +14,23 @@ export const cannotFoundKeyword = () => {
   </div>`;
 };
 
-export const buildResultSection = (dataArray, savedVideos, position) => {
+export const buildResultSection = (dataArray, savedVideos, position, state) => {
   return dataArray
-    .map((data) => buildVideoArticle(data, savedVideos, position))
+    .map((data) => {
+      if ((state === 'watch' && data.watch === 1) ||
+        (state === 'like' && data.like === 1) ||
+        (state === 'save' && data.watch !== 1)){
+        return buildVideoArticle(data, savedVideos, position)
+      }
+    })
     .join("");
 };
 
 const buildVideoArticle = (
-  { channelId, channelTitle, videoId, videoTitle, publishTime } = [],
+  { channelId, channelTitle, videoId, videoTitle, publishTime, watch, like } = [],
   savedVideos,
-  position,
+  position
 ) => {
-  let state = {watch: 0, like: 0}
   return `<article 
             class="clip relative" 
             data-video-id=${videoId} 
@@ -70,8 +76,8 @@ const buildVideoArticle = (
       }
       </div>`
           : `<div>
-      <span id="watch" class="${state.watch === 1 ? '' : 'opacity-hover'}">✅</span>
-      <span id="like" class="${state.like === 1 ? '' : 'opacity-hover'}">👍</span>
+      <span id="watch" class=${watch === 1 ? "" : "opacity-hover"}>✅</span>
+      <span id="like" class=${like === 1 ? "" : "opacity-hover"}>👍</span>
       <span id="remove" class="opacity-hover">🗑️</span>
     </div>`
       }

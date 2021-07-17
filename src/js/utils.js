@@ -22,6 +22,10 @@ export const checkDuplicateID = (id, dataArray) => {
   return dataArray.findIndex((videoData) => videoData.videoId === id);
 };
 
+export const getVideoDataFromId = (id, dataArray) => {
+  return dataArray[checkDuplicateID(id, dataArray)]
+};
+
 export const addEvents = (target, eventName, handler) => {
   target.addEventListener(eventName, handler);
 };
