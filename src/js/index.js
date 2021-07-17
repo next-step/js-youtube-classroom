@@ -118,6 +118,9 @@ const $modalInner = document.querySelector(".modal-inner");
 const $mt2 = document.querySelector(".mt-2");
 const $storedContainer = document.querySelector("#stored-container");
 
+const $goingToWatchPage = document.querySelector('#goingToWatchPage');
+const $watchedPage = document.querySelector('#watchedPage');
+const $likedPage = document.querySelector('#likedPage');
 
 
 const createModalArticles = (items) => {
@@ -133,13 +136,12 @@ const createModalArticles = (items) => {
       $storeButtons[index].addEventListener('click', () => {
           storedItems.push({id: item.id.videoId, snippet: item.snippet, type: {isWatched:false, isLiked: false}})
           localStorage.setItem("videoInfos", JSON.stringify(storedItems));
-          createMainArticles();
+          onGoingToWatchPageShow();
       })
   })
 }
 
-const createMainArticles = () => {
-    let items = storedItems;
+const createMainArticles = (items) => {
     if(items.length === 0) {
         $storedContainer.innerHTML = `<p> 영상이 없습니다. 😥</p>`;
     } else {
@@ -153,31 +155,39 @@ const createMainArticles = () => {
         const $watchButtons = document.querySelectorAll('.watch');
         const $likeButtons = document.querySelectorAll('.like');
 
-        items.forEach((item, index) => {
+        items.forEach((item, index) => { //
+            let itemIndex = storedItems.indexOf(item); // storedItems에서 item에 해당하는 index를 구해 정확한 index를 구한다.
             $deleteButtons[index].addEventListener('click', () => {
-                storedItems.splice(index, 1);
+                storedItems.splice(itemIndex, 1);
+                console.log(itemIndex);
                 localStorage.setItem("videoInfos", JSON.stringify(storedItems));
-                createMainArticles();
+                onGoingToWatchPageShow();
             });
 
             $watchButtons[index].addEventListener('click', () => {
-                storedItems[index].type.isWatched = true;
-                storedItems.splice(index, 1, storedItems[index]);
+                let itemIndex = storedItems.indexOf(item);
+                storedItems[itemIndex].type.isWatched = true;
+                storedItems.splice(itemIndex, 1, storedItems[itemIndex]);
                 localStorage.setItem("videoInfos", JSON.stringify(storedItems));
-                createMainArticles();
+                onGoingToWatchPageShow();
             })
 
             $likeButtons[index].addEventListener('click', () => {
-                storedItems[index].type.isLiked = true;
-                storedItems.splice(index, 1, storedItems[index]);
+                let itemIndex = storedItems.indexOf(item);
+                storedItems[itemIndex].type.isLiked = true;
+                storedItems.splice(itemIndex, 1, storedItems[itemIndex]);
                 localStorage.setItem("videoInfos", JSON.stringify(storedItems));
-                createMainArticles();
+                onGoingToWatchPageShow();
             })
 
 
         })
     }
 }
+
+
+
+
 
 const createNotFoundDiv = () => {
     $fetchedContainer.innerHTML = `
@@ -248,12 +258,23 @@ const onFetchNextPageItemList = (e) => {
       }
     };
 
+const onGoingToWatchPageShow = () => {
+    let items = storedItems.filter(item => item.type.isWatched == false); // 필터링을 하면서 문제가 생긴다.
+    createMainArticles(items);
+}
+
+
+const onWatchedPageShow = () => {
+
+}
+
 $searchButton.addEventListener("click", onModalShow);
 $modalClose.addEventListener("click", onModalClose);
 $fetchButton.addEventListener("click", onFetchItemList);
 $fetchInput.addEventListener("keydown", onFetchItemListWithEnter);
 $modalInner.addEventListener("scroll", onFetchNextPageItemList);
-window.addEventListener("load", createMainArticles);
+//$watchedPage.addEventListener("click", );
+window.addEventListener("load", onGoingToWatchPageShow);
 
 
 
