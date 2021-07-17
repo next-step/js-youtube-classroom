@@ -67,10 +67,9 @@ const mainContentTemp = (item) => {
                       <p>${item.snippet.publishedAt}</p>
                     </div>
                     <div>
-                      <span class="opacity-hover">✅</span>
-                      <span class="opacity-hover">👍</span>
-                      <span class="opacity-hover">💬</span>
-                      <span class="opacity-hover">🗑️</span>
+                      <span class="opacity-hover watch">✅</span>
+                      <span class="opacity-hover like">👍</span>
+                      <span class="opacity-hover delete">🗑️</span>
                     </div>
                   </div>
                 </article>
@@ -79,24 +78,24 @@ const mainContentTemp = (item) => {
 }
 
 // model
-let storage;
+let fetchedItems;
 let searchedKeyword = JSON.parse(window.localStorage.getItem('latest')) || [];
 let storedItems = JSON.parse(window.localStorage.getItem('videoInfos')) || [];
 
 const resetItems = (data) => {
-  storage = data;
+  fetchedItems = data;
 }
 
 const addItems = (data) => {
-  data.items.forEach(item => { storage.items.push(item) } );
+  data.items.forEach(item => { fetchedItems.items.push(item) } );
 }
 
 const getItems = () => {
-  return storage.items;
+  return fetchedItems.items;
 }
 
 const getNextPageToken = () => {
-    return storage.nextPageToken;
+    return fetchedItems.nextPageToken;
 
 }
 
@@ -119,6 +118,8 @@ const $modalInner = document.querySelector(".modal-inner");
 const $mt2 = document.querySelector(".mt-2");
 const $storedContainer = document.querySelector("#stored-container");
 
+
+
 const createModalArticles = (items) => {
     let contents = ``;
   items.forEach(item => {
@@ -130,20 +131,52 @@ const createModalArticles = (items) => {
 
   items.forEach((item,index) => {
       $storeButtons[index].addEventListener('click', () => {
-          storedItems.push({id: item.id.videoId, snippet: item.snippet})
+          storedItems.push({id: item.id.videoId, snippet: item.snippet, type: {isWatched:false, isLiked: false}})
           localStorage.setItem("videoInfos", JSON.stringify(storedItems));
+          createMainArticles();
       })
-      $storeButtons[index].addEventListener("click", createMainArticles);
   })
 }
 
 const createMainArticles = () => {
-    let items = JSON.parse(localStorage.getItem('videoInfos'));
-    let contents = ``;
-    items.forEach(item => {
-    contents = contents + mainContentTemp(item);
-    })
-    $storedContainer.innerHTML = contents;
+    let items = storedItems;
+    if(items.length === 0) {
+        $storedContainer.innerHTML = `<p> 영상이 없습니다. 😥</p>`;
+    } else {
+        let contents = ``;
+        items.forEach(item => {
+            contents = contents + mainContentTemp(item);
+        })
+        $storedContainer.innerHTML = contents;
+
+        const $deleteButtons = document.querySelectorAll('.delete');
+        const $watchButtons = document.querySelectorAll('.watch');
+        const $likeButtons = document.querySelectorAll('.like');
+
+        items.forEach((item, index) => {
+            $deleteButtons[index].addEventListener('click', () => {
+                storedItems.splice(index, 1);
+                localStorage.setItem("videoInfos", JSON.stringify(storedItems));
+                createMainArticles();
+            });
+
+            $watchButtons[index].addEventListener('click', () => {
+                storedItems[index].type.isWatched = true;
+                storedItems.splice(index, 1, storedItems[index]);
+                localStorage.setItem("videoInfos", JSON.stringify(storedItems));
+                createMainArticles();
+            })
+
+            $likeButtons[index].addEventListener('click', () => {
+                storedItems[index].type.isLiked = true;
+                storedItems.splice(index, 1, storedItems[index]);
+                localStorage.setItem("videoInfos", JSON.stringify(storedItems));
+                createMainArticles();
+            })
+
+
+        })
+    }
 }
 
 const createNotFoundDiv = () => {
@@ -157,7 +190,7 @@ const createNotFoundDiv = () => {
 }
 
 const createSearchKeyWordElement = () => {
-    let items = JSON.parse(window.localStorage.getItem('latest'));
+    let items = searchedKeyword;
     let contents = `
     <span class="text-gray-700">최근 검색어: </span>
     `
@@ -172,7 +205,8 @@ const createSearchKeyWordElement = () => {
 // controller
 const onModalShow = () => {
   $modal.classList.add("open");
-    createSearchKeyWordElement();
+
+  createSearchKeyWordElement();
 };
 
 const onModalClose = () => {
@@ -189,7 +223,7 @@ const onFetchItemList = (e) => {
 
   fetch(requestURL).then(res => res.json()).then(data => {
      resetItems(data);
-     if(storage.items.length === 0) {
+     if(fetchedItems.items.length === 0) {
          createNotFoundDiv();
      }
      createModalArticles(getItems());
@@ -209,7 +243,7 @@ const onFetchNextPageItemList = (e) => {
       fetch(requestURL).then(res => res.json()).then(data => {
           addItems(data);
           createModalArticles(getItems());
-        storage.nextPageToken = data.nextPageToken;
+        fetchedItems.nextPageToken = data.nextPageToken;
         })
       }
     };
