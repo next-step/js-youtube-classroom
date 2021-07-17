@@ -155,26 +155,35 @@ const createMainArticles = (items) => {
         const $watchButtons = document.querySelectorAll('.watch');
         const $likeButtons = document.querySelectorAll('.like');
 
-        items.forEach((item, index) => { //
+        items.forEach((item, index) => {
             let itemIndex = storedItems.indexOf(item); // storedItems에서 item에 해당하는 index를 구해 정확한 index를 구한다.
+
+            if(storedItems[itemIndex].type.isWatched) {
+                $watchButtons[index].classList.remove('opacity-hover');
+            }else {
+                $watchButtons[index].classList.add('opacity-hover');
+            }
+            if(storedItems[itemIndex].type.isLiked) {
+                $likeButtons[index].classList.remove('opacity-hover');
+            }else {
+                $likeButtons[index].classList.add('opacity-hover');
+            }
+
             $deleteButtons[index].addEventListener('click', () => {
                 storedItems.splice(itemIndex, 1);
-                console.log(itemIndex);
                 localStorage.setItem("videoInfos", JSON.stringify(storedItems));
                 onGoingToWatchPageShow();
             });
 
             $watchButtons[index].addEventListener('click', () => {
-                let itemIndex = storedItems.indexOf(item);
-                storedItems[itemIndex].type.isWatched = true;
+                storedItems[itemIndex].type.isWatched = !storedItems[itemIndex].type.isWatched;
                 storedItems.splice(itemIndex, 1, storedItems[itemIndex]);
                 localStorage.setItem("videoInfos", JSON.stringify(storedItems));
                 onGoingToWatchPageShow();
             })
 
             $likeButtons[index].addEventListener('click', () => {
-                let itemIndex = storedItems.indexOf(item);
-                storedItems[itemIndex].type.isLiked = true;
+                storedItems[itemIndex].type.isLiked = !storedItems[itemIndex].type.isLiked;
                 storedItems.splice(itemIndex, 1, storedItems[itemIndex]);
                 localStorage.setItem("videoInfos", JSON.stringify(storedItems));
                 onGoingToWatchPageShow();
@@ -210,6 +219,30 @@ const createSearchKeyWordElement = () => {
        `
     })
     $mt2.innerHTML = contents;
+}
+
+const changePageActive = () => {
+    let $activePageContainer = document.querySelector(".activePageContainer");
+    for(let i= 0; i< $activePageContainer.children.length; i++) {
+        $activePageContainer.children[i].classList.remove('bg-cyan-100');
+    }
+    switch (history.state.data) {
+        case 'main':
+            $activePageContainer.children[0].classList.add('bg-cyan-100');
+            break;
+        case 'watched':
+            $activePageContainer.children[1].classList.add('bg-cyan-100');
+            break;
+        case 'liked':
+            $activePageContainer.children[2].classList.add('bg-cyan-100');
+            break;
+    }
+
+}
+
+const checkItem = (itemIndex) => {
+
+
 }
 
 // controller
@@ -259,19 +292,22 @@ const onFetchNextPageItemList = (e) => {
     };
 
 const onGoingToWatchPageShow = () => {
-    window.history.pushState({ data: 'some data' },'Some history entry title', '/main')
+    window.history.pushState({ data: 'main' },'Some history entry title', '/main')
+    changePageActive();
     let items = storedItems.filter(item => item.type.isWatched == false); // 필터링을 하면서 문제가 생긴다.
     createMainArticles(items);
 }
 
 const onWatchedPageShow = () => {
-    window.history.pushState({ data: 'some data' },'Some history entry title', '/watched');
+    window.history.pushState({ data: 'watched' },'Some history entry title', '/watched');
+    changePageActive();
     let items = storedItems.filter(item => item.type.isWatched == true);
     createMainArticles(items);
 }
 
 const onLikedPageShow = () => {
-    window.history.pushState({ data: 'some data' },'Some history entry title', '/liked')
+    window.history.pushState({ data: 'liked' },'Some history entry title', '/liked');
+    changePageActive();
     let items = storedItems.filter(item => item.type.isLiked == true);
     createMainArticles(items);
 }
