@@ -78,7 +78,11 @@ class Template{
               <p>${data.snippet.publishTime.slice(0,4)}년 ${data.snippet.publishTime.slice(5,7)}월 ${data.snippet.publishTime.slice(8,10)}일</p>
             </div>
             <div class="d-flex justify-end">
-              <button class="btn" data-video-id="${videoIds[idx]}">⬇️ 저장</button>
+              <button class="btn" 
+                data-video-id="${videoIds[idx]}"
+              >
+                ⬇️ 저장
+              </button>
             </div>
           </div>
         </div>
