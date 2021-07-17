@@ -4,6 +4,7 @@ import ModalSearchResult from "./View/ModalSearchResult.js";
 import ModalScrollView from "./View/ModalScrollView.js";
 import ModalLatestKeywordList from "./View/ModalLatestKeywordList.js";
 import MainView from "./View/MainView.js";
+// import { ToWatchView } from "./View/ToWatchView.js";
 
 
 const tag = "[INDEX]"
@@ -15,6 +16,7 @@ function index(){
     modalSearchResult: new ModalSearchResult(),
     modalScrollView: new ModalScrollView(),
     modalLatestKeywordList: new ModalLatestKeywordList(),
+    // toWatchView: new ToWatchView()
   }
   new Controller(views)
 }

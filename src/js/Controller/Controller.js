@@ -31,6 +31,7 @@ export default class Controller{
     const newSearch = this.beforeInputValue !== value
     this.beforeInputValue = value
     this.modalSearchResult.show(data.items, newSearch)
+    // this.modalSearchResult.show(data.items, true)
   
     this.render()
   }
@@ -54,18 +55,10 @@ export default class Controller{
     else items = [keyword]
     localStorage.setItem(logtype, JSON.stringify(items))
   }
-  
-  saveVideo(videoId){
+  saveVideo(video){
     let items = JSON.parse(localStorage.getItem(STORAGETYPE.VIDEOTYPE))
-    if(items) { 
-      if(items.length>=100) return 
-      else if(items.includes(videoId)){
-        const idx = items.indexOf(keyword)
-        items.splice(idx,1)
-      }
-      items.push(videoId)
-    } 
-    else items = [videoId]
+    if(items) items.push(video)
+    else items = [video]
     localStorage.setItem(STORAGETYPE.VIDEOTYPE, JSON.stringify(items))
   }
   render(){

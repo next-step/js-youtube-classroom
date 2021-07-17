@@ -24,7 +24,7 @@ export default class ModalView extends View {
           if (event.target === this.searchBtnElement) {
             this.handleSubmit()
           } else {
-            this.handleSaveBtn(event.target, event.target.dataset.videoId)
+            this.handleSaveBtn(event.target, event.target.dataset)
           }
         }
       }, 200)

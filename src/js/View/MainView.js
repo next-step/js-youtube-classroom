@@ -1,4 +1,5 @@
 import { qs, on } from "../helpers.js"
+import toWatchView from "./ToWatchView.js"
 import View from "./View.js"
 
 const tag = "[MainView]"
@@ -10,6 +11,7 @@ export default class MainView extends View {
     this.modalClose = qs(".modal-close")
     this.modal = qs(".modal")
     this.bindEvents()
+    this.render()
   }
   bindEvents() {
     on(this.searchButton, "click", () => this.onModalShow());
@@ -25,5 +27,9 @@ export default class MainView extends View {
   }
   onModalClose() {
     this.modal.classList.remove("open")
+    this.render()
+  }
+  render(){
+    toWatchView.render()
   }
 }

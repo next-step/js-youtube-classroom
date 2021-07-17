@@ -35,6 +35,7 @@ export default class ModalSearchResult extends View {
   hideSaveBtn(){
     const saveBtns = qsAll(".d-flex.justify-end .btn")
     let items = JSON.parse(localStorage.getItem(STORAGETYPE.VIDEOTYPE))
+    items && (items = items.map(element => element.videoId))
     if(!items) return 
     saveBtns.forEach(element => {
       if(items.includes(element.dataset.videoId)) this.hide(element)
@@ -80,6 +81,10 @@ class Template{
             <div class="d-flex justify-end">
               <button class="btn" 
                 data-video-id="${videoIds[idx]}"
+                data-video-title="${data.snippet.title}"
+                data-channel-id = "${data.snippet.channelId}"
+                data-channel-title = "${data.snippet.channelTitle}"
+                data-publish-time= "${data.snippet.publishTime}"           
               >
                 ⬇️ 저장
               </button>
