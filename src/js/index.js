@@ -259,13 +259,21 @@ const onFetchNextPageItemList = (e) => {
     };
 
 const onGoingToWatchPageShow = () => {
+    window.history.pushState({ data: 'some data' },'Some history entry title', '/main')
     let items = storedItems.filter(item => item.type.isWatched == false); // 필터링을 하면서 문제가 생긴다.
     createMainArticles(items);
 }
 
-
 const onWatchedPageShow = () => {
+    window.history.pushState({ data: 'some data' },'Some history entry title', '/watched');
+    let items = storedItems.filter(item => item.type.isWatched == true);
+    createMainArticles(items);
+}
 
+const onLikedPageShow = () => {
+    window.history.pushState({ data: 'some data' },'Some history entry title', '/liked')
+    let items = storedItems.filter(item => item.type.isLiked == true);
+    createMainArticles(items);
 }
 
 $searchButton.addEventListener("click", onModalShow);
@@ -275,6 +283,10 @@ $fetchInput.addEventListener("keydown", onFetchItemListWithEnter);
 $modalInner.addEventListener("scroll", onFetchNextPageItemList);
 //$watchedPage.addEventListener("click", );
 window.addEventListener("load", onGoingToWatchPageShow);
+$goingToWatchPage.addEventListener("click", onGoingToWatchPageShow);
+$watchedPage.addEventListener("click", onWatchedPageShow);
+$likedPage.addEventListener("click", onLikedPageShow);
+
 
 
 
