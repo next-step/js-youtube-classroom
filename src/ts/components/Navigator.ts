@@ -35,7 +35,7 @@ const Navigator: Component<Props> = () => {
 
     const target = event.target as Element;
     if (!target.matches('button[data-route]')) return;
-    const path = (target.parentNode as HTMLAnchorElement).href;
+    const path = (target.parentNode as HTMLAnchorElement).pathname;
 
     navigate(path);
   };

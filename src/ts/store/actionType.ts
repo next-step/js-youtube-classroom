@@ -9,3 +9,5 @@ export const MODAL_CLOSE = 'MODAL_CLOSE';
 
 export const VIDEO_SAVE = 'VIDEO_SAVE';
 export const VIDEO_DELETE = 'VIDEO_DELETE';
+
+export const PAGE_CHANGE = 'PAGE_CHANGE';

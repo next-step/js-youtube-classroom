@@ -8,6 +8,7 @@ import {
   YOUTUBE_FETCH_MORE_SUCCESS,
   VIDEO_SAVE,
   VIDEO_DELETE,
+  PAGE_CHANGE,
 } from './actionType';
 
 export const searchYoutubeLoadingAction = (): Action => ({
@@ -57,4 +58,9 @@ export const videoSaveAction = (videoData: YoutubeVideo): Action => ({
 export const videoDeleteAction = (videoId: string): Action => ({
   type: VIDEO_DELETE,
   payload: { videoId },
+});
+
+export const pageChangeAction = (path: string): Action => ({
+  type: PAGE_CHANGE,
+  payload: { path },
 });

@@ -1,8 +1,10 @@
+import store from '../store';
 import { Header, Heading, Modal, Navigator } from '../components';
 import { createNode } from '../domHelper';
-import { routerRoot } from '../route';
-import store from '../store';
 import { Component } from '../types';
+import route from '../route';
+import { HOME_PAGE, LIKE_PAGE, TO_WATCH_PAGE, WATCHED_PAGE } from '../route/path';
+import { Like, ToWatch, Watched } from '../pages';
 
 interface Props {}
 
@@ -27,7 +29,12 @@ const App: Component<Props> = () => {
         ],
       }),
       // pathname에 따라 페이지를 렌더링 해줄것이다.
-      routerRoot,
+      route.Router([
+        { path: HOME_PAGE, component: ToWatch },
+        { path: TO_WATCH_PAGE, component: ToWatch },
+        { path: WATCHED_PAGE, component: Watched },
+        { path: LIKE_PAGE, component: Like },
+      ]),
       isModalOpen ? Modal({}) : null,
     ]),
   ]);
