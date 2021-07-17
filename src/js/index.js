@@ -133,11 +133,24 @@ const createModalArticles = (items) => {
   const $storeButtons = document.querySelectorAll('.store-button');
 
   items.forEach((item,index) => {
-      $storeButtons[index].addEventListener('click', () => {
-          storedItems.push({id: item.id.videoId, snippet: item.snippet, type: {isWatched:false, isLiked: false}})
-          localStorage.setItem("videoInfos", JSON.stringify(storedItems));
-          onGoingToWatchPageShow();
-      })
+      let itemIndex = storedItems.map(item => item.id).indexOf(item.id.videoId);
+      if(itemIndex !== -1) {
+          $storeButtons[index].innerText = "↪️저장 취소";
+          $storeButtons[index].addEventListener('click', function () {
+              storedItems.splice(itemIndex, 1);
+              localStorage.setItem("videoInfos", JSON.stringify(storedItems));
+              createModalArticles(getItems());
+              onPageShow();
+          })
+      }else {
+          $storeButtons[index].innerText = "⬇️저장";
+          $storeButtons[index].addEventListener('click', function () {
+              storedItems.push({id: item.id.videoId, snippet: item.snippet, type: {isWatched: false, isLiked: false}})
+              localStorage.setItem("videoInfos", JSON.stringify(storedItems));
+              createModalArticles(getItems());
+              onPageShow();
+          })
+      }
   })
 }
 
@@ -172,31 +185,27 @@ const createMainArticles = (items) => {
             $deleteButtons[index].addEventListener('click', () => {
                 storedItems.splice(itemIndex, 1);
                 localStorage.setItem("videoInfos", JSON.stringify(storedItems));
-                onGoingToWatchPageShow();
+                onPageShow();
             });
 
             $watchButtons[index].addEventListener('click', () => {
                 storedItems[itemIndex].type.isWatched = !storedItems[itemIndex].type.isWatched;
                 storedItems.splice(itemIndex, 1, storedItems[itemIndex]);
                 localStorage.setItem("videoInfos", JSON.stringify(storedItems));
-                onGoingToWatchPageShow();
+                onPageShow();
             })
 
             $likeButtons[index].addEventListener('click', () => {
                 storedItems[itemIndex].type.isLiked = !storedItems[itemIndex].type.isLiked;
                 storedItems.splice(itemIndex, 1, storedItems[itemIndex]);
                 localStorage.setItem("videoInfos", JSON.stringify(storedItems));
-                onGoingToWatchPageShow();
+                onPageShow();
             })
 
 
         })
     }
 }
-
-
-
-
 
 const createNotFoundDiv = () => {
     $fetchedContainer.innerHTML = `
@@ -240,10 +249,6 @@ const changePageActive = () => {
 
 }
 
-const checkItem = (itemIndex) => {
-
-
-}
 
 // controller
 const onModalShow = () => {
@@ -279,15 +284,21 @@ const onFetchItemListWithEnter = (e) => {
     $fetchButton.click();
   }
 }
-
-const onFetchNextPageItemList = (e) => {
-    if (parseInt($modalInner.scrollTop + $modalInner.clientHeight) == parseInt($modalInner.scrollHeight)) {
-      requestURL = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&part=snippet&maxResults=10&q=${q}&pageToken=${getNextPageToken()}`;
-      fetch(requestURL).then(res => res.json()).then(data => {
-          addItems(data);
-          createModalArticles(getItems());
-        fetchedItems.nextPageToken = data.nextPageToken;
-        })
+let throttle;
+const onFetchNextPageItemList = () => {
+    if (parseInt($modalInner.scrollTop + $modalInner.clientHeight + 10) > parseInt($modalInner.scrollHeight)) {
+        if (!throttle) {
+            console.log("페칭");
+            throttle = setTimeout(() => {
+                throttle = null;
+                requestURL = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&part=snippet&maxResults=10&q=${q}&pageToken=${getNextPageToken()}`;
+                fetch(requestURL).then(res => res.json()).then(data => {
+                    addItems(data);
+                    createModalArticles(getItems());
+                    fetchedItems.nextPageToken = data.nextPageToken;
+                })
+            }, 1000);
+        }
       }
     };
 
@@ -312,12 +323,26 @@ const onLikedPageShow = () => {
     createMainArticles(items);
 }
 
+const onPageShow = () => {
+    switch (history.state.data) {
+        case 'main':
+            onGoingToWatchPageShow();
+            break;
+        case 'watched':
+            onWatchedPageShow();
+            break;
+        case 'liked':
+            onLikedPageShow();
+            break;
+    }
+}
+
+
 $searchButton.addEventListener("click", onModalShow);
 $modalClose.addEventListener("click", onModalClose);
 $fetchButton.addEventListener("click", onFetchItemList);
 $fetchInput.addEventListener("keydown", onFetchItemListWithEnter);
 $modalInner.addEventListener("scroll", onFetchNextPageItemList);
-//$watchedPage.addEventListener("click", );
 window.addEventListener("load", onGoingToWatchPageShow);
 $goingToWatchPage.addEventListener("click", onGoingToWatchPageShow);
 $watchedPage.addEventListener("click", onWatchedPageShow);
