@@ -1,6 +1,6 @@
+import store from '../store';
 import youtubeAPI from '../api/youtube';
 import { createNode } from '../domHelper';
-import store from '../store';
 import {
   fetchMoreYoutubeSuccessAction,
   modalCloseAction,
@@ -17,10 +17,8 @@ import {
 import { Button, Header, Heading } from './';
 import Form from './Form';
 import Input from './Input';
-import NotFound from './NotFound';
 import Observe from './Observe';
 import SearchVideoSection from './SearchVideoSection';
-import Skeleton from './Skeleton';
 
 interface Props extends CommonProps {}
 

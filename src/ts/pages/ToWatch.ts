@@ -1,7 +1,7 @@
-import { EmptyMessage, SaveVideoSection, Video } from '../components';
-import { createNode } from '../domHelper';
 import store from '../store';
+import { createNode } from '../domHelper';
 import { CommonProps, Component } from '../types';
+import { EmptyMessage, SaveVideoSection, Video } from '../components';
 
 interface Props extends CommonProps {}
 
