@@ -7,10 +7,8 @@ const tag = "[WatchedView]"
 class WatchedView extends View {
   constructor() {
     super(qsAll(".btn.mx-1")[1])
-
     this.bindEvents()
   }
-
   bindEvents(){
     on(this.element, "click", ()=> {
       qsAll(".btn.mx-1").forEach(el => el.classList.remove("bg-cyan-100"))
@@ -20,7 +18,6 @@ class WatchedView extends View {
       this.show()
     })
   }
-
   show(){
     const watchedVideos =  history.state ? history.state.filter(data=> data.watched===false) : []
     let page = qs(".mt-10 .video-wrapper") ? qs(".mt-10 .video-wrapper") : qs(".mt-10 .text-center")
@@ -40,7 +37,6 @@ class WatchedView extends View {
     this.show()
   }
 }
-
 class Template {
   getList(datas) {
     return datas.map((data) => watchTemplate(data,"")).join('')

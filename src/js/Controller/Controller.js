@@ -1,17 +1,17 @@
 
-import {APIKEY} from "../../../config.js"
-import {data} from "../fakeObject.js"
-import {STORAGETYPE} from "../util/Static.js"
-import {qsAll} from "../helpers.js"
+import { APIKEY } from "../../../config.js"
+import { data } from "../fakeObject.js"
+import { STORAGETYPE } from "../util/Static.js"
+import { qsAll } from "../helpers.js"
 import toWatchView from "../View/ToWatchView.js"
 import watchedView from "../View/WatchedView.js"
 
 const tag = "[Controller]"
 
 
-export default class Controller{
+export default class Controller {
 
-  constructor({modalView, modalSearchResult, modalScrollView, modalLatestKeywordList, checkBtnView}){
+  constructor({ modalView, modalSearchResult, modalScrollView, modalLatestKeywordList, checkBtnView }) {
 
     this.modalView = modalView
     this.modalSearchResult = modalSearchResult
@@ -24,14 +24,15 @@ export default class Controller{
     this.subscribeViewEvents()
     this.render()
   }
-  subscribeViewEvents(){
-    this.modalView.on("@submit", event=> this.search(event.detail.value))
-    this.modalView.on("@save", event=>this.saveVideo(event.detail.value))
+  subscribeViewEvents() {
+    this.modalView.on("@submit", event => this.search(event.detail.value))
+    this.modalView.on("@save", event => this.saveVideo(event.detail.value))
     this.modalScrollView.on("@scroll", event => this.search(event.detail.value))
-    this.checkBtnView.on("@watch", event=>this.checkBtnClick(event.detail.value))
+    this.checkBtnView.on("@watch", event => this.checkBtnClick(event.detail.value))
+    this.checkBtnView.on("@del", event => this.delBtnClick(event.detail.value))
 
   }
-  async search(value=""){
+  async search(value = "") {
     this.saveLog(STORAGETYPE.SEARCHTYPE, value)
     // const data = await this.fetchData(value)
     this.nextPageToken = data.nextPageToken
@@ -39,55 +40,64 @@ export default class Controller{
     this.beforeInputValue = value
     // this.modalSearchResult.show(data.items, newSearch)
     this.modalSearchResult.show(data.items, true)
-  
+
     this.render()
   }
-  fetchData(value=""){
+  fetchData(value = "") {
     const str = encodeURI(value)
     return fetch(`https://www.googleapis.com/youtube/v3/search?key=${APIKEY.KEY1}&q=${str}&pageToken=${this.nextPageToken}&part=snippet&maxResults=10&order=date`)
-    .then(function(response) {
-      return response.json();
-    })
+      .then(function (response) {
+        return response.json();
+      })
   }
-  saveLog(logtype, keyword){ 
+  saveLog(logtype, keyword) {
     let items = JSON.parse(localStorage.getItem(logtype))
-    if(items) { 
-      if(items.includes(keyword)){
+    if (items) {
+      if (items.includes(keyword)) {
         const idx = items.indexOf(keyword)
-        items.splice(idx,1)
+        items.splice(idx, 1)
       }
       items.push(keyword)
-      if(items.length>3) items.shift()
-    } 
+      if (items.length > 3) items.shift()
+    }
     else items = [keyword]
     localStorage.setItem(logtype, JSON.stringify(items))
   }
-  saveVideo(video){
+  saveVideo(video) {
     let items = JSON.parse(localStorage.getItem(STORAGETYPE.VIDEOTYPE))
-    if(items) items.push(video)
+    if (items) items.push(video)
     else items = [video]
     localStorage.setItem(STORAGETYPE.VIDEOTYPE, JSON.stringify(items))
   }
-  checkBtnClick(value){
+  checkBtnClick(value) {
     const menus = qsAll(".btn.mx-1")
     const target = [...menus].indexOf(value[1])
     let items = JSON.parse(localStorage.getItem(STORAGETYPE.VIDEOTYPE))
 
-      items.forEach(el => {
-        if(el.videoTitle === value[0].dataset.videoTitle){
-          if(target===0){
-            if(el.watched!==false) el.watched = false
-            localStorage.setItem(STORAGETYPE.VIDEOTYPE, JSON.stringify(items))
-            toWatchView.render()
-          } else if(target===1){
-            if(el.watched===false) el.watched = ""
-            localStorage.setItem(STORAGETYPE.VIDEOTYPE, JSON.stringify(items))
-            watchedView.render()
-          }
+    items.forEach(el => {
+      if (el.videoTitle === value[0].dataset.videoTitle) {
+        if (target === 0) {
+          if (el.watched !== false) el.watched = false
+          localStorage.setItem(STORAGETYPE.VIDEOTYPE, JSON.stringify(items))
+          toWatchView.render()
+        } else if (target === 1) {
+          if (el.watched === false) el.watched = ""
+          localStorage.setItem(STORAGETYPE.VIDEOTYPE, JSON.stringify(items))
+          watchedView.render()
         }
-      })
+      }
+    })
   }
-  render(){
+  delBtnClick(value){
+    const menus = qsAll(".btn.mx-1")
+    const target = [...menus].indexOf(value[1])
+    let items = JSON.parse(localStorage.getItem(STORAGETYPE.VIDEOTYPE))
+    items = items.filter(el => el.videoTitle !== value[0])
+    localStorage.setItem(STORAGETYPE.VIDEOTYPE, JSON.stringify(items))
+    if(target===0) toWatchView.render()
+    else if(target===1) watchedView.render()
+  }
+  render() {
     let items = JSON.parse(localStorage.getItem(STORAGETYPE.SEARCHTYPE))
     items && this.modalLatestKeywordList.show(items)
   }
