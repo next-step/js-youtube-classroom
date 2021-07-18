@@ -54,6 +54,7 @@ export default class ModalResult {
       this.$saveCount.innerHTML = `저장된 영상 갯수: ${this.state.savedVideos.length}개`;
       target.classList.toggle("saved");
       emit(selectDOM("#selected-result"), "@save", {});
+      emit(selectDOM("#snackbar"), "@snack", {message: "영상이 저장되었습니다!"});
     }
   }
 

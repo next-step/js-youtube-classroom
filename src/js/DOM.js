@@ -19,7 +19,7 @@ export const buildResultSection = (dataArray, savedVideos, position, state) => {
     .map((data) => {
       if ((state === 'watch' && data.watch === 1) ||
         (state === 'like' && data.like === 1) ||
-        (state === 'save' && data.watch !== 1)){
+        (state === 'save' && data.watch !== 1) || position === 1){
         return buildVideoArticle(data, savedVideos, position)
       }
     })
