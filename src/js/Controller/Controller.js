@@ -5,6 +5,7 @@ import { STORAGETYPE } from "../util/Static.js"
 import { qsAll } from "../helpers.js"
 import toWatchView from "../View/ToWatchView.js"
 import watchedView from "../View/WatchedView.js"
+import likedView from "../View/LikedView.js"
 
 const tag = "[Controller]"
 
@@ -30,7 +31,7 @@ export default class Controller {
     this.modalScrollView.on("@scroll", event => this.search(event.detail.value))
     this.checkBtnView.on("@watch", event => this.checkBtnClick(event.detail.value))
     this.checkBtnView.on("@del", event => this.delBtnClick(event.detail.value))
-
+    this.checkBtnView.on("@like", event => this.likeBtnClick(event.detail.value))
   }
   async search(value = "") {
     this.saveLog(STORAGETYPE.SEARCHTYPE, value)
@@ -96,6 +97,20 @@ export default class Controller {
     localStorage.setItem(STORAGETYPE.VIDEOTYPE, JSON.stringify(items))
     if(target===0) toWatchView.render()
     else if(target===1) watchedView.render()
+    else likedView.render()
+  }
+  likeBtnClick(value){
+    const menus = qsAll(".btn.mx-1")
+    const target = [...menus].indexOf(value[1])
+    let items = JSON.parse(localStorage.getItem(STORAGETYPE.VIDEOTYPE))
+    items.forEach(el => {
+      if(el.videoTitle === value[0]){
+        el.like = target<2 ? el.like=true : el.like=""
+      }
+    })
+    localStorage.setItem(STORAGETYPE.VIDEOTYPE, JSON.stringify(items))
+    likedView.render()
+    
   }
   render() {
     let items = JSON.parse(localStorage.getItem(STORAGETYPE.SEARCHTYPE))

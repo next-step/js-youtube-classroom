@@ -46,7 +46,7 @@ class ToWatchView extends View {
 
 class Template {
   getList(datas) {
-    return datas.map((data) => watchTemplate(data, "opacity-hover")).join('')
+    return datas.map((data) => watchTemplate(data)).join('')
   }
 }
 

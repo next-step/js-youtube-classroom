@@ -1,4 +1,4 @@
-export const watchTemplate = (data, watched) => {
+export const watchTemplate = (data, watched="opacity-hover",liked="opacity-hover") => {
   return`
     <article class="clip js-video relative">
         <div class="preview-container">
@@ -17,7 +17,7 @@ export const watchTemplate = (data, watched) => {
             </div>
             <div class="button-list d-flex justify-end">
               <span class="${watched} ml-2 js-watched-button" data-video-title="${data.videoTitle}">✅</span>
-              <span class="opacity-hover ml-2 js-liked-button">👍🏻</span>
+              <span class="${liked} ml-2 js-liked-button">👍🏻</span>
               <span class="opacity-hover ml-2 js-delete-button">🗑</span>
             </div>
           </article>
