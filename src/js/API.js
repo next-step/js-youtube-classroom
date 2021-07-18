@@ -1,5 +1,6 @@
 import { myKey, myKey2 } from "./APIKey.js";
 
+
 const BASE_URL = 'https://www.googleapis.com/youtube/v3/search'
 const SEARCH_COUNT = 10;
 
@@ -16,3 +17,4 @@ export const getNextYoutubeResultFromAPI = async (keyword, nextToken = '') => {
     if (data.ok) return data.json()
     else throw new Error("Error!!")
 }
+

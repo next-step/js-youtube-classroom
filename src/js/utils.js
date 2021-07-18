@@ -1,3 +1,4 @@
+
 export const selectDOM = (selector, dom = document) =>
   dom.querySelector(selector);
 export const selectDOMS = (selector, dom = document) =>
@@ -56,4 +57,3 @@ export const makeDataset = (channelId, channelTitle, videoId, videoTitle, publis
 export const setVideoState = (watch, like) => {
   return {watch, like}
 }
-

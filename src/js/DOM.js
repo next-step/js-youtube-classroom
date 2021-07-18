@@ -3,6 +3,7 @@ import { getPublishedTime, checkDuplicateID } from "./utils.js";
 const MODAL = 1;
 const MAIN = 2;
 
+
 export const cannotFoundKeyword = () => {
   return `
   <div>
@@ -76,10 +77,10 @@ const buildVideoArticle = (
       }
       </div>`
           : `<div>
-      <span id="watch" class=${watch === 1 ? "" : "opacity-hover"}>✅</span>
-      <span id="like" class=${like === 1 ? "" : "opacity-hover"}>👍</span>
-      <span id="remove" class="opacity-hover">🗑️</span>
-    </div>`
+              <span id="watch" class=${watch === 1 ? "" : "opacity-hover"}>✅</span>
+              <span id="like" class=${like === 1 ? "" : "opacity-hover"}>👍</span>
+              <span id="remove" class="opacity-hover">🗑️</span>
+            </div>`
       }
      
     </article>`;

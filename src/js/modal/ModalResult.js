@@ -35,7 +35,6 @@ export default class ModalResult {
       }
       const {channelId, channelTitle, videoId, title ,publishTime} = target.closest("article").dataset;
       const data = makeDataset(channelId, decodeURI(channelTitle), videoId, decodeURI(title), publishTime)
-
       const dataPos = checkDuplicateID(
         data.videoId,
         this.state.savedVideos

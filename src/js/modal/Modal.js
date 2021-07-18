@@ -56,8 +56,6 @@ export default class Modal {
         this.$modalInner.clientHeight,
         this.$modalInner.scrollHeight
       )
-    
-      
     );
     window.addEventListener("click", (event) => {
       event.target === this.$modal ? this.onModalClose() : false;
