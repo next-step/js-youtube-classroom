@@ -1,10 +1,11 @@
 import {
-  $,
-  $$,
+  selectDOM,
+  selectDOMS,
   saveDataToLocalStorage,
   loadDataFromLocalStorage,
   checkDuplicateID,
   emit,
+  makeDataset,
 } from "../utils.js";
 import {
   buildResultSection,
@@ -13,9 +14,10 @@ import {
 } from "../DOM.js";
 
 export default class ModalResult {
+  $resultSection; $saveCount;
   constructor() {
-    this.$resultSection = $("#search-result");
-    this.$saveCount = $(".save-cnt");
+    this.$resultSection = selectDOM("#search-result");
+    this.$saveCount = selectDOM(".save-cnt");
 
     this.state = {
       receivedData: {},
@@ -29,37 +31,29 @@ export default class ModalResult {
   onClickSaveButtton({ target }) {
     if (target.tagName === "BUTTON") {
       if (this.state.savedVideos.length === 100) {
-        alert("최대로 저장할 수 있는 한도에 도달했습니다!");
-        return;
+        return alert("최대로 저장할 수 있는 한도에 도달했습니다!");
       }
-      const parentArticle = target.closest("article");
-      const data = {
-        channelId: parentArticle.dataset.channelId,
-        channelTitle: decodeURI(parentArticle.dataset.channelTitle),
-        videoId: parentArticle.dataset.videoId,
-        videoTitle: decodeURI(parentArticle.dataset.title),
-        publishTime: parentArticle.dataset.publishTime,
-      };
-
+      const {channelId, channelTitle, videoId, title ,publishTime} = target.closest("article").dataset;
+      const data = makeDataset(channelId, decodeURI(channelTitle), videoId, decodeURI(title), publishTime)
       const dataPos = checkDuplicateID(
         data.videoId,
         this.state.savedVideos
       );
 
       if (dataPos >= 0) {
-        if (confirm("정말 저장을 취소하시겠습니까?")) {
+        if (!confirm("정말 저장을 취소하시겠습니까?")) return;
           this.state.savedVideos.splice(dataPos, 1);
           target.innerHTML = "⬇️ 저장";
-        } else return;
       } else {
-        target.innerHTML = "↪️ 저장 취소";
         this.state.savedVideos.push(data);
+        target.innerHTML = "↪️ 저장 취소";
       }
 
       saveDataToLocalStorage("savedVideos", this.state.savedVideos);
       this.$saveCount.innerHTML = `저장된 영상 갯수: ${this.state.savedVideos.length}개`;
       target.classList.toggle("saved");
-      emit($("#saved-result"), "@save", { value: this.state.savedVideos });
+      emit(selectDOM("#selected-result"), "@save", {});
+      emit(selectDOM("#snackbar"), "@snack", {message: "영상이 저장되었습니다!"});
     }
   }
 
@@ -71,18 +65,10 @@ export default class ModalResult {
 
   getDataFromItems(receivedData) {
     const items = receivedData;
-    const dataAry = [];
-
-    for (let item of items) {
-      let data = {
-        channelId: item.snippet.channelId,
-        channelTitle: item.snippet.channelTitle,
-        videoId: item.id.videoId,
-        videoTitle: item.snippet.title,
-        publishTime: item.snippet.publishTime,
-      };
-      dataAry.push(data);
-    }
+    const dataAry = items.map((item) => {
+      const { channelId, channelTitle, title, publishTime} = item.snippet
+      return makeDataset (channelId, channelTitle, item.id.videoId, title, publishTime)
+    })
     return dataAry;
   }
 
@@ -100,7 +86,7 @@ export default class ModalResult {
           1
         );
         setTimeout(() => {
-          const skeltonDiv = $$(".temp-skel", this.$resultSection);
+          const skeltonDiv = selectDOMS(".temp-skel", this.$resultSection);
           for (let i of skeltonDiv) {
             this.$resultSection.removeChild(i);
           }

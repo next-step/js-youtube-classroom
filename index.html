@@ -2,26 +2,29 @@
 <html lang="kr">
   <head>
     <meta charset="UTF-8" />
-    <title>👩🏻‍💻 유튜브 강의실</title>
+    <!-- 👩🏻‍💻 유튜브 강의실 -->
+    <title>My Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="./src/css/index.css" />
   </head>
   <body>
     <div id="app">
+      <div id="snackbar"></div>
       <div class="d-flex justify-center mt-5 w-100">
         <div class="w-100">
-          <header class="my-4">
+          <header class="button-header my-4">
             <h2 class="text-center font-bold">👩🏻‍💻 나만의 유튜브 강의실 👨🏻‍💻</h2>
             <nav class="d-flex justify-center">
-              <button class="btn bg-cyan-100 mx-1">👁️ 볼 영상</button>
-              <button class="btn mx-1">✅ 본 영상</button>
+              <button id="saved-videos" class="btn bg-cyan-100 mx-1">👁️ 볼 영상</button>
+              <button id="watched-videos" class="btn mx-1">✅ 본 영상</button>
+              <button id="liked-videos" class="btn mx-1">👍🏻 좋아요 한 영상</button>
               <button id="search-button" class="btn mx-1">
                 🔍 동영상 검색
               </button>
             </nav>
           </header>
           <main class="mt-10">
-            <section id="saved-result" class="video-wrapper">
+            <section id="selected-result" class="video-wrapper">
             </section>
           </main>
         </div>
@@ -45,7 +48,6 @@
           </section>
           <section>
             <div class="d-flex justify-end text-gray-700 save-cnt">
-              저장된 영상 갯수: 50개
             </div>
             <section id="search-result" class="video-wrapper">
             </section>

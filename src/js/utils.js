@@ -1,5 +1,8 @@
-export const $ = (ele, dom = document) => dom.querySelector(ele);
-export const $$ = (ele, dom = document) => dom.querySelectorAll(ele);
+
+export const selectDOM = (selector, dom = document) =>
+  dom.querySelector(selector);
+export const selectDOMS = (selector, dom = document) =>
+  dom.querySelectorAll(selector);
 
 export const getPublishedTime = (publishTime) => {
   const cutPos = publishTime.match(/T/).index;
@@ -13,19 +16,44 @@ export const saveDataToLocalStorage = (key, value) => {
 };
 
 export const loadDataFromLocalStorage = (key) => {
-  const data = JSON.parse(localStorage.getItem(key));
-  if (data === null) return [];
-  else return data;
+  return JSON.parse(localStorage.getItem(key)) || [];
 };
 
-export const checkDuplicateID = (id, dataAry) => {
-  for (let i = 0; i < dataAry.length; i++) {
-    if (dataAry[i].videoId === id) return i;
-  }
-  return -1;
+export const checkDuplicateID = (id, dataArray) => {
+  return dataArray.findIndex((videoData) => videoData.videoId === id);
 };
 
-export function emit(target, eventName, detail) {
+export const getVideoDataFromId = (id, dataArray) => {
+  return dataArray[checkDuplicateID(id, dataArray)]
+};
+
+export const addEvents = (target, eventName, handler) => {
+  target.addEventListener(eventName, handler);
+};
+
+export const emit = (target, eventName, detail) => {
   const event = new CustomEvent(eventName, { detail });
   target.dispatchEvent(event);
+};
+
+export const addClass = (target, className) => target.classList.add(className);
+
+export const removeClass = (target, className) =>
+  target.classList.remove(className);
+
+export const makeDataset = (channelId, channelTitle, videoId, videoTitle, publishTime) => {
+  const data = {
+    channelId,
+    channelTitle,
+    videoId,
+    videoTitle,
+    publishTime,
+    watch: 0,
+    liked: 0
+  }
+  return data
+}
+
+export const setVideoState = (watch, like) => {
+  return {watch, like}
 }
