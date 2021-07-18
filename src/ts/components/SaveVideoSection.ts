@@ -1,6 +1,6 @@
 import { createNode } from '../domHelper';
 import store from '../store';
-import { videoDeleteAction } from '../store/actionCreator';
+import { videoDeleteAction, watchedToggleAction } from '../store/actionCreator';
 import { Component } from '../types';
 import { LOCAL_SAVE_VIDEO_LIST } from '../utils/localStorageKey';
 
@@ -21,9 +21,19 @@ const SaveVideoSection: Component<Props> = ({ children }) => {
     window.localStorage.setItem(LOCAL_SAVE_VIDEO_LIST, JSON.stringify(getState().saveVideoList));
   };
 
+  const onWatchedHandler = ({ target }) => {
+    if (!target.matches('.video-watched')) return;
+
+    const videoId = target.parentNode.dataset.videoId;
+
+    dispatch(watchedToggleAction(videoId));
+    window.localStorage.setItem(LOCAL_SAVE_VIDEO_LIST, JSON.stringify(getState().saveVideoList));
+  };
+
   const $saveVideoSection = createNode('<section class="video-wrapper"></section>', children);
 
   $saveVideoSection.addEventListener('click', onDeleteVideoHandler);
+  $saveVideoSection.addEventListener('click', onWatchedHandler);
 
   return $saveVideoSection;
 };

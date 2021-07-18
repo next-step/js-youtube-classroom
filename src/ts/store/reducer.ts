@@ -16,6 +16,7 @@ import {
   VIDEO_SAVE,
   VIDEO_DELETE,
   PAGE_CHANGE,
+  WATCHED_TOGGLE,
 } from './actionType';
 
 const localSearchList = JSON.parse(window.localStorage.getItem(LOCAL_SEARCH_LIST));
@@ -97,6 +98,15 @@ const reducer: Reducer = (
       return {
         ...state,
         currentPath: action.payload.path,
+      };
+    case WATCHED_TOGGLE:
+      return {
+        ...state,
+        saveVideoList: state.saveVideoList.map(saveVideo => {
+          return saveVideo.id.videoId === action.payload.videoId
+            ? { ...saveVideo, isWatched: !saveVideo.isWatched }
+            : saveVideo;
+        }),
       };
     default:
       return state;

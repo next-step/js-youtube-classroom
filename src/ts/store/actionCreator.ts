@@ -9,6 +9,7 @@ import {
   VIDEO_SAVE,
   VIDEO_DELETE,
   PAGE_CHANGE,
+  WATCHED_TOGGLE,
 } from './actionType';
 
 export const searchYoutubeLoadingAction = (): Action => ({
@@ -63,4 +64,9 @@ export const videoDeleteAction = (videoId: string): Action => ({
 export const pageChangeAction = (path: string): Action => ({
   type: PAGE_CHANGE,
   payload: { path },
+});
+
+export const watchedToggleAction = (videoId: string): Action => ({
+  type: WATCHED_TOGGLE,
+  payload: { videoId },
 });

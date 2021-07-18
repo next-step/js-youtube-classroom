@@ -67,3 +67,7 @@
   margin: 0;
   color: #606060;
 }
+
+.clip .content-container .watched {
+  opacity: 1;
+}

@@ -11,6 +11,7 @@ interface Props extends CommonProps {
   type: 'search' | 'save';
   index: number;
   isSave: boolean;
+  isWatched: boolean;
 }
 
 const Video: Component<Props> = ({
@@ -22,6 +23,7 @@ const Video: Component<Props> = ({
   type = 'save',
   index,
   isSave,
+  isWatched,
 }) => {
   const publishDate = transferCreationDate(publishTime);
 
@@ -61,7 +63,7 @@ const Video: Component<Props> = ({
             type === 'save'
               ? `
           <div data-video-id="${videoId}">
-            <span class="opacity-hover video-watched">✅</span>
+            <span class="opacity-hover video-watched ${isWatched ? 'watched' : ''}">✅</span>
             <span class="opacity-hover video-like">👍</span>
             <span class="opacity-hover video-comment">💬</span>
             <span class="opacity-hover video-delete">🗑️</span>

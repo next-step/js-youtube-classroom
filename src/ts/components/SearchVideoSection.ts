@@ -53,6 +53,7 @@ const SearchVideoSection: Component<Props> = ({}) => {
               title: video.snippet.title,
               index,
               isSave,
+              isWatched: video.isWatched,
             });
           })
         : [NotFound({})]

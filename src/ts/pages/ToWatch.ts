@@ -11,8 +11,8 @@ const ToWatch: Component<Props> = () => {
   const $toWatch = createNode('<main class="mt-10"></main>', [
     SaveVideoSection({
       children: saveVideoList.length
-        ? saveVideoList.map((video, index) =>
-            Video({
+        ? saveVideoList.map((video, index) => {
+            return Video({
               type: 'save',
               channelId: video.snippet.channelId,
               channelName: video.snippet.channelTitle,
@@ -21,8 +21,9 @@ const ToWatch: Component<Props> = () => {
               title: video.snippet.title,
               index,
               isSave: true,
-            })
-          )
+              isWatched: video.isWatched,
+            });
+          })
         : [EmptyMessage({ message: '저장된 영상이 없습니다 :(' })],
     }),
   ]);

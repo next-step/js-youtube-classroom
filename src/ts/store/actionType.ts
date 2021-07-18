@@ -11,3 +11,5 @@ export const VIDEO_SAVE = 'VIDEO_SAVE';
 export const VIDEO_DELETE = 'VIDEO_DELETE';
 
 export const PAGE_CHANGE = 'PAGE_CHANGE';
+
+export const WATCHED_TOGGLE = 'WATCHED_TOGGLE';
