@@ -1,9 +1,9 @@
-// import dotenv from 'dotenv';
+// const dotenv = require('dotenv')
 // dotenv.config()
 // const apiKey = process.env.YOUTUBE_DATA_API_KEY
 let apiKey = ''
 // TODO: dotenv 설치하기 ?
-
+console.log('hello world')
 
 const $searchButton = document.querySelector("#search-button");
 const $modalClose = document.querySelector(".modal-close");
@@ -12,6 +12,8 @@ const $startSearchButton = document.querySelector("#start-search-button");
 
 const onModalShow = () => {
   $modal.classList.add("open");
+  console.log(dotenv)
+
 };
 
 const onModalClose = () => {

@@ -95,9 +95,39 @@ This project is [MIT](https://github.com/next-step/js-youtube-classroom/blob/mai
 
 ---
 
-### 구현계획
+### 구현을 시도한 과정 
 
-- [x] youtube data api 키 발급받기 
+#### 1차 PR
+- [x] youtube data api 키 발급받기
 - [ ] 검색버튼 클릭시 검색어 쿼리에 해당하는 영상의 제목이 콘솔에 뜨도록 출력해보기 (api key 이용 테스트)
 - [ ] 동영상 검색 버튼 클릭시 검색어 쿼리에 해당하는 영상의 제목이 콘솔에 뜨도록 출력해보기 (api key 이용 테스트)
-- [ ] 동영상 검색 버튼 클릭시 검색창 인풋이 뜨도록 UI 작업하기 
+- [ ] 동영상 검색 버튼 클릭시 검색창 인풋이 뜨도록 UI 작업하기
+- 막힌 부분 : env 파일을 인식시키는 데 실패하였다. 
+  dotenv 패키지를 import 로 가져오려고 하니 node_modules 내부의 상대경로로 찾아서 가져와야 했고, 
+  require 로 가져오려고 하니 require를 인식못하는 문제가 있었다. (?!?!))
+
+  
+#### 1차 PR 피드백
+- 내가 구현하려는 방식을 '모듈화'라고 부른다는 것을 알게 되었다. 각각의 파일이 내부 스코프를 가진 클래스로서 하나의 주요기능을 위한 함수들을 갖고, 
+export 하고 필요한 곳에서 import 하여 쓰는 방식을 모듈화라고 한다. 이렇게 하면 각각의 클래스나 함수에서 사용하는 객체들이 전역스코프를 갖지 않기 때문에 관리하기에 수월하다.
+   - 모듈화를 하지 않고 구현할 수 있는 방법이 있다는 게 더 놀랍다. 어떻게 하는 건지 잘 모르겠다.
+  
+- 웹팩을 설치해서 webpack.config.js 파일에 모듈 룰과 플러그인을 넣어보다가 보류 
+- 리뷰에서 추천받은 parcel 번들러를 시도해보기로 함 (https://parceljs.org/getting_started.html )
+
+
+```
+npm install -g parcel-bundler
+
+parcel index.html
+parcel watch index.html
+
+```
+
+- index.css 에서 사용하는 @import 가 인식되지 않는 문제가 있음
+  
+  
+``` 
+```
+
+>>>>>>> 4e48363 (parcel 세팅 및 스타일시트 링크로 변경 (@import는 parcel 에서 지원되지 않음))

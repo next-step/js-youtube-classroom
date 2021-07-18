@@ -1,6 +1,17 @@
 {
+  "name": "newnorm",
+  "version": "1.0.0",
+  "description": "js youtube classroom",
+  "main": "src/js/index.js",
+  "scripts": {},
   "dependencies": {
     "dotenv": "^10.0.0",
-    "http-server": "^0.12.3"
-  }
+    "http-server": "^0.12.3",
+    "modules": "^0.4.0"
+  },
+  "author": {
+    "name": "newnorm",
+    "email": "woosean999@gmail.com"
+  },
+  "license": "UNLICENSED"
 }
