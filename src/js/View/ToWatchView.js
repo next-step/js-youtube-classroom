@@ -5,45 +5,40 @@ import View from "./View.js"
 
 const tag = "[ToWatchView]"
 
-export default class ToWatchView extends View {
+class ToWatchView extends View {
   constructor() {
-    super(qs(".btn.bg-cyan-100.mx-1"))
-    this.render()
+    super(qsAll(".btn.mx-1")[0])
+    this.body = qs("body")
 
+    this.render()
     this.bindEvents()
   }
   bindEvents() {
-    this.on("click", () => {
-      this.showToWatch()
+    this.on("click", (event) => {
+      qsAll(".btn.mx-1").forEach(el => el.classList.remove("bg-cyan-100"))
+      this.element.classList.add("bg-cyan-100")
+      this.render()
     })
-    on(qs("section"), "click", (event) => {
-      const watchedBtn = qsAll(".opacity-hover.ml-2.js-watched-button")
-      if([...watchedBtn].includes(event.target)){
-        const nthChild = [...watchedBtn].indexOf(event.target)
-        const items = JSON.parse(localStorage.getItem(STORAGETYPE.VIDEOTYPE))
-        items[nthChild].watched="false"
-        localStorage.setItem(STORAGETYPE.VIDEOTYPE, JSON.stringify(items))
-        event.target.parentNode.parentNode.style.display="none"
-      }
-    })
+
   }
+
   showToWatch() {
-    const toWathVideos = history.state
+    const towatchVideos = history.state ? history.state.filter(data => data.watched !== false) : []
     let page = qs(".mt-10 .video-wrapper") ? qs(".mt-10 .video-wrapper") : qs(".mt-10 .text-center")
-    if (!toWathVideos) {
+    if (towatchVideos.length <= 0) {
       page.innerText = "영상이 없습니다. 😥 "
       page.classList.remove("video-wrapper")
       page.classList.add("text-center")
     } else {
       page.classList.remove("text-center")
       page.classList.add("video-wrapper")
-
-      page.innerHTML = new Template().getList(toWathVideos)
+      page.innerHTML = new Template().getList(towatchVideos)
     }
   }
+  
   render() {
-    const toWathVideos = JSON.parse(localStorage.getItem(STORAGETYPE.VIDEOTYPE))
-    history.pushState(toWathVideos, "", "/to-watch")
+    const towatchVideos = JSON.parse(localStorage.getItem(STORAGETYPE.VIDEOTYPE))
+    history.pushState(towatchVideos, "", "/to-watch")
     this.showToWatch()
   }
 }
@@ -51,13 +46,11 @@ export default class ToWatchView extends View {
 
 class Template {
   getList(datas) {
-    return datas.map((data) => {
-      if(data.watched===undefined){
-        return watchTemplate(data)
-      }
-    }).join('')
+    return datas.map((data) => watchTemplate(data, "opacity-hover")).join('')
   }
 }
 
+const toWatchView = new ToWatchView()
+export default toWatchView
 
 

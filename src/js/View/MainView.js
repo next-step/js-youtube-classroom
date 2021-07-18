@@ -1,7 +1,7 @@
 import { qs, on } from "../helpers.js"
 import View from "./View.js"
-import { STORAGETYPE } from "../util/Static.js"
-import ToWatchView from "./ToWatchView.js"
+import toWatchView from "./ToWatchView.js"
+
 const tag = "[MainView]"
 
 export default class MainView extends View {
@@ -10,7 +10,7 @@ export default class MainView extends View {
     this.searchButton = qs("#search-button")
     this.modalClose = qs(".modal-close")
     this.modal = qs(".modal")
-    this.toWathView = new ToWatchView()
+    this.toWatchView = toWatchView
     this.bindEvents()
     this.render()
   }
@@ -28,9 +28,9 @@ export default class MainView extends View {
   }
   onModalClose() {
     this.modal.classList.remove("open")
-    this.render()
+    this.toWatchView.render()
   }
   render(){
-    this.toWathView.render()
+    this.toWatchView.render()
   }
 }
