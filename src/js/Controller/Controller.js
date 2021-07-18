@@ -26,12 +26,12 @@ export default class Controller{
   }
   async search(value=""){
     this.saveLog(STORAGETYPE.SEARCHTYPE, value)
-    const data = await this.fetchData(value)
+    // const data = await this.fetchData(value)
     this.nextPageToken = data.nextPageToken
     const newSearch = this.beforeInputValue !== value
     this.beforeInputValue = value
-    this.modalSearchResult.show(data.items, newSearch)
-    // this.modalSearchResult.show(data.items, true)
+    // this.modalSearchResult.show(data.items, newSearch)
+    this.modalSearchResult.show(data.items, true)
   
     this.render()
   }
