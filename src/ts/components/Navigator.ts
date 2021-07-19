@@ -1,6 +1,6 @@
 import { createNode } from '../domHelper';
 import route from '../route';
-import { LIKE_PAGE, TO_WATCH_PAGE, WATCHED_PAGE } from '../route/path';
+import { HOME_PAGE, LIKE_PAGE, TO_WATCH_PAGE, WATCHED_PAGE } from '../route/path';
 import store from '../store';
 import { modalOpenAction } from '../store/actionCreator';
 import { CommonProps, Component } from '../types';
@@ -10,7 +10,11 @@ import Link from './Link';
 interface Props extends CommonProps {}
 
 const Navigator: Component<Props> = () => {
-  const { dispatch } = store;
+  const { dispatch, getState } = store;
+
+  const { currentPath } = getState();
+
+  console.log(currentPath);
 
   const onModalOpenHanlder = () => {
     dispatch(modalOpenAction());
@@ -19,9 +23,23 @@ const Navigator: Component<Props> = () => {
   const { navigate } = route;
 
   const $navigator = createNode('<nav class="d-flex justify-center"></nav>', [
-    Link({ to: TO_WATCH_PAGE, className: 'btn bg-cyan-100 mx-1', textContent: '👁️ 볼 영상' }),
-    Link({ to: WATCHED_PAGE, className: 'btn mx-1', textContent: '✅ 본 영상' }),
-    Link({ to: LIKE_PAGE, className: 'btn mx-1', textContent: '👍 좋아하는 영상' }),
+    Link({
+      to: TO_WATCH_PAGE,
+      className: `btn mx-1${
+        currentPath === TO_WATCH_PAGE || currentPath === HOME_PAGE ? ' bg-cyan-100' : ''
+      }`,
+      textContent: '👁️ 볼 영상',
+    }),
+    Link({
+      to: WATCHED_PAGE,
+      className: `btn mx-1${currentPath === WATCHED_PAGE ? ' bg-cyan-100' : ''}`,
+      textContent: '✅ 본 영상',
+    }),
+    Link({
+      to: LIKE_PAGE,
+      className: `btn mx-1${currentPath === LIKE_PAGE ? ' bg-cyan-100' : ''}`,
+      textContent: '👍 좋아하는 영상',
+    }),
     Button({
       id: 'search-button',
       className: 'btn mx-1',
