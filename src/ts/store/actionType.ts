@@ -13,3 +13,6 @@ export const VIDEO_DELETE = 'VIDEO_DELETE';
 export const PAGE_CHANGE = 'PAGE_CHANGE';
 
 export const WATCHED_TOGGLE = 'WATCHED_TOGGLE';
+
+export const SNACKBAR_SHOW = 'SNACKBAR_SHOW';
+export const SNACKBAR_HIDE = 'SNACKBAR_HIDE';

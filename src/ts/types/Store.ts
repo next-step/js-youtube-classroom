@@ -46,6 +46,10 @@ export interface GlobalState {
     keyword: string;
   };
   isModalOpen: boolean;
+  snackbar: {
+    isShow: boolean;
+    message: string;
+  };
   currentPath: string;
 }
 

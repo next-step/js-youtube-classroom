@@ -1,8 +1,8 @@
 import store from '../store';
-import { Header, Heading, Modal, Navigator } from '../components';
 import { createNode } from '../domHelper';
 import { Component } from '../types';
 import route from '../route';
+import { Header, Heading, Modal, Navigator, Snackbar } from '../components';
 import { HOME_PAGE, LIKE_PAGE, TO_WATCH_PAGE, WATCHED_PAGE } from '../route/path';
 import { Like, ToWatch, Watched } from '../pages';
 
@@ -35,6 +35,7 @@ const App: Component<Props> = () => {
         { path: WATCHED_PAGE, component: Watched },
         { path: LIKE_PAGE, component: Like },
       ]),
+      Snackbar({}),
       isModalOpen ? Modal({}) : null,
     ]),
   ]);

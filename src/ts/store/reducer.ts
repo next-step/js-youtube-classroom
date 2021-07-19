@@ -17,6 +17,8 @@ import {
   VIDEO_DELETE,
   PAGE_CHANGE,
   WATCHED_TOGGLE,
+  SNACKBAR_HIDE,
+  SNACKBAR_SHOW,
 } from './actionType';
 
 const localSearchList = JSON.parse(window.localStorage.getItem(LOCAL_SEARCH_LIST));
@@ -38,6 +40,7 @@ let INITIAL_STATE: GlobalState = {
     keyword: '',
   },
   isModalOpen: false,
+  snackbar: { isShow: false, message: '' },
   currentPath: window.location.pathname,
 };
 
@@ -107,6 +110,16 @@ const reducer: Reducer = (
             ? { ...saveVideo, isWatched: !saveVideo.isWatched }
             : saveVideo;
         }),
+      };
+    case SNACKBAR_SHOW:
+      return {
+        ...state,
+        snackbar: { isShow: true, message: action.payload.message },
+      };
+    case SNACKBAR_HIDE:
+      return {
+        ...state,
+        snackbar: INITIAL_STATE.snackbar,
       };
     default:
       return state;

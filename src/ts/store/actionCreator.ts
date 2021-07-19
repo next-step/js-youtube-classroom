@@ -10,6 +10,8 @@ import {
   VIDEO_DELETE,
   PAGE_CHANGE,
   WATCHED_TOGGLE,
+  SNACKBAR_HIDE,
+  SNACKBAR_SHOW,
 } from './actionType';
 
 export const searchYoutubeLoadingAction = (): Action => ({
@@ -69,4 +71,13 @@ export const pageChangeAction = (path: string): Action => ({
 export const watchedToggleAction = (videoId: string): Action => ({
   type: WATCHED_TOGGLE,
   payload: { videoId },
+});
+
+export const snackBarShowAction = (message: string): Action => ({
+  type: SNACKBAR_SHOW,
+  payload: { message },
+});
+
+export const snackBarHideAction = (): Action => ({
+  type: SNACKBAR_HIDE,
 });

@@ -12,3 +12,4 @@ export { default as Skeleton } from './Skeleton';
 export { default as NotFound } from './NotFound';
 export { default as EmptyMessage } from './EmptyMessage';
 export { default as Link } from './Link';
+export { default as Snackbar } from './Snackbar';

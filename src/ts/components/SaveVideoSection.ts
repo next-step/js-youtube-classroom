@@ -1,10 +1,15 @@
 import { createNode } from '../domHelper';
 import store from '../store';
-import { videoDeleteAction, watchedToggleAction } from '../store/actionCreator';
-import { Component } from '../types';
+import {
+  snackBarHideAction,
+  snackBarShowAction,
+  videoDeleteAction,
+  watchedToggleAction,
+} from '../store/actionCreator';
+import { CommonProps, Component } from '../types';
 import { LOCAL_SAVE_VIDEO_LIST } from '../utils/localStorageKey';
 
-interface Props {
+interface Props extends CommonProps {
   children: Element[];
 }
 
@@ -28,6 +33,8 @@ const SaveVideoSection: Component<Props> = ({ children }) => {
 
     dispatch(watchedToggleAction(videoId));
     window.localStorage.setItem(LOCAL_SAVE_VIDEO_LIST, JSON.stringify(getState().saveVideoList));
+    dispatch(snackBarShowAction('본 영상으로 저장되었습니다 :)'));
+    window.setTimeout(() => dispatch(snackBarHideAction()), 2500);
   };
 
   const $saveVideoSection = createNode('<section class="video-wrapper"></section>', children);
@@ -37,5 +44,6 @@ const SaveVideoSection: Component<Props> = ({ children }) => {
 
   return $saveVideoSection;
 };
+// createNode메서드에 들어가는 인자값을 객체로 표현하여 return 후 컴포넌트 함수들을 모두 모아 createNode를 실행시켜주는 방법은 어떨까
 
 export default SaveVideoSection;
