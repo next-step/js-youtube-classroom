@@ -14,8 +14,6 @@ const Navigator: Component<Props> = () => {
 
   const { currentPath } = getState();
 
-  console.log(currentPath);
-
   const onModalOpenHanlder = () => {
     dispatch(modalOpenAction());
   };
