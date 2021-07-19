@@ -12,7 +12,7 @@ const ToWatch: Component<Props> = () => {
 
   const $toWatch = createNode('<main class="mt-10"></main>', [
     SaveVideoSection({
-      children: saveVideoList.length
+      children: toWatchVideoList.length
         ? toWatchVideoList.map((video, index) => {
             return Video({
               type: 'save',
@@ -26,7 +26,7 @@ const ToWatch: Component<Props> = () => {
               isWatched: video.isWatched,
             });
           })
-        : [EmptyMessage({ message: '저장된 영상이 없습니다 :(' })],
+        : [EmptyMessage({ message: '볼 영상이 없습니다 :(' })],
     }),
   ]);
 
