@@ -19,6 +19,7 @@ import {
   WATCHED_TOGGLE,
   SNACKBAR_HIDE,
   SNACKBAR_SHOW,
+  LIKE_TOGGLE,
 } from './actionType';
 
 const localSearchList = JSON.parse(window.localStorage.getItem(LOCAL_SEARCH_LIST));
@@ -108,6 +109,15 @@ const reducer: Reducer = (
         saveVideoList: state.saveVideoList.map(saveVideo => {
           return saveVideo.id.videoId === action.payload.videoId
             ? { ...saveVideo, isWatched: !saveVideo.isWatched }
+            : saveVideo;
+        }),
+      };
+    case LIKE_TOGGLE:
+      return {
+        ...state,
+        saveVideoList: state.saveVideoList.map(saveVideo => {
+          return saveVideo.id.videoId === action.payload.videoId
+            ? { ...saveVideo, isLike: !saveVideo.isLike }
             : saveVideo;
         }),
       };

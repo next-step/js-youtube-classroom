@@ -12,6 +12,7 @@ interface Props extends CommonProps {
   index: number;
   isSave: boolean;
   isWatched: boolean;
+  isLike: boolean;
 }
 
 const Video: Component<Props> = ({
@@ -24,6 +25,7 @@ const Video: Component<Props> = ({
   index,
   isSave,
   isWatched,
+  isLike,
 }) => {
   const publishDate = transferCreationDate(publishTime);
 
@@ -63,8 +65,10 @@ const Video: Component<Props> = ({
             type === 'save'
               ? `
           <div data-video-id="${videoId}">
-            <span class="opacity-hover video-watched ${isWatched ? 'watched' : ''}">✅</span>
-            <span class="opacity-hover video-like">👍</span>
+            <span class="video-watched${
+              isWatched ? ' opacity-hover-liked' : ' opacity-hover'
+            }">✅</span>
+            <span class="video-like${isLike ? ' opacity-hover-liked' : ' opacity-hover'}">👍</span>
             <span class="opacity-hover video-comment">💬</span>
             <span class="opacity-hover video-delete">🗑️</span>
           </div>`

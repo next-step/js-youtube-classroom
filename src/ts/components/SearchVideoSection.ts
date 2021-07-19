@@ -54,6 +54,7 @@ const SearchVideoSection: Component<Props> = ({}) => {
               index,
               isSave,
               isWatched: video.isWatched,
+              isLike: video.isLike,
             });
           })
         : [NotFound({})]

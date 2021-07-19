@@ -24,6 +24,7 @@ const Watched: Component<Props> = () => {
               index,
               isSave: true,
               isWatched: video.isWatched,
+              isLike: video.isLike,
             });
           })
         : [EmptyMessage({ message: '본 영상이 없습니다 :(' })],

@@ -1,6 +1,7 @@
 import { createNode } from '../domHelper';
 import store from '../store';
 import {
+  likeToggleAction,
   snackBarHideAction,
   snackBarShowAction,
   videoDeleteAction,
@@ -47,10 +48,35 @@ const SaveVideoSection: Component<Props> = ({ children }) => {
     window.setTimeout(() => dispatch(snackBarHideAction()), 2500);
   };
 
+  const onLikeToggleHandler = ({ target }) => {
+    if (!target.matches('.video-like')) return;
+
+    const videoId = target.parentNode.dataset.videoId;
+
+    dispatch(likeToggleAction(videoId));
+    const { saveVideoList } = getState();
+    window.localStorage.setItem(LOCAL_SAVE_VIDEO_LIST, JSON.stringify(saveVideoList));
+    const currentVideoIndex = saveVideoList.findIndex(
+      saveVideo => saveVideo.id.videoId === videoId
+    );
+    const selectVideo = saveVideoList[currentVideoIndex];
+
+    dispatch(
+      snackBarShowAction(
+        selectVideo.isLike
+          ? '좋아하는 영상 리스트에 추가했습니다 :)'
+          : '좋아하는 영상 리스트에서 삭제했습니다 :)'
+      )
+    );
+    // 모든 snackBaraHideAction을 하나로 통일하고 디바운스 구현 필요
+    window.setTimeout(() => dispatch(snackBarHideAction()), 2500);
+  };
+
   const $saveVideoSection = createNode('<section class="video-wrapper"></section>', children);
 
   $saveVideoSection.addEventListener('click', onDeleteVideoHandler);
   $saveVideoSection.addEventListener('click', onWatchedToggleHandler);
+  $saveVideoSection.addEventListener('click', onLikeToggleHandler);
 
   return $saveVideoSection;
 };

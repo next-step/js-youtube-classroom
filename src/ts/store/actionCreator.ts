@@ -12,6 +12,7 @@ import {
   WATCHED_TOGGLE,
   SNACKBAR_HIDE,
   SNACKBAR_SHOW,
+  LIKE_TOGGLE,
 } from './actionType';
 
 export const searchYoutubeLoadingAction = (): Action => ({
@@ -70,6 +71,11 @@ export const pageChangeAction = (path: string): Action => ({
 
 export const watchedToggleAction = (videoId: string): Action => ({
   type: WATCHED_TOGGLE,
+  payload: { videoId },
+});
+
+export const likeToggleAction = (videoId: string): Action => ({
+  type: LIKE_TOGGLE,
   payload: { videoId },
 });
 
