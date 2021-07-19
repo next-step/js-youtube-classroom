@@ -26,21 +26,31 @@ const SaveVideoSection: Component<Props> = ({ children }) => {
     window.localStorage.setItem(LOCAL_SAVE_VIDEO_LIST, JSON.stringify(getState().saveVideoList));
   };
 
-  const onWatchedHandler = ({ target }) => {
+  const onWatchedToggleHandler = ({ target }) => {
     if (!target.matches('.video-watched')) return;
 
     const videoId = target.parentNode.dataset.videoId;
 
     dispatch(watchedToggleAction(videoId));
-    window.localStorage.setItem(LOCAL_SAVE_VIDEO_LIST, JSON.stringify(getState().saveVideoList));
-    dispatch(snackBarShowAction('본 영상으로 저장되었습니다 :)'));
+    const { saveVideoList } = getState();
+    window.localStorage.setItem(LOCAL_SAVE_VIDEO_LIST, JSON.stringify(saveVideoList));
+    const currentVideoIndex = saveVideoList.findIndex(
+      saveVideo => saveVideo.id.videoId === videoId
+    );
+    const selectVideo = saveVideoList[currentVideoIndex];
+
+    dispatch(
+      snackBarShowAction(
+        selectVideo.isWatched ? '본 영상으로 변경되었습니다 :)' : '볼 영상으로 변경되었습니다 :)'
+      )
+    );
     window.setTimeout(() => dispatch(snackBarHideAction()), 2500);
   };
 
   const $saveVideoSection = createNode('<section class="video-wrapper"></section>', children);
 
   $saveVideoSection.addEventListener('click', onDeleteVideoHandler);
-  $saveVideoSection.addEventListener('click', onWatchedHandler);
+  $saveVideoSection.addEventListener('click', onWatchedToggleHandler);
 
   return $saveVideoSection;
 };
