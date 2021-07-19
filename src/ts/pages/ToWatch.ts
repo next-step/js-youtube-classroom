@@ -8,10 +8,12 @@ interface Props extends CommonProps {}
 const ToWatch: Component<Props> = () => {
   const { saveVideoList } = store.getState();
 
+  const toWatchVideoList = saveVideoList.filter(saveVideo => !saveVideo.isWatched);
+
   const $toWatch = createNode('<main class="mt-10"></main>', [
     SaveVideoSection({
       children: saveVideoList.length
-        ? saveVideoList.map((video, index) => {
+        ? toWatchVideoList.map((video, index) => {
             return Video({
               type: 'save',
               channelId: video.snippet.channelId,
