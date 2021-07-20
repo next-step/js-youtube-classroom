@@ -31,6 +31,7 @@ export const SearchModal = ({
 
   const searchVideo = async (searchKey: string) => {
     setState({ ...state, loading: true });
+    setVideos([]);
     const result = await youtubeSearchService.search(searchKey)
     setState({
       loading: false,
