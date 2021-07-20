@@ -31,7 +31,9 @@ export const App = () => {
     addLectureVideos,
   });
   const header = Header({ openModal });
-  const movies = Movies({ videos: lectureVideos });
+  const movies = lectureVideos.length > 0
+                  ? Movies({ videos: lectureVideos })
+                  : `<div>저장된 동영상이 없습니다.</div>`;
 
   return `
     <div class="d-flex justify-center mt-5 w-100">
