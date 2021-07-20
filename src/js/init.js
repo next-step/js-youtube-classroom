@@ -1,6 +1,6 @@
 import {$} from './utils/DOM.js';
 import {onModalClose, onModalShow} from './handlers/modalControl.js';
-import {searchVideoController} from './handlers/searchVideoControl.js';
+import {searchLatestKeywordController, searchVideoController} from './handlers/searchVideoControl.js';
 import {intersectionObserver} from './utils/intersectionObserver.js';
 import {saveVideoController} from './handlers/saveVideoControl.js';
 import {videoInfos} from './states/videoInfo.js';
@@ -17,4 +17,5 @@ export const initEvent = () => {
     $('#search-button').addEventListener('click', onModalShow);
     $('.modal-close').addEventListener('click', onModalClose);
     $('#video-search-result').addEventListener('click', saveVideoController);
+    $('#latest-keyword-list').addEventListener('click', searchLatestKeywordController);
 };
