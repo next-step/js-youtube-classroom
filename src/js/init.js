@@ -5,6 +5,7 @@ import {intersectionObserver} from './utils/intersectionObserver.js';
 import {saveVideoController} from './handlers/saveVideoControl.js';
 import {videoInfos} from './states/videoInfo.js';
 import {latestKeywords} from './states/latestKeyword.js';
+import {changeVideoStatus} from './handlers/changeVideoStatus.js';
 
 export const initState = () => {
     intersectionObserver.init();
@@ -18,4 +19,5 @@ export const initEvent = () => {
     $('.modal-close').addEventListener('click', onModalClose);
     $('#video-search-result').addEventListener('click', saveVideoController);
     $('#latest-keyword-list').addEventListener('click', searchLatestKeywordController);
+    $('#video-list').addEventListener('click', changeVideoStatus);
 };
