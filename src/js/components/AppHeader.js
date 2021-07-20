@@ -1,9 +1,10 @@
 class AppHeader {
-  constructor({ $app, props }) {
+  constructor({ $app, state, onClickSearchButton }) {
+    this.onClickSearchButton = onClickSearchButton;
     this.$appHeader = document.createElement('div');
     this.$appHeader.className = 'app-header';
     $app.append(this.$appHeader);
-    console.log('appheader!');
+    this.$appHeader.addEventListener('click', this.onClick);
   }
 
   render = () => {
@@ -28,6 +29,13 @@ class AppHeader {
             </nav>
         </header>
     `;
+  };
+
+  onClick = ({ target }) => {
+    if (target.matches('#search-button')) {
+      this.onClickSearchButton();
+      return;
+    }
   };
 }
 
