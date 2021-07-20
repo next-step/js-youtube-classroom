@@ -1,4 +1,4 @@
-type Constructor = { new(...args: any[]): Object }
+type Constructor = { new(...args: any[]): any }
 const constructors = new WeakMap<Constructor, Object | undefined>();
 const clazzProperties = new WeakMap<Constructor, Constructor[]>();
 
@@ -6,7 +6,7 @@ export const container = {
 
   constructors: new WeakMap<Constructor, any>(),
 
-  resolve <T>(constructor: any): T {
+  resolve <T>(constructor: Constructor): T {
     const resolved: T = this.constructors.get(constructor);
     if (resolved) return resolved;
 

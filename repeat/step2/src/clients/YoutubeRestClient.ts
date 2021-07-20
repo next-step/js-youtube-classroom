@@ -1,8 +1,11 @@
 import {RestClient} from "~@core";
 import {YOUTUBE_API_KEY} from "./secret";
+import {Injectable} from "~@core/container";
 
+@Injectable
 export class YoutubeRestClient extends RestClient {
-  constructor(private readonly apiKey: string) {
+
+  constructor(private readonly apiKey: string = YOUTUBE_API_KEY) {
     super(`https://www.googleapis.com/youtube/v3/`);
   }
 
@@ -13,5 +16,3 @@ export class YoutubeRestClient extends RestClient {
   }
 
 }
-
-export const youtubeRestClient = new YoutubeRestClient(YOUTUBE_API_KEY);

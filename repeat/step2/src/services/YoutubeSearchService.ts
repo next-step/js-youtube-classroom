@@ -1,13 +1,16 @@
 import {YoutubeSearchResult} from "~@domain";
-import {YoutubeRestClient, youtubeRestClient} from "~clients";
+import {YoutubeRestClient} from "~clients";
 import {Repository} from "~@core";
+import {Inject, Injectable} from "~@core/container";
 
 type YoutubeCacheMap = Record<string, YoutubeSearchResult>;
 
+@Injectable
 export class YoutubeSearchService {
 
   constructor(
-    private readonly client: YoutubeRestClient,
+    @Inject(YoutubeRestClient)
+    private readonly youtubeRestClient: YoutubeRestClient,
     private readonly cache: Repository<YoutubeCacheMap> = new Repository<YoutubeCacheMap>('YOUTUBE_SERVICE_CACHE'),
   ) {}
 
@@ -29,12 +32,10 @@ export class YoutubeSearchService {
       return this.cacheMap[uri];
     }
 
-    const result = await this.client.get<YoutubeSearchResult>(uri);
+    const result = await this.youtubeRestClient.get<YoutubeSearchResult>(uri);
     this.addCache(uri, result);
 
     return result;
   }
 
 }
-
-export const youtubeSearchService = new YoutubeSearchService(youtubeRestClient);

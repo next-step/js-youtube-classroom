@@ -1,3 +1,3 @@
 export * from './recentSearchesRepository';
-export * from './lectureVideoRepository';
+export * from './LectureVideoRepository';
 

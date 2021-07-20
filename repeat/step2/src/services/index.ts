@@ -1,3 +1,9 @@
-export * from "./youtubueSearchService";
-export * from "./recentSearchesService";
-export * from "./lectureVideoService";
+import {container} from "~@core/container";
+
+import { YoutubeSearchService } from "./YoutubeSearchService";
+import { RecentSearchesService } from "./RecentSearchesService";
+import { LectureVideoService } from "./LectureVideoService";
+
+export const youtubeSearchService: YoutubeSearchService = container.resolve(YoutubeSearchService);
+export const lectureVideoService: LectureVideoService = container.resolve(LectureVideoService);
+export const recentSearchesService: RecentSearchesService = container.resolve(RecentSearchesService);

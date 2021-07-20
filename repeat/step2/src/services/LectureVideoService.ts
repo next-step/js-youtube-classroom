@@ -1,8 +1,11 @@
-import {lectureVideoRepository, LectureVideoRepository} from "~repositories";
+import {LectureVideoRepository} from "~repositories";
 import {YoutubeClipItem, LectureVideo} from "~@domain";
+import {Inject, Injectable} from "~@core/container";
 
+@Injectable
 export class LectureVideoService {
   constructor(
+    @Inject(LectureVideoRepository)
     private readonly lectureVideoRepository: LectureVideoRepository
   ) {}
 
@@ -33,5 +36,3 @@ export class LectureVideoService {
     this.lectureVideoRepository.set(videos);
   }
 }
-
-export const lectureVideoService = new LectureVideoService(lectureVideoRepository);

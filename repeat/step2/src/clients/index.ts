@@ -1,1 +1,1 @@
-export * from "./youtubeRestClient";
+export * from "./YoutubeRestClient";
