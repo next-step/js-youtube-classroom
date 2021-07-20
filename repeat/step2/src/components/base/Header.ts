@@ -24,6 +24,10 @@ export const Header = ({ openModal }: HeaderProps) => {
           ✅ 본 영상
         </a>
         
+        <a href="/#!/liked" class="btn ${router.path === '/liked' ? 'bg-cyan-100' : ''} mx-1">
+          👍 좋아요 한 영상
+        </a>
+        
         <button id="search-button" class="btn mx-1">
           🔍 동영상 검색
         </button>

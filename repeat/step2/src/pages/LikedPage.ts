@@ -1,15 +1,14 @@
 import {useState} from "~@core";
-
 import {lectureVideoService} from "~services";
 import {Movies, NotFoundMovies} from "~components";
 
-export const ViewedPage = () => {
+export const LikedPage = () => {
   const [lectureVideos] = useState(lectureVideoService.fetchLectureVideos());
-  const videos = lectureVideos.filter(v => v.viewed);
+  const videos = lectureVideos.filter(v => v.isLike);
 
   if (videos.length === 0) {
     return NotFoundMovies({
-      text: "본 영상이 없습니다."
+      text: "좋아요 한 영상이 없습니다."
     });
   }
 

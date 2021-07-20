@@ -34,15 +34,6 @@ export const App = () => {
   });
   const header = Header({ openModal });
 
-  const movies = lectureVideos.length > 0
-                  ? Movies({ videos: lectureVideos })
-                  : `
-                    <div style="text-align: center">
-                      <img src="${notFoundImage}" alt="저장된 동영상이 없습니다." width="100" />
-                      <p>저장된 동영상이 없습니다.<p>
-                    </div>
-                  `;
-
   router.setup();
 
   return `
@@ -51,7 +42,6 @@ export const App = () => {
         ${header}
         <main class="mt-10">
           ${router.route()}
-          ${movies}
         </main>
       </div>
     </div>

@@ -38,8 +38,8 @@
 ## 🎯🎯 step2 강의실 관리 기능과 SPA
 
 ### 🚏 1) 라우팅 기능
-- [ ] **Browser History Api**를 이용하여 SPA처럼 라우팅을 적용한다.
-  - [ ] routing은 `볼 영상(to-watch)`, `본 영상(watched)`, `좋아요 한 영상(liked)` 로 관리한다.
+- [X] **Browser History Api**를 이용하여 SPA처럼 라우팅을 적용한다.
+- [X] routing은 `볼 영상(to-watch)`, `본 영상(watched)`, `좋아요 한 영상(liked)` 로 관리한다.
 
 ### 📚 2) 강의실 관리
 - [X] 로컬스토리지를 사용하여, 새로고침을 해도 데이터의 변경사항이 그대로 적용되야 한다.
