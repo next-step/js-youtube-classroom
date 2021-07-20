@@ -2,10 +2,16 @@ import {useState} from "~@core";
 
 import {lectureVideoService} from "~services";
 import {Movies, NotFoundMovies} from "~components";
+import {LectureVideo} from "~@domain";
 
 export const HomePage = () => {
-  const [lectureVideos] = useState(lectureVideoService.fetchLectureVideos());
+  const [lectureVideos, setLectureVideos] = useState(lectureVideoService.fetchLectureVideos());
   const videos = lectureVideos.filter(v => !v.viewed);
+
+  const updateLectureVideo = (video: LectureVideo) => {
+    lectureVideoService.updateLectureVideo(video);
+    setLectureVideos(lectureVideoService.fetchLectureVideos());
+  }
 
   if (videos.length === 0) {
     return NotFoundMovies({
@@ -13,5 +19,5 @@ export const HomePage = () => {
     });
   }
 
-  return Movies({ videos });
+  return Movies({ videos, updateLectureVideo });
 }

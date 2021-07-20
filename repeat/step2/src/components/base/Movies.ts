@@ -1,15 +1,38 @@
 import {LectureVideo} from "~@domain";
-import {dateformat} from "~utils";
+import {dateformat, selectParent} from "~utils";
+import {addEvent} from "~@core";
 
 export interface MoviesProps {
   videos: LectureVideo[];
+  updateLectureVideo: (video: LectureVideo) => void;
 }
 
-export const Movies = ({ videos }: MoviesProps) => {
+export const Movies = ({ videos, updateLectureVideo }: MoviesProps) => {
+
+  addEvent('.viewed', 'click', e => {
+    const target = e.target as HTMLElement;
+    const id = Number(selectParent('[data-id]', target).dataset.id);
+    const video: LectureVideo = videos.find(v => v.id === id)!;
+    updateLectureVideo({
+      ...video,
+      viewed: !video.viewed,
+    });
+  })
+
+  addEvent('.liked', 'click', e => {
+    const target = e.target as HTMLElement;
+    const id = Number(selectParent('[data-id]', target).dataset.id);
+    const video: LectureVideo = videos.find(v => v.id === id)!;
+    updateLectureVideo({
+      ...video,
+      isLike: !video.isLike,
+    });
+  })
+
   return `
     <section class="video-wrapper">
       ${videos.map(({ id, item, isLike, viewed }) => `
-        <article class="clip">
+        <article class="clip" data-id="${id}">
           <div class="preview-container">
             <iframe
               width="100%"
@@ -36,7 +59,7 @@ export const Movies = ({ videos }: MoviesProps) => {
               </div>
               <div>
                 <span class="opacity-hover ${viewed ? 'active' : ''} viewed">✅</span>
-                <span class="opacity-hover ${viewed ? 'liked' : ''} liked">👍</span>
+                <span class="opacity-hover ${isLike ? 'active' : ''} liked">👍</span>
                 <span class="opacity-hover comments">💬</span>
                 <span class="opacity-hover remove">🗑️</span>
               </div>
