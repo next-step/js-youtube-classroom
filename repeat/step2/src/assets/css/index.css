@@ -21,7 +21,8 @@ a {
   opacity: 0.3;
 }
 
-.opacity-hover:hover {
+.opacity-hover:hover,
+.opacity-hover.active {
   opacity: 1;
 }
 

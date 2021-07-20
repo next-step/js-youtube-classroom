@@ -1,6 +1,26 @@
 import {diff} from "~@core/diff";
 import {cloneNode, debounceFrame, selectAll, simpleDeepEquals} from "~utils";
 
+export const observable = <T>(obj: T) => {
+  if (!(obj instanceof Object)) return obj;
+
+  Object.entries(obj).forEach(([key, value]) => {
+    let _value = value;
+    Object.defineProperty(obj, key, {
+      get () {
+        return _value;
+      },
+      set (newValue) {
+        if (_value === newValue) return;
+        if (JSON.stringify(_value) === JSON.stringify(newValue)) return;
+        _value = newValue;
+        debounceFrame(_render);
+      }
+    })
+  });
+  return obj;
+}
+
 interface Container {
   root: HTMLElement | null;
   rootComponent: Function | null;
@@ -42,15 +62,13 @@ const _render = () => {
   const { root, rootComponent } = container;
   if (!root || !rootComponent) return;
 
-  // console.log('_render', JSON.stringify(container, null, 2));
-
   container.currentStateKey = 0;
   container.currentEventKey = 0;
   const virtualNode: HTMLElement = cloneNode(root);
   virtualNode.innerHTML = rootComponent();
   diff(root, virtualNode);
 
-  registerEvents();
+  bindEvents();
 }
 
 export const render = (
@@ -61,6 +79,15 @@ export const render = (
   container.rootComponent = rootComponent;
   container.isInit = true;
   debounceFrame(_render);
+}
+
+const bindEvents = () => {
+  const { root, events } = container;
+  if (!root) return;
+
+  for (const { selector, eventType, callback } of events) {
+    selectAll(selector, root).forEach(el => el.addEventListener(eventType, callback))
+  }
 }
 
 export const addEvent = (
@@ -77,17 +104,4 @@ export const addEvent = (
 
   events[currentEventKey] = { selector, eventType, callback };
   container.currentEventKey += 1;
-
-  // console.log('addEvent', JSON.stringify(container, null, 2));
-}
-
-export const registerEvents = () => {
-  const { root, events } = container;
-  if (!root) return;
-
-  for (const { selector, eventType, callback } of events) {
-    selectAll(selector, root).forEach(el => el.addEventListener(eventType, callback))
-  }
-
-  // console.log('registerEvents', JSON.stringify(container, null, 2));
 }

@@ -1,15 +1,15 @@
-import {observable} from "~@core/observer";
+import {observable} from "./render";
 
 export interface RouterProps {
   baseUrl?: string;
-  routes: Record<string, string>;
+  routes: Record<string, Function>;
   hash?: boolean;
 }
 
 export class Router {
 
   public readonly baseUrl: string;
-  public readonly routes: Record<string, string>;
+  public readonly routes: Record<string, Function>;
   private readonly hash: boolean;
   private readonly selectedRoute: Record<string, string> = observable({ value: '/' });
   private readonly beforeUpdate: Set<Function> = new Set();
@@ -22,10 +22,10 @@ export class Router {
 
   public setup() {
     this.updateRoute();
-    window.addEventListener('popstate', () => this.updateRoute());
+    window.addEventListener('popstate', this.updateRoute);
   }
 
-  private updateRoute() {
+  private updateRoute = () => {
     requestAnimationFrame(() => {
       const { routes, selectedRoute, path } = this;
       this.beforeUpdate.forEach(fn => fn());
@@ -43,7 +43,7 @@ export class Router {
   }
 
   public get route() {
-    return this.routes[this.selectedRoute.value] || 'NotFound';
+    return this.routes[this.selectedRoute.value];
   }
 
   public get path() {

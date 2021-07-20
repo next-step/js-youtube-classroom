@@ -3,6 +3,7 @@ import {useState} from "~@core";
 import {lectureVideoService, recentSearchesService} from "~services";
 import {YoutubeClipItem} from "~@domain";
 import notFoundImage from "./assets/images/status/not_found.png";
+import {router} from "~router";
 
 export const App = () => {
 
@@ -32,6 +33,7 @@ export const App = () => {
     addLectureVideos,
   });
   const header = Header({ openModal });
+
   const movies = lectureVideos.length > 0
                   ? Movies({ videos: lectureVideos })
                   : `
@@ -41,11 +43,14 @@ export const App = () => {
                     </div>
                   `;
 
+  router.setup();
+
   return `
     <div class="d-flex justify-center mt-5 w-100">
       <div class="w-100">
         ${header}
         <main class="mt-10">
+          ${router.route()}
           ${movies}
         </main>
       </div>

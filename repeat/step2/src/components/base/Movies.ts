@@ -8,7 +8,7 @@ export interface MoviesProps {
 export const Movies = ({ videos }: MoviesProps) => {
   return `
     <section class="video-wrapper">
-      ${videos.map(({ id, item }) => `
+      ${videos.map(({ id, item, isLike, viewed }) => `
         <article class="clip">
           <div class="preview-container">
             <iframe
@@ -35,10 +35,10 @@ export const Movies = ({ videos }: MoviesProps) => {
                 <p>${dateformat(item.snippet.publishedAt)}</p>
               </div>
               <div>
-                <span class="opacity-hover">✅</span>
-                <span class="opacity-hover">👍</span>
-                <span class="opacity-hover">💬</span>
-                <span class="opacity-hover">🗑️</span>
+                <span class="opacity-hover ${viewed ? 'active' : ''} viewed">✅</span>
+                <span class="opacity-hover ${viewed ? 'liked' : ''} liked">👍</span>
+                <span class="opacity-hover comments">💬</span>
+                <span class="opacity-hover remove">🗑️</span>
               </div>
             </div>
           </div>
