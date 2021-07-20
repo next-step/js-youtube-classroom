@@ -1,5 +1,7 @@
+import {$} from '../utils/DOM.js';
 import {SAVED_VIDEO_LIST} from '../constants/localStorage.js';
 import {getLocalStorage, setLocalStorage} from '../utils/localStorage.js';
+import {renderSavedVideo} from '../utils/render.js';
 
 export const videoInfos = {
     value: [],
@@ -15,11 +17,14 @@ export const videoInfos = {
     set(newVideoInfo = []) {
         this.value = newVideoInfo;
         setLocalStorage(SAVED_VIDEO_LIST, this.value ?? []);
+        renderSavedVideo(this.value);
+        $('#saved-video-count').innerText = this.size;
     },
 
     add(newVideoInfo = {}) {
         this.value.push(newVideoInfo);
         setLocalStorage(SAVED_VIDEO_LIST, this.value ?? []);
+        renderSavedVideo(this.value);
     },
 
     remove(targetId) {
