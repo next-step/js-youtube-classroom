@@ -5,11 +5,13 @@ import {addEvent} from "~@core";
 export interface SearchModalVideosProps {
   videos: YoutubeClipItem[];
   addLectureVideos: (videoClip: YoutubeClipItem) => void;
+  contains: string[];
 }
 
 export const SearchModalVideos = ({
   videos,
   addLectureVideos,
+  contains,
 }: SearchModalVideosProps) => {
 
   addEvent('.video-clip-save', 'click', (e) => {
@@ -46,9 +48,11 @@ export const SearchModalVideos = ({
               <div class="meta">
                 <p>${dateformat(snippet.publishedAt)}</p>
               </div>
-              <div class="d-flex justify-end video-clip-save" data-key="${key}">
-                <button class="btn">⬇️ 저장</button>
-              </div>
+              ${ !contains.includes(id.videoId) ? `
+                <div class="d-flex justify-end video-clip-save" data-key="${key}">
+                  <button class="btn">⬇️ 저장</button>
+                </div>
+              ` : ''  }
             </div>
           </div>
         </article>

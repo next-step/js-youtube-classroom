@@ -2,6 +2,7 @@ import {Header, Movies, SearchModal} from "~components";
 import {useState} from "~@core";
 import {lectureVideoService, recentSearchesService} from "~services";
 import {YoutubeClipItem} from "~@domain";
+import notFoundImage from "./assets/images/status/not_found.png";
 
 export const App = () => {
 
@@ -33,7 +34,12 @@ export const App = () => {
   const header = Header({ openModal });
   const movies = lectureVideos.length > 0
                   ? Movies({ videos: lectureVideos })
-                  : `<div>저장된 동영상이 없습니다.</div>`;
+                  : `
+                    <div style="text-align: center">
+                      <img src="${notFoundImage}" alt="저장된 동영상이 없습니다." width="100" />
+                      <p>저장된 동영상이 없습니다.<p>
+                    </div>
+                  `;
 
   return `
     <div class="d-flex justify-center mt-5 w-100">

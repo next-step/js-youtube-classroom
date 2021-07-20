@@ -55,7 +55,11 @@ export const SearchModal = ({
     searchVideo(target.innerHTML);
   })
 
-  const searchModalVideos = SearchModalVideos({ videos, addLectureVideos });
+  const searchModalVideos = SearchModalVideos({
+    videos,
+    addLectureVideos,
+    contains: lectureVideos.map(v => v.item.id.videoId)
+  });
 
   const { searchKey, loading } = state;
 
