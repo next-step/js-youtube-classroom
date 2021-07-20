@@ -1,6 +1,6 @@
 import {$} from '../utils/DOM.js';
-import {saveButtonTemplate, saveCancelButtonTemplate} from '../templates/saveButton.js';
 import {createSavedVideoListTemplate} from '../templates/savedVideoList.js';
+import {saveButtonTemplate, saveCancelButtonTemplate} from '../templates/button.js';
 
 const $savedVideoList = $('#video-list');
 

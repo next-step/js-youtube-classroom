@@ -1,7 +1,7 @@
 import {$} from '../utils/DOM.js';
 import {formatDate} from '../utils/date.js';
 import {videoInfos} from '../states/videoInfo.js';
-import {saveButtonTemplate, saveCancelButtonTemplate} from './saveButton.js';
+import {saveButtonTemplate, saveCancelButtonTemplate} from './button.js';
 
 export const createSearchedVideoList = (videos) => {
     videos.map((video) => {

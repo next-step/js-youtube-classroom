@@ -1,3 +1,11 @@
+export const saveButtonTemplate = () => {
+    return `<button class="btn save-button">⬇️ 저장</button>`;
+};
+
+export const saveCancelButtonTemplate = () => {
+    return `<button class="btn save-cancel-button">↪️ 저장 취소</button>`;
+};
+
 export const hoverWatchButtonTemplate = () => {
     return `<span id="watched" class="opacity-hover ml-2 js-watched-button">✅</span>`;
 };
