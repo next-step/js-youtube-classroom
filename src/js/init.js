@@ -6,11 +6,13 @@ import {saveVideoController} from './handlers/saveVideoControl.js';
 import {videoInfos} from './states/videoInfo.js';
 import {latestKeywords} from './states/latestKeyword.js';
 import {changeVideoStatus} from './handlers/changeVideoStatus.js';
+import {filterVideoController, loadVideo} from './handlers/filterVideo.js';
 
 export const initState = () => {
     intersectionObserver.init();
     videoInfos.init();
     latestKeywords.init();
+    loadVideo();
 };
 
 export const initEvent = () => {
@@ -20,4 +22,5 @@ export const initEvent = () => {
     $('#video-search-result').addEventListener('click', saveVideoController);
     $('#latest-keyword-list').addEventListener('click', searchLatestKeywordController);
     $('#video-list').addEventListener('click', changeVideoStatus);
+    $('#video-filter').addEventListener('click', filterVideoController);
 };
