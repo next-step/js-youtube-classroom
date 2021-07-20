@@ -1,6 +1,7 @@
-import {LectureVideoRepository} from "~repositories";
+import {Inject, Injectable} from "~@core";
 import {YoutubeClipItem, LectureVideo} from "~@domain";
-import {Inject, Injectable} from "~@core/container";
+
+import {LectureVideoRepository} from "~repositories";
 
 @Injectable
 export class LectureVideoService {

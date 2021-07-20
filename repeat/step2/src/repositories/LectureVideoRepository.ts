@@ -1,6 +1,5 @@
-import {Repository} from "~@core";
+import {Repository, Injectable} from "~@core";
 import {LectureVideo} from "~@domain";
-import {Injectable} from "~@core/container";
 
 @Injectable
 export class LectureVideoRepository extends Repository<LectureVideo[]> {

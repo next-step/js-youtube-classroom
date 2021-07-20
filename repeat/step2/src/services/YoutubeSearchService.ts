@@ -1,7 +1,7 @@
+import {Repository, Inject, Injectable} from "~@core";
 import {YoutubeSearchResult} from "~@domain";
+
 import {YoutubeRestClient} from "~clients";
-import {Repository} from "~@core";
-import {Inject, Injectable} from "~@core/container";
 
 type YoutubeCacheMap = Record<string, YoutubeSearchResult>;
 

@@ -1,4 +1,4 @@
-import {container} from "~@core/container";
+import {container} from "~@core";
 
 import { YoutubeSearchService } from "./YoutubeSearchService";
 import { RecentSearchesService } from "./RecentSearchesService";

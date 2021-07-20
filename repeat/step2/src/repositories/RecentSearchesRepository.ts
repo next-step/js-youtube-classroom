@@ -1,5 +1,4 @@
-import {Repository} from "~@core";
-import {Injectable} from "~@core/container";
+import {Repository, Injectable} from "~@core";
 
 @Injectable
 export class RecentSearchRepository extends Repository<string[]> {

@@ -1,6 +1,5 @@
-import {RestClient} from "~@core";
+import {RestClient, Injectable} from "~@core";
 import {YOUTUBE_API_KEY} from "./secret";
-import {Injectable} from "~@core/container";
 
 @Injectable
 export class YoutubeRestClient extends RestClient {

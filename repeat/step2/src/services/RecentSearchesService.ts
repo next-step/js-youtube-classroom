@@ -1,5 +1,6 @@
+import {Inject, Injectable} from "~@core";
+
 import {RecentSearchRepository} from "~repositories";
-import {Inject, Injectable} from "~@core/container";
 
 @Injectable
 export class RecentSearchesService {
