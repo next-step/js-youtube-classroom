@@ -1,10 +1,18 @@
+import {$, $$} from '../utils/DOM.js';
 import {videoInfos} from '../states/videoInfo.js';
 import {renderSavedVideo} from '../utils/render.js';
 
 export const filterVideoController = ({target}) => {
     if (!['toWatch', 'watched', 'liked'].includes(target.id)) return;
     const option = target.id;
+    buttonController(option);
     loadVideo(option);
+};
+
+const buttonController = (option) => {
+    const buttons = $$('#video-filter button');
+    buttons.forEach((button) => button.classList.remove('bg-cyan-100'));
+    $(`#${option}`).classList.add('bg-cyan-100');
 };
 
 export const loadVideo = (option = 'toWatch') => {
