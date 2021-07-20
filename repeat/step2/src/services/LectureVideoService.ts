@@ -36,4 +36,11 @@ export class LectureVideoService {
     videos[index] = lectureVideo;
     this.lectureVideoRepository.set(videos);
   }
+
+  public removeLectureVideo(id: number) {
+    const videos = this.fetchLectureVideos();
+    const index = videos.findIndex(v => v.id === id);
+    videos.splice(index, 1);
+    this.lectureVideoRepository.set(videos);
+  }
 }

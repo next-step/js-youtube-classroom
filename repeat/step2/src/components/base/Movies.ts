@@ -5,9 +5,10 @@ import {addEvent} from "~@core";
 export interface MoviesProps {
   videos: LectureVideo[];
   updateLectureVideo: (video: LectureVideo) => void;
+  removeLectureVideo: (id: number) => void;
 }
 
-export const Movies = ({ videos, updateLectureVideo }: MoviesProps) => {
+export const Movies = ({ videos, updateLectureVideo, removeLectureVideo }: MoviesProps) => {
 
   addEvent('.viewed', 'click', e => {
     const target = e.target as HTMLElement;
@@ -27,6 +28,12 @@ export const Movies = ({ videos, updateLectureVideo }: MoviesProps) => {
       ...video,
       isLike: !video.isLike,
     });
+  })
+
+  addEvent('.remove', 'click', e => {
+    const target = e.target as HTMLElement;
+    const id = Number(selectParent('[data-id]', target).dataset.id);
+    removeLectureVideo(id);
   })
 
   return `

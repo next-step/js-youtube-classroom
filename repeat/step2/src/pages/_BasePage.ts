@@ -8,13 +8,20 @@ interface MoviesContainerProps {
   notFoundText: string;
 }
 
-export const MoviesContainer = ({ notFoundText, filtering }: MoviesContainerProps) => {
+export const _BasePage = ({ notFoundText, filtering }: MoviesContainerProps) => {
   const [lectureVideos, setLectureVideos] = useState(lectureVideoService.fetchLectureVideos());
   const videos = lectureVideos.filter(filtering);
 
+  const reloadLectureVideos = () => setLectureVideos(lectureVideoService.fetchLectureVideos());
+
   const updateLectureVideo = (video: LectureVideo) => {
     lectureVideoService.updateLectureVideo(video);
-    setLectureVideos(lectureVideoService.fetchLectureVideos());
+    reloadLectureVideos();
+  }
+
+  const removeLectureVideo = (id: number) => {
+    lectureVideoService.removeLectureVideo(id);
+    reloadLectureVideos();
   }
 
   if (videos.length === 0) {
@@ -23,5 +30,5 @@ export const MoviesContainer = ({ notFoundText, filtering }: MoviesContainerProp
     });
   }
 
-  return Movies({ videos, updateLectureVideo });
+  return Movies({ videos, updateLectureVideo, removeLectureVideo });
 }
