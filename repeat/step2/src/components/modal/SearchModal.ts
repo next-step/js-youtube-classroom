@@ -1,5 +1,5 @@
 import {addEvent, useState} from "~@core";
-import {LectureVideo, YoutubeClipItem, YoutubeSearchResult} from "~@domain";
+import {LectureVideo, YoutubeClipItem} from "~@domain";
 import {SearchModalVideos} from "~components/modal/SearchModalVideos";
 import {youtubeSearchService} from "~services";
 import {SkeletonClip} from "~components/skeletons";
@@ -22,23 +22,23 @@ export const SearchModal = ({
   addSearchKey,
   addLectureVideos,
 }: SearchModalProps) => {
-
-  const [searchKey, setSearchKey] = useState("");
-  const [nextPageToken, setNextPageToken] = useState("");
+  const [state, setState] = useState({
+    loading: false,
+    searchKey: "",
+    nextPageToken: "",
+  });
   const [videos, setVideos] = useState<YoutubeClipItem[]>([]);
-  const [loading, setLoading] = useState(false);
 
-  const searchVideo = (searchKey: string) => {
-    setLoading(true);
-    youtubeSearchService
-      .search(searchKey)
-      .then(result => {
-        setSearchKey(searchKey);
-        setVideos(result.items);
-        setNextPageToken(result.nextPageToken!);
-        addSearchKey(searchKey);
-        setLoading(false);
-      })
+  const searchVideo = async (searchKey: string) => {
+    setState({ ...state, loading: true });
+    const result = await youtubeSearchService.search(searchKey)
+    setState({
+      loading: false,
+      searchKey,
+      nextPageToken: result.nextPageToken!
+    });
+    setVideos(result.items);
+    addSearchKey(searchKey);
   }
 
   addEvent('.modal-close', 'click', closeModal);
@@ -56,7 +56,7 @@ export const SearchModal = ({
 
   const searchModalVideos = SearchModalVideos({ videos, addLectureVideos });
 
-  // console.log({ searchKey, nextPageToken, videos, loading });
+  const { searchKey, loading } = state;
 
   return `
     <div class="modal ${visibleModal ? 'open' : 'close'}">

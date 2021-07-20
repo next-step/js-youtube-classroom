@@ -11,7 +11,7 @@ export const Movies = ({ videos }: MoviesProps) => {
       ${videos.map(({ id, item }) => `
         <article class="clip">
           <div class="preview-container">
-            <iframec
+            <iframe
               width="100%"
               height="118"
               src="https://www.youtube.com/embed/${item.id.videoId}"
@@ -19,13 +19,13 @@ export const Movies = ({ videos }: MoviesProps) => {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen
               loading="lazy"
-            ></iframec>
+            ></iframe>
           </div>
           <div class="content-container pt-2 px-1">
             <h3>${item.snippet.title}</h3>
             <div>
               <a
-                href="https://www.youtube.com/channel/UC-mOekGSesms0agFntnQang"
+                href="https://www.youtube.com/channel/${item.snippet.channelId}"
                 target="_blank"
                 class="channel-name mt-1"
               >
