@@ -1,10 +1,13 @@
 import {DELETE_CONFIRM_NSG} from '../constants/message.js';
+import {filter} from '../states/filter.js';
 import {videoInfos} from '../states/videoInfo.js';
+import {loadVideo} from './filterVideo.js';
 
 export const changeVideoStatus = ({target}) => {
     const option = target.id;
     if (!['watched', 'liked', 'delete'].includes(option)) return;
     changeStatus(target, option);
+    loadVideo(filter.get());
 };
 
 const changeStatus = (target, option) => {

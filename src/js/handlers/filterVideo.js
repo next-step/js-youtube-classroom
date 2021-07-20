@@ -1,10 +1,12 @@
 import {$, $$} from '../utils/DOM.js';
 import {videoInfos} from '../states/videoInfo.js';
 import {renderEmptyVideo, renderSavedVideo} from '../utils/render.js';
+import {filter} from '../states/filter.js';
 
 export const filterVideoController = ({target}) => {
     if (!['toWatch', 'watched', 'liked'].includes(target.id)) return;
     const option = target.id;
+    filter.set(option);
     buttonController(option);
     loadVideo(option);
 };

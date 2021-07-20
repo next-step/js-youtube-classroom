@@ -4,6 +4,8 @@ import {setLocalStorage} from '../utils/localStorage.js';
 import {videoInfos} from '../states/videoInfo.js';
 import {MAX_SAVEABLE_VIDEO_COUNT} from '../constants/classroom.js';
 import {renderSaveButton, renderSaveCancelButton} from '../utils/render.js';
+import {loadVideo} from './filterVideo.js';
+import {filter} from '../states/filter.js';
 
 export const saveVideoController = ({target}) => {
     if (target.classList.contains('save-button')) {
@@ -15,6 +17,8 @@ export const saveVideoController = ({target}) => {
         saveCancelVideo(target.closest('.js-video'));
         renderSaveButton(target.closest('.button-list'));
     }
+
+    loadVideo(filter.get());
 };
 
 const saveVideo = ($video) => {
