@@ -43,6 +43,12 @@ export const replaceWith = (parent: Element, realNode?: ChildNode, virtualNode?:
     );
   }
 
+  if ((typeof realNode) !== (typeof virtualNode) || realNode!.nodeName !== virtualNode!.nodeName) {
+    parent.removeChild(realNode!);
+    parent.appendChild(virtualNode!);
+    return;
+  }
+
   const realChildren: ChildNode[] = [ ...realNode!.childNodes ];
   const virtualChildren: ChildNode[] = [ ...virtualNode!.childNodes ];
   const max = Math.max(realChildren.length, virtualChildren.length);
