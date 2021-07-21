@@ -1,5 +1,11 @@
 const SAVED_VIDEO_STORE_KEY = 'SAVED_VIDEO_STORE_KEY';
 
+let subscribeStoreCallbackFunctions = [];
+
+export const subscribeStore = (callbackFunction) => {
+    subscribeStoreCallbackFunctions.push(callbackFunction);
+};
+
 export const getSavedVideos = () => {
     const savedVideos = window.localStorage.getItem(SAVED_VIDEO_STORE_KEY);
     return savedVideos ? JSON.parse(savedVideos) : [];
@@ -10,6 +16,7 @@ export const addSavedVideo = (videoId) => {
 
     if (!savedVideos) {
         window.localStorage.setItem(SAVED_VIDEO_STORE_KEY, JSON.stringify([videoId]));
+        subscribeStoreCallbackFunctions.forEach(fn => fn());
         return;
     }
 
@@ -20,4 +27,5 @@ export const addSavedVideo = (videoId) => {
     }
 
     window.localStorage.setItem(SAVED_VIDEO_STORE_KEY, JSON.stringify([...parsedSavedVideos, videoId]));
+    subscribeStoreCallbackFunctions.forEach(fn => fn());
 };

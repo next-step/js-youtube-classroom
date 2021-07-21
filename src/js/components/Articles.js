@@ -1,5 +1,5 @@
 import {findAllByVideoIds} from '../apis/youtubeApis.js';
-import {getSavedVideos} from '../store/videoStore.js';
+import {getSavedVideos, subscribeStore} from '../store/videoStore.js';
 
 export function Articles($el) {
 
@@ -74,6 +74,7 @@ export function Articles($el) {
         `;
     };
 
+    subscribeStore(() => loadArticles());
     render();
     loadArticles();
 }
