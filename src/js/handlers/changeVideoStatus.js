@@ -1,7 +1,15 @@
 import {DELETE_CONFIRM_NSG} from '../constants/message.js';
+import {
+    DELETE_SUCCESS_MSG,
+    LIKED_SUCCESS_MSG,
+    LIKE_CANCEL_SUCCESS_MSG,
+    TO_WATCH_SUCCESS_MSG,
+    WATCHED_SUCCESS_MSG,
+} from '../constants/snackbar.js';
 import {filter} from '../states/filter.js';
 import {videoInfos} from '../states/videoInfo.js';
 import {loadVideo} from './filterVideo.js';
+import {onSnackbar} from './snackbarControl.js';
 
 export const changeVideoStatus = ({target}) => {
     const option = target.id;
@@ -17,7 +25,10 @@ const changeStatus = (target, option) => {
         watched: () => handleWatchedButton(target),
         liked: () => handleLikedButton(target),
         delete: () => {
-            if (confirm(DELETE_CONFIRM_NSG)) videoInfos.remove(videoId);
+            if (confirm(DELETE_CONFIRM_NSG)) {
+                videoInfos.remove(videoId);
+                onSnackbar(DELETE_SUCCESS_MSG);
+            }
         },
     };
 
@@ -28,9 +39,13 @@ const handleWatchedButton = (target) => {
     if (target.classList.contains('opacity-hover')) {
         changeButton(target, 'opacity-hover', 'false');
         setVideoStatus(target, 'isWatched', true);
+
+        onSnackbar(WATCHED_SUCCESS_MSG);
     } else {
         changeButton(target, 'false', 'opacity-hover');
         setVideoStatus(target, 'isWatched', false);
+
+        onSnackbar(TO_WATCH_SUCCESS_MSG);
     }
 };
 
@@ -38,9 +53,13 @@ const handleLikedButton = (target) => {
     if (target.classList.contains('opacity-hover')) {
         changeButton(target, 'opacity-hover', 'false');
         setVideoStatus(target, 'isLiked', true);
+
+        onSnackbar(LIKED_SUCCESS_MSG);
     } else {
         changeButton(target, 'false', 'opacity-hover');
         setVideoStatus(target, 'isLiked', false);
+
+        onSnackbar(LIKE_CANCEL_SUCCESS_MSG);
     }
 };
 

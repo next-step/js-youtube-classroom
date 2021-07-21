@@ -5,6 +5,7 @@
         <title>👩🏻‍💻 유튜브 강의실</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="./src/css/index.css" />
+        <link rel="stylesheet" href="./src/css/ui//modules/snackbar.css" />
     </head>
     <body>
         <div id="app">
@@ -21,9 +22,10 @@
                             <button id="search-button" class="btn mx-1">🔍 동영상 검색</button>
                         </nav>
                     </header>
-                    <main class="mt-10">
+                    <main id="main" class="mt-10">
                         <section id="video-list" class="video-wrapper"></section>
                     </main>
+                    <div id="snackbar"></div>
                 </div>
             </div>
             <div id="video-search-modal" class="modal">

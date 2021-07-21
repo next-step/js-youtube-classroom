@@ -3,6 +3,7 @@ import {createSavedVideoListTemplate} from '../templates/savedVideoList.js';
 import {saveButtonTemplate, saveCancelButtonTemplate} from '../templates/button.js';
 import {emptyVideoListTemplate} from '../templates/emptyVideoList.js';
 const $savedVideoList = $('#video-list');
+const $snackbar = $('#snackbar');
 
 export const renderSaveCancelButton = ($target) => {
     $target.innerHTML = saveCancelButtonTemplate();
@@ -18,4 +19,8 @@ export const renderSavedVideo = (savedVideoInfos) => {
 
 export const renderEmptyVideo = () => {
     $savedVideoList.innerHTML = emptyVideoListTemplate();
+};
+
+export const renderSnackbar = (message) => {
+    $snackbar.innerHTML = message;
 };
