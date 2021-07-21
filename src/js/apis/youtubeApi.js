@@ -4,7 +4,7 @@ const requestOptions = {
 };
 
 fetch(
-  'https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResult=25&q=제로투&key=AIzaSyABFRQDgFVJQNXJnQ62bsVIDkA0q0wiutE',
+  'https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResult=25&q=제로투&key=',
   requestOptions
 )
   .then(response => response.json())

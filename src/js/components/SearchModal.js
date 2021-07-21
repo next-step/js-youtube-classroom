@@ -1,15 +1,17 @@
 class SearchModal {
   constructor({ $app, state, onClickCloseButton }) {
     this.state = state;
+    this.state['videos'] = [];
     this.onClickCloseButton = onClickCloseButton;
     this.$searchModal = document.createElement('div');
     this.$searchModal.id = 'video-search-modal';
     $app.append(this.$searchModal);
     this.$searchModal.addEventListener('click', this.onClick);
+    this.$searchModal.addEventListener('submit', this.onSubmit);
   }
 
   render = () => {
-    const { isShowModal } = this.state;
+    const { isShowModal, videos } = this.state;
     this.$searchModal.innerHTML = `
         <div class="modal ${isShowModal && 'open'}" }>
             <div id="modal-inner" class="modal-inner p-8">
@@ -38,6 +40,29 @@ class SearchModal {
             </div>
         </div>
     `;
+    this.$searchModal.innerHTML += videos.map(video => {
+      return `
+        <article class="clip js-video relative" data-video-id="">
+        <div class="preview-container">
+            <iframe class="js-preview" width="100%" height="118" src="https://www.youtube.com/embed/ifjs0UX56ZA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+        </div>
+        <div class="content-container pt-2 px-1">
+            <h3>${video.snipet.title} #shorts</h3>
+            <div>
+            <a href="https://www.youtube.com/channel/UCtp1okjd3xQAhPNY8Wgt_Fg" target="_blank" class="channel-name mt-1">
+            문월 유튜브
+            </a>
+            <div class="meta">
+                <p>2021년 5월 2일</p>
+            </div>
+            </div>
+        </div>
+        <div class="button-list d-flex justify-end">
+            <button class="btn js-save-cancel-button" }="">↪️ 저장 취소</button>
+        </div>
+        </article>
+      `;
+    });
   };
 
   setState = nextState => {
@@ -50,6 +75,34 @@ class SearchModal {
       this.onClickCloseButton();
       return;
     }
+  };
+
+  onSubmit = e => {
+    e.preventDefault();
+    console.log('submit');
+    this.searchVideo();
+  };
+
+  searchVideo = () => {
+    const requestOptions = {
+      method: 'GET',
+      redirect: 'follow',
+    };
+
+    fetch(
+      'https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResult=25&q=제로투&key=',
+      requestOptions
+    )
+      .then(response => response.json())
+      .then(result => {
+        console.log(result.items);
+        const nextState = {
+          ...this.state,
+        };
+        nextState['videos'] = result.items;
+        this.setState(nextState);
+      })
+      .catch(error => console.log('error', error));
   };
 }
 
