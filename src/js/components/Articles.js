@@ -1,7 +1,14 @@
 import {findAllByVideoIds} from '../apis/youtubeApis.js';
 import {getSavedVideos, subscribeStore} from '../store/videoStore.js';
+import router from '../router.js';
 
-export function Articles($el) {
+/**
+ * @param $el
+ * @param props
+ * @param {string} props.routePath
+ * @constructor
+ */
+export function Articles($el, props) {
 
     const state = {
         articles: [],
@@ -49,14 +56,26 @@ export function Articles($el) {
     `;
 
     const loadArticles = async () => {
-        const videoIds = getSavedVideos();
-        const {items: articles} = await findAllByVideoIds({videoIds});
+        const videos = getSavedVideos();
+        const {items: articles} = await findAllByVideoIds({videoIds: videos.map(({videoId}) => videoId)});
         setState({articles});
     };
 
     const render = () => {
         const {articles} = state;
-        const articlesTemplate = articles.map(({
+        const {routePath} = props;
+        const articlesTemplate = articles.filter(({isWatched, isLiked}) => {
+                                             if (routePath === router.PATH.TO_WATCH) {
+                                                 return !isWatched;
+                                             }
+                                             if (routePath === router.PATH.TO_WATCH) {
+                                                 return isWatched;
+                                             }
+                                             if (routePath === router.PATH.TO_WATCH) {
+                                                 return isLiked;
+                                             }
+                                         })
+                                         .map(({
                                                    videoId,
                                                    channelId,
                                                    channelTitle,

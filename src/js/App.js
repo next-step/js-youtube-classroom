@@ -45,7 +45,7 @@ export default function App($el) {
         `;
 
         new Header($('[data-component=header]'), {routePath, openSearchModal});
-        new Articles($('[data-component=articles]'));
+        new Articles($('[data-component=articles]'), {routePath});
         new SearchModal($('[data-component=search-modal]'), {isShowModal: isShowSearchModal, closeModal: closeSearchModal});
     };
 
