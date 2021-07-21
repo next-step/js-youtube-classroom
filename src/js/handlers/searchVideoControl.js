@@ -35,12 +35,13 @@ export const onSearchKeyword = async (keyword) => {
 };
 
 export const searchVideo = async (keyword) => {
-    $('#video-search-result').innerHTML = videoSkeletonTemplate().repeat(FETCH_VIDEO_COUNT);
+    const $videoSearchResult = $('#video-search-result');
+    $videoSearchResult.innerHTML = videoSkeletonTemplate().repeat(FETCH_VIDEO_COUNT);
 
     const {nextPageToken, items} = await searchResult(keyword);
 
     pageToken.set(nextPageToken);
-    $('#video-search-result').innerHTML = '';
+    $videoSearchResult.innerHTML = '';
 
     items.length ? createSearchedVideoList(items) : ($videoSearchResult.innerHTML = searchNotFoundTemplate());
 
