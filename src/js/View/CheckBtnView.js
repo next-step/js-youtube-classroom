@@ -5,8 +5,6 @@ export default class CheckBtnView extends View {
     super(qs("body"))
 
     this.bindEvents()
-    this.show()
-    this.template = new Template()
   }
   bindEvents(){
     this.on("click", (event) => {
@@ -25,11 +23,5 @@ export default class CheckBtnView extends View {
         this.emit("@like", {value: [qs(".js-watched-button",event.target.parentNode).dataset.videoTitle, qs(".btn.bg-cyan-100.mx-1")]})
       }
     })
-  }
-}
-
-class Template {
-  getList(datas) {
-    return datas.map((data) => watchTemplate(data)).join('')
   }
 }

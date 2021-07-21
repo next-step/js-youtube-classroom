@@ -20,7 +20,6 @@ class LikedView extends View {
   }
   show(){
     const likedVideos =  history.state ? history.state.filter(data=> data.like===true) : []
-    console.log(likedVideos)
     let page = qs(".mt-10 .video-wrapper") ? qs(".mt-10 .video-wrapper") : qs(".mt-10 .text-center")
     if (likedVideos.length<=0) {
       page.classList.remove("video-wrapper")
