@@ -8,6 +8,7 @@ import {
   watchedToggleAction,
 } from '../store/actionCreator';
 import { CommonProps, Component } from '../types';
+import debounce from '../utils/debounce';
 import { LOCAL_SAVE_VIDEO_LIST } from '../utils/localStorageKey';
 
 interface Props extends CommonProps {
@@ -17,27 +18,21 @@ interface Props extends CommonProps {
 const SaveVideoSection: Component<Props> = ({ children }) => {
   const { dispatch, getState } = store;
 
-  const onDeleteVideoHandler = ({ target }) => {
-    if (!target.matches('.video-delete')) return;
+  const onDeleteVideoHandler = (videoId: string) => {
     if (!confirm('정말 삭제하시겠습니까?')) return;
-
-    const videoId = target.parentNode.dataset.videoId;
-
     dispatch(videoDeleteAction(videoId));
-    window.localStorage.setItem(LOCAL_SAVE_VIDEO_LIST, JSON.stringify(getState().saveVideoList));
+    dispatch(snackBarShowAction('영상이 삭제되었습니다 :)'));
   };
 
-  const onWatchedToggleHandler = ({ target }) => {
-    if (!target.matches('.video-watched')) return;
-
-    const videoId = target.parentNode.dataset.videoId;
-
+  const onWatchedToggleHandler = (videoId: string) => {
     dispatch(watchedToggleAction(videoId));
     const { saveVideoList } = getState();
-    window.localStorage.setItem(LOCAL_SAVE_VIDEO_LIST, JSON.stringify(saveVideoList));
     const currentVideoIndex = saveVideoList.findIndex(
       saveVideo => saveVideo.id.videoId === videoId
     );
+
+    if (!currentVideoIndex) return;
+
     const selectVideo = saveVideoList[currentVideoIndex];
 
     dispatch(
@@ -45,14 +40,9 @@ const SaveVideoSection: Component<Props> = ({ children }) => {
         selectVideo.isWatched ? '본 영상으로 변경되었습니다 :)' : '볼 영상으로 변경되었습니다 :)'
       )
     );
-    window.setTimeout(() => dispatch(snackBarHideAction()), 2500);
   };
 
-  const onLikeToggleHandler = ({ target }) => {
-    if (!target.matches('.video-like')) return;
-
-    const videoId = target.parentNode.dataset.videoId;
-
+  const onLikeToggleHandler = (videoId: string) => {
     dispatch(likeToggleAction(videoId));
     const { saveVideoList } = getState();
     window.localStorage.setItem(LOCAL_SAVE_VIDEO_LIST, JSON.stringify(saveVideoList));
@@ -68,15 +58,27 @@ const SaveVideoSection: Component<Props> = ({ children }) => {
           : '좋아하는 영상 리스트에서 삭제했습니다 :)'
       )
     );
-    // 모든 snackBaraHideAction을 하나로 통일하고 디바운스 구현 필요
-    window.setTimeout(() => dispatch(snackBarHideAction()), 2500);
   };
+
+  const onChangeVideoStateHandlers = (() => {
+    const resetSnackBarDeleteTime = debounce(() => dispatch(snackBarHideAction()), 2500);
+    return ({ target }) => {
+      const { videoId } = target.parentNode.dataset;
+
+      if (target.matches('.video-delete')) onDeleteVideoHandler(videoId);
+      else if (target.matches('.video-watched')) onWatchedToggleHandler(videoId);
+      else if (target.matches('.video-like')) onLikeToggleHandler(videoId);
+      else return;
+
+      const { saveVideoList } = getState();
+      window.localStorage.setItem(LOCAL_SAVE_VIDEO_LIST, JSON.stringify(saveVideoList));
+      resetSnackBarDeleteTime();
+    };
+  })();
 
   const $saveVideoSection = createNode('<section class="video-wrapper"></section>', children);
 
-  $saveVideoSection.addEventListener('click', onDeleteVideoHandler);
-  $saveVideoSection.addEventListener('click', onWatchedToggleHandler);
-  $saveVideoSection.addEventListener('click', onLikeToggleHandler);
+  $saveVideoSection.addEventListener('click', onChangeVideoStateHandlers);
 
   return $saveVideoSection;
 };
