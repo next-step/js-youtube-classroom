@@ -23,4 +23,8 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-Cypress.Commands.add('searchVideo', (keyword) => {});
+Cypress.Commands.add('searchVideo', (keyword) => {
+    cy.get('#search-button').click();
+    cy.get('#video-search-input').type(keyword);
+    cy.get('#video-search-submit').click();
+});

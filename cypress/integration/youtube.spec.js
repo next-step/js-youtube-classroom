@@ -6,11 +6,18 @@ describe('racing-car', () => {
 
     describe('검색 모달', () => {
         describe('검색 기능', () => {
-            it('엔터키와 마우스로 검색 버튼을 눌렀을 때 검색', () => {});
-            it('데이터를 불러오는 중일때, skeleton UI 보여줌', () => {});
-            it('검색 결과 없는 경우 사용자에게 결과 없음 이미지 보여줌', () => {});
-            it('최초 검색 결과는 10개 보여줌', () => {});
-            it('스크롤 내릴 때 10개씩 추가로 영상 불러옴', () => {});
+            it('최초 검색 결과는 10개 보여줌', () => {
+                cy.searchVideo('BTS');
+                cy.wait(1 * 1000).then(() => {
+                    cy.get('#video-search-result').children().should('have.length', 10);
+                });
+            });
+            it('검색 결과 없는 경우 사용자에게 결과 없음 이미지 보여줌', () => {
+                cy.searchVideo('뷁갓시노량');
+                cy.wait(1 * 1000).then(() => {
+                    cy.get('#video-search-result h2').contains('검색결과가 없습니다.');
+                });
+            });
         });
         describe('영상 저장', () => {
             it('영상 저장하면 저장 버튼 보이지 않게 함', () => {});
