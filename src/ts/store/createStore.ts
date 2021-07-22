@@ -14,7 +14,7 @@ const createStore = (reducer: Reducer): Store => {
   };
 
   const invokeListeners = () => {
-    listeners.forEach(listener => listener(state));
+    listeners.forEach(listener => listener());
   };
 
   const dispatch = (action: Action) => {
