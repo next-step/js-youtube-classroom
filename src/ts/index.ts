@@ -1,5 +1,4 @@
 import '../css/index.css';
-import App from './app/App';
 import store from './store';
 import { applyDiff, renderRoot } from './domHelper';
 

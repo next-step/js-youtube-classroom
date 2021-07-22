@@ -1,4 +1,4 @@
-import { Action, GlobalState, Reducer, Store } from '../types';
+import { Action, Reducer, Store } from '../types';
 
 const createStore = (reducer: Reducer): Store => {
   let listeners: Function[] = [];

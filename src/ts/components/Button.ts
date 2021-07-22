@@ -1,5 +1,4 @@
 import { createNode } from '../domHelper';
-import store from '../store';
 import { CommonProps, Component } from '../types';
 
 interface Props extends CommonProps {

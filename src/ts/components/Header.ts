@@ -1,6 +1,5 @@
 import { createNode } from '../domHelper';
 import { CommonProps, Component } from '../types';
-import { Heading, Navigator, Button } from './';
 
 interface Props extends CommonProps {}
 
