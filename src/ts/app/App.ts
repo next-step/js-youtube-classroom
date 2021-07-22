@@ -13,8 +13,6 @@ const App: Component<Props> = () => {
 
   const $app = createNode(`<div id="app"></div>`, []);
 
-  // TODO: setNotFound(component);
-
   const $homeWrapper = createNode('<div class="d-flex justify-center mt-5 w-100"></div>', [
     createNode('<div class="w-100"></div>', [
       Header({
