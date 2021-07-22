@@ -35,6 +35,10 @@ const createRouter = () => {
     dispatch(pageChangeAction(path));
   };
 
+  window.addEventListener('popstate', () => {
+    dispatch(pageChangeAction(window.location.pathname));
+  });
+
   return {
     Router,
     navigate,
