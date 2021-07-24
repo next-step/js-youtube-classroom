@@ -1,0 +1,14 @@
+.empty-message-wrapper {
+  grid-column: 2 / 4;
+  text-align: center;
+  margin: 50px auto 80px;
+  font-size: 2rem;
+}
+
+.empty-message {
+  display: block;
+  font-size: 10rem;
+  margin-bottom: 5px;
+  text-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+}
