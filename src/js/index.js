@@ -18,12 +18,8 @@ const onModalClose = () => {
 };
 
 const startSearch = async () => {
-  const url = `https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=${apiKey}&search.list({
-    q: q,
-    part: 'snippet'
-  })`
-  // const url = `https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=${apiKey}&q=111`
-  // const response = await fetch(url, {method:'get'})
+  // const url = `https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=${apiKey}&part=snippet&order=viewCount&q=skateboarding+dog&type=video`
+  const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&part=snippet&order=viewCount&q=skateboarding+dog&type=video`
 
   const response = await axios.get(url)
   console.log("response", response)  // response has came
