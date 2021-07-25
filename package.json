@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.14.6",
+    "axios": "^0.21.1",
     "dotenv": "^10.0.0",
     "http-server": "^0.12.3",
     "modules": "^0.4.0"

@@ -1,4 +1,6 @@
+import axios from "axios";
 import dotenv from 'dotenv'
+import * as url from "url";
 dotenv.config()
 const apiKey = process.env.YOUTUBE_DATA_API_KEY
 
@@ -16,9 +18,14 @@ const onModalClose = () => {
 };
 
 const startSearch = async () => {
-  // TODO:env 에서 apiKey 불러오기
-  const url = `https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=${apiKey}`
-  const response = await fetch(url)
+  const url = `https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=${apiKey}&search.list({
+    q: q,
+    part: 'snippet'
+  })`
+  // const url = `https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=${apiKey}&q=111`
+  // const response = await fetch(url, {method:'get'})
+
+  const response = await axios.get(url)
   console.log("response", response)  // response has came
 
 }
