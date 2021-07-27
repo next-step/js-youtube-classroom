@@ -55,6 +55,10 @@ export function Articles($el, props) {
         </article>
     `;
 
+    const articlesEmptyTemplate = `
+        <span id="empty-video-list" class="stretch text-center">영상이 없습니다. 😥</span>
+    `;
+
     const loadArticles = async () => {
         const videos = getSavedVideos();
         const {items: articles} = await findAllByVideoIds({videoIds: videos.map(({videoId}) => videoId)});
@@ -87,7 +91,7 @@ export function Articles($el, props) {
         $el.innerHTML = `
             <main class="mt-10">
                 <section class="video-wrapper">
-                    ${articlesTemplate}     
+                    ${articlesTemplate || articlesEmptyTemplate}     
                 </section>
             </main>
         `;
