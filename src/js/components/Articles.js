@@ -136,7 +136,6 @@ export function Articles($el, props) {
     };
 
     subscribeStore(() => loadArticles());
-    render();
     bindEvents();
     loadArticles();
 }
