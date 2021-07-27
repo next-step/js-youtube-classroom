@@ -17,7 +17,7 @@ export function SearchModalArticles($el, props) {
     };
 
     const saveVideo = (videoId) => {
-        addSavedVideo(videoId);
+        addSavedVideo({videoId});
     };
 
     const articleNotFoundTemplate = `

@@ -22,3 +22,22 @@ export const findAllBySearchKey = async ({searchKeyword, pageToken = '', maxSize
         }),
     };
 };
+
+export const findAllByVideoIds = async ({videoIds}) => {
+    const res = await fetch(`${YOUTUBE_API_DOMAIN}/youtube/v3/videos?key=${YOUTUBE_API_KEY}&part=snippet&id=${videoIds.join(',')}`);
+    const {items} = await res.json();
+
+    return {
+        items: items.map(item => {
+            const {id: videoId, snippet: {channelId, channelTitle, title, publishedAt}} = item;
+
+            return {
+                videoId,
+                channelId,
+                channelTitle,
+                title,
+                publishedAt: dateToLocaleString(publishedAt),
+            };
+        }),
+    };
+};
