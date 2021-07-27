@@ -1,5 +1,5 @@
 import {findAllByVideoIds} from '../apis/youtubeApis.js';
-import {getSavedVideos, subscribeStore} from '../store/videoStore.js';
+import {getSavedVideos, subscribeStore, toggleLikedVideo, toggleWatchedVideo} from '../store/videoStore.js';
 import router from '../router.js';
 
 /**
@@ -19,8 +19,26 @@ export function Articles($el, props) {
         render();
     };
 
-    const articleNormalTemplate = ({videoId, title, channelId, channelTitle, publishedAt}) => `
-        <article class="clip">
+    const bindEvents = () => {
+        $el.addEventListener('click', ({target: {dataset: {click, videoId}}}) => {
+            if (!click) {
+                return;
+            }
+
+            if (click === 'toggleWatched') {
+                toggleWatchedVideo({videoId});
+                return;
+            }
+
+            if (click === 'toggleLiked') {
+                toggleLikedVideo({videoId});
+                return;
+            }
+        });
+    };
+
+    const articleNormalTemplate = ({videoId, title, channelId, channelTitle, publishedAt, isWatched, isLiked}) => `
+        <article class="clip" data-video-id>
             <div class="preview-container">
                 <iframe
                     width="100%"
@@ -45,8 +63,8 @@ export function Articles($el, props) {
                         <p>${publishedAt}</p>
                     </div>
                     <div>
-                        <span class="opacity-hover">✅</span>
-                        <span class="opacity-hover">👍</span>
+                        <span class="${isWatched || 'opacity-hover'}" data-click="toggleWatched" data-video-id="${videoId}">✅</span>
+                        <span class="${isLiked || 'opacity-hover'}" data-click="toggleLiked" data-video-id="${videoId}">👍</span>
                         <span class="opacity-hover">🗑️</span>
                     </div>
                 </div>
@@ -95,7 +113,17 @@ export function Articles($el, props) {
                                                    channelTitle,
                                                    title,
                                                    publishedAt,
-                                               }) => articleNormalTemplate({videoId, title, channelId, channelTitle, publishedAt}))
+                                                   isWatched,
+                                                   isLiked,
+                                               }) => articleNormalTemplate({
+                                             videoId,
+                                             title,
+                                             channelId,
+                                             channelTitle,
+                                             publishedAt,
+                                             isWatched,
+                                             isLiked,
+                                         }))
                                          .join('');
 
         $el.innerHTML = `
@@ -109,5 +137,6 @@ export function Articles($el, props) {
 
     subscribeStore(() => loadArticles());
     render();
+    bindEvents();
     loadArticles();
 }
