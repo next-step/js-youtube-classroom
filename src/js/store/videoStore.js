@@ -2,20 +2,20 @@ const SAVED_VIDEO_STORE_KEY = 'SAVED_VIDEO_STORE_KEY';
 
 let subscribeStoreCallbackFunctions = [];
 
-export const subscribeStore = (callbackFunction) => {
+const subscribeStore = (callbackFunction) => {
     subscribeStoreCallbackFunctions.push(callbackFunction);
 };
 
-const notify = () => {
+const _notify = () => {
     subscribeStoreCallbackFunctions.forEach(fn => fn());
 };
 
-export const getSavedVideos = () => {
+const getSavedVideos = () => {
     const savedVideos = window.localStorage.getItem(SAVED_VIDEO_STORE_KEY);
     return savedVideos ? JSON.parse(savedVideos) : [];
 };
 
-export const addSavedVideo = ({videoId}) => {
+const addSavedVideo = ({videoId}) => {
     const savedVideos = window.localStorage.getItem(SAVED_VIDEO_STORE_KEY);
     const newVideo = {
         videoId,
@@ -25,7 +25,7 @@ export const addSavedVideo = ({videoId}) => {
 
     if (!savedVideos) {
         window.localStorage.setItem(SAVED_VIDEO_STORE_KEY, JSON.stringify([newVideo]));
-        notify();
+        _notify();
         return;
     }
 
@@ -36,10 +36,10 @@ export const addSavedVideo = ({videoId}) => {
     }
 
     window.localStorage.setItem(SAVED_VIDEO_STORE_KEY, JSON.stringify([...parsedSavedVideos, newVideo]));
-    notify();
+    _notify();
 };
 
-const toggleWatchedOrLikedVideo = ({videoId, propertyName}) => {
+const _toggleWatchedOrLikedVideo = ({videoId, propertyName}) => {
     const savedVideos = getSavedVideos();
     const targetIndex = savedVideos.findIndex(video => video.videoId === videoId);
     const targetVideo = savedVideos[targetIndex];
@@ -50,13 +50,32 @@ const toggleWatchedOrLikedVideo = ({videoId, propertyName}) => {
     });
 
     window.localStorage.setItem(SAVED_VIDEO_STORE_KEY, JSON.stringify(savedVideos));
-    notify();
+    _notify();
 };
 
-export const toggleWatchedVideo = ({videoId}) => {
-    toggleWatchedOrLikedVideo({videoId, propertyName: 'isWatched'});
+const toggleWatchedVideo = ({videoId}) => {
+    _toggleWatchedOrLikedVideo({videoId, propertyName: 'isWatched'});
 };
 
-export const toggleLikedVideo = ({videoId}) => {
-    toggleWatchedOrLikedVideo({videoId, propertyName: 'isLiked'});
+const toggleLikedVideo = ({videoId}) => {
+    _toggleWatchedOrLikedVideo({videoId, propertyName: 'isLiked'});
+};
+
+const deleteSavedVideo = ({videoId}) => {
+    const savedVideos = getSavedVideos();
+    const targetIndex = savedVideos.findIndex(video => video.videoId === videoId);
+
+    savedVideos.splice(targetIndex, 1);
+
+    window.localStorage.setItem(SAVED_VIDEO_STORE_KEY, JSON.stringify(savedVideos));
+    _notify();
+};
+
+export {
+    subscribeStore,
+    getSavedVideos,
+    addSavedVideo,
+    toggleWatchedVideo,
+    toggleLikedVideo,
+    deleteSavedVideo,
 };

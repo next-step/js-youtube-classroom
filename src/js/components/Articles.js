@@ -1,5 +1,5 @@
 import {findAllByVideoIds} from '../apis/youtubeApis.js';
-import {getSavedVideos, subscribeStore, toggleLikedVideo, toggleWatchedVideo} from '../store/videoStore.js';
+import {deleteSavedVideo, getSavedVideos, subscribeStore, toggleLikedVideo, toggleWatchedVideo} from '../store/videoStore.js';
 import router from '../router.js';
 
 /**
@@ -34,6 +34,13 @@ export function Articles($el, props) {
                 toggleLikedVideo({videoId});
                 return;
             }
+
+            if (click === 'deleteVideo') {
+                if (confirm('해당 영상을 삭제하시겠습니까?')) {
+                    deleteSavedVideo({videoId});
+                }
+                return;
+            }
         });
     };
 
@@ -65,7 +72,7 @@ export function Articles($el, props) {
                     <div>
                         <span class="${isWatched || 'opacity-hover'}" data-click="toggleWatched" data-video-id="${videoId}">✅</span>
                         <span class="${isLiked || 'opacity-hover'}" data-click="toggleLiked" data-video-id="${videoId}">👍</span>
-                        <span class="opacity-hover">🗑️</span>
+                        <span class="opacity-hover" data-click="deleteVideo" data-video-id="${videoId}">🗑️</span>
                     </div>
                 </div>
             </div>
