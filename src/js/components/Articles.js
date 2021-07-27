@@ -47,7 +47,6 @@ export function Articles($el, props) {
                     <div>
                         <span class="opacity-hover">✅</span>
                         <span class="opacity-hover">👍</span>
-                        <span class="opacity-hover">💬</span>
                         <span class="opacity-hover">🗑️</span>
                     </div>
                 </div>
@@ -60,9 +59,20 @@ export function Articles($el, props) {
     `;
 
     const loadArticles = async () => {
-        const videos = getSavedVideos();
-        const {items: articles} = await findAllByVideoIds({videoIds: videos.map(({videoId}) => videoId)});
-        setState({articles});
+        const savedVideos = getSavedVideos();
+        const {items: articles} = await findAllByVideoIds({videoIds: savedVideos.map(({videoId}) => videoId)});
+        setState({
+            articles: articles.map(article => {
+                const videoId = article.videoId;
+                const {isWatched, isLiked} = savedVideos.find(video => video.videoId === videoId);
+
+                return {
+                    ...article,
+                    isWatched,
+                    isLiked,
+                };
+            }),
+        });
     };
 
     const render = () => {
@@ -72,10 +82,10 @@ export function Articles($el, props) {
                                              if (routePath === router.PATH.TO_WATCH) {
                                                  return !isWatched;
                                              }
-                                             if (routePath === router.PATH.TO_WATCH) {
+                                             if (routePath === router.PATH.WATCHED) {
                                                  return isWatched;
                                              }
-                                             if (routePath === router.PATH.TO_WATCH) {
+                                             if (routePath === router.PATH.LIKED) {
                                                  return isLiked;
                                              }
                                          })
