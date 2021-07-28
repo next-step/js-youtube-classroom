@@ -74,6 +74,7 @@ export function SearchModalArticles($el, props) {
                     </div>
                     <div class="d-flex justify-end">
                         <button class="btn" data-click="saveVideo" data-video-id="${videoId}">⬇️ 저장</button>
+<!--                        <button class="btn js-save-cancel-button">↪️ 저장 취소</button>-->
                     </div>
                 </div>
             </div>

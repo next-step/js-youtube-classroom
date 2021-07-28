@@ -3,10 +3,10 @@
  * @param $el
  * @param props
  * @param {string} props.routePath
- * @param {function} props.openSearchModal
  * @constructor
  */
 import router from '../router.js';
+import modalStore from '../store/modalStore.js';
 
 export function Header($el, props) {
 
@@ -23,7 +23,7 @@ export function Header($el, props) {
     };
 
     const openSearchModal = () => {
-        props.openSearchModal();
+        modalStore.showModal();
     };
 
     const menus = [

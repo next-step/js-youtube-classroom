@@ -1,20 +1,17 @@
 import {findAllBySearchKey} from '../apis/youtubeApis.js';
 import {$} from '../utils/selector.js';
 import {SearchModalArticles} from './SearchModalArticles.js';
+import modalStore from '../store/modalStore.js';
 
 /**
  * 검색 모달
  * @param $el
- * @param props
- * @param {boolean} props.isShowModal
- * @param {function} props.closeModal
  * @constructor
  */
 
-export default function SearchModal($el, props) {
+export default function SearchModal($el) {
 
     const state = {
-        isShowModal: props.isShowModal,
         latestSearchKeywords: [],
         searchKeyword: '',
         nextPageToken: '',
@@ -59,7 +56,7 @@ export default function SearchModal($el, props) {
     };
 
     const closeModal = () => {
-        props.closeModal();
+        modalStore.closeModal();
     };
 
     const submitSearch = (searchKeyword) => {
@@ -80,7 +77,8 @@ export default function SearchModal($el, props) {
     };
 
     const render = () => {
-        const {isShowModal, latestSearchKeywords, searchKeyword, articles} = state;
+        const isShowModal = modalStore.getIsShowModal();
+        const {latestSearchKeywords, searchKeyword, articles} = state;
         const latestSearchKeywordButtons = latestSearchKeywords.map(keyword => `<a class="chip">${keyword}</a>`)
                                                                .join('');
 
@@ -119,4 +117,5 @@ export default function SearchModal($el, props) {
 
     render();
     bindEvents();
+    modalStore.subscribeStore(() => render());
 }
