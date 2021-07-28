@@ -4,7 +4,7 @@
  * @param {[object]} props.articles
  * @constructor
  */
-import {addSavedVideo} from '../store/videoStore.js';
+import videoStore from '../store/videoStore.js';
 
 export function SearchModalArticles($el, props) {
 
@@ -17,7 +17,7 @@ export function SearchModalArticles($el, props) {
     };
 
     const saveVideo = (videoId) => {
-        addSavedVideo({videoId});
+        videoStore.addSavedVideo({videoId});
     };
 
     const articleNotFoundTemplate = `

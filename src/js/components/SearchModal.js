@@ -2,6 +2,7 @@ import {findAllBySearchKey} from '../apis/youtubeApis.js';
 import {$} from '../utils/selector.js';
 import {SearchModalArticles} from './SearchModalArticles.js';
 import modalStore from '../store/modalStore.js';
+import videoStore from '../store/videoStore.js';
 
 /**
  * 검색 모달
@@ -78,6 +79,8 @@ export default function SearchModal($el) {
 
     const render = () => {
         const isShowModal = modalStore.getIsShowModal();
+        const savedVideos = videoStore.getSavedVideos();
+
         const {latestSearchKeywords, searchKeyword, articles} = state;
         const latestSearchKeywordButtons = latestSearchKeywords.map(keyword => `<a class="chip">${keyword}</a>`)
                                                                .join('');
@@ -103,7 +106,7 @@ export default function SearchModal($el) {
                     </section>
                     <section>
                         <div class="d-flex justify-end text-gray-700">
-                            저장된 영상 갯수: 50개
+                            저장된 영상 갯수: ${savedVideos.length}개
                         </div>
                         <div data-component="search-modal-articles"></div>
                     </section>

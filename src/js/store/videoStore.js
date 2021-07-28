@@ -71,7 +71,7 @@ const deleteSavedVideo = ({videoId}) => {
     _notify();
 };
 
-export {
+export default {
     subscribeStore,
     getSavedVideos,
     addSavedVideo,

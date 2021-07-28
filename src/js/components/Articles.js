@@ -1,5 +1,5 @@
 import {findAllByVideoIds} from '../apis/youtubeApis.js';
-import {deleteSavedVideo, getSavedVideos, subscribeStore, toggleLikedVideo, toggleWatchedVideo} from '../store/videoStore.js';
+import videoStore from '../store/videoStore.js';
 import router from '../router.js';
 
 /**
@@ -26,18 +26,18 @@ export function Articles($el, props) {
             }
 
             if (click === 'toggleWatched') {
-                toggleWatchedVideo({videoId});
+                videoStore.toggleWatchedVideo({videoId});
                 return;
             }
 
             if (click === 'toggleLiked') {
-                toggleLikedVideo({videoId});
+                videoStore.toggleLikedVideo({videoId});
                 return;
             }
 
             if (click === 'deleteVideo') {
                 if (confirm('해당 영상을 삭제하시겠습니까?')) {
-                    deleteSavedVideo({videoId});
+                    videoStore.deleteSavedVideo({videoId});
                 }
                 return;
             }
@@ -84,7 +84,7 @@ export function Articles($el, props) {
     `;
 
     const loadArticles = async () => {
-        const savedVideos = getSavedVideos();
+        const savedVideos = videoStore.getSavedVideos();
         const {items: articles} = await findAllByVideoIds({videoIds: savedVideos.map(({videoId}) => videoId)});
         setState({
             articles: articles.map(article => {
@@ -142,7 +142,7 @@ export function Articles($el, props) {
         `;
     };
 
-    subscribeStore(() => loadArticles());
+    videoStore.subscribeStore(() => loadArticles());
     bindEvents();
     loadArticles();
 }
