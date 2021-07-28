@@ -121,4 +121,5 @@ export default function SearchModal($el) {
     render();
     bindEvents();
     modalStore.subscribeStore(() => render());
+    videoStore.subscribeStore(() => render());
 }

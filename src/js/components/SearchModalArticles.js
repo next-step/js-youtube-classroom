@@ -13,11 +13,19 @@ export function SearchModalArticles($el, props) {
             if (click === 'saveVideo') {
                 saveVideo(videoId);
             }
+
+            if (click === 'unsaveVideo') {
+                unsaveVideo(videoId);
+            }
         });
     };
 
     const saveVideo = (videoId) => {
         videoStore.addSavedVideo({videoId});
+    };
+
+    const unsaveVideo = (videoId) => {
+        videoStore.deleteSavedVideo({videoId});
     };
 
     const articleNotFoundTemplate = `
@@ -47,7 +55,7 @@ export function SearchModalArticles($el, props) {
         `)
         .join('');
 
-    const articleNormalTemplate = ({videoId, title, channelId, channelTitle, publishedAt}) => `
+    const articleNormalTemplate = ({videoId, title, channelId, channelTitle, publishedAt, isSaved}) => `
         <article class="clip">
             <div class="preview-container">
                 <iframe
@@ -73,8 +81,9 @@ export function SearchModalArticles($el, props) {
                         <p>${publishedAt}</p>
                     </div>
                     <div class="d-flex justify-end">
-                        <button class="btn" data-click="saveVideo" data-video-id="${videoId}">⬇️ 저장</button>
-<!--                        <button class="btn js-save-cancel-button">↪️ 저장 취소</button>-->
+                        <button class="btn ${isSaved && 'js-save-cancel-button'}" data-click="${isSaved ? 'unsaveVideo' : 'saveVideo'}" data-video-id="${videoId}">
+                            ${isSaved ? '↪️ 저장 취소' : '⬇️ 저장'}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -90,13 +99,13 @@ export function SearchModalArticles($el, props) {
             return articleNotFoundTemplate;
         }
 
+        const savedVideosSet = new Set(videoStore.getSavedVideos()
+                                                 .map(({videoId}) => videoId));
         return articles.map(({
-                                 videoId,
-                                 channelId,
-                                 channelTitle,
-                                 title,
-                                 publishedAt,
-                             }) => articleNormalTemplate({videoId, title, channelId, channelTitle, publishedAt}))
+                                 videoId, channelId, channelTitle, title, publishedAt,
+                             }) => articleNormalTemplate({
+                           videoId, title, channelId, channelTitle, publishedAt, isSaved: savedVideosSet.has(videoId),
+                       }))
                        .join('');
     };
 
