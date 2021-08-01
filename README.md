@@ -97,6 +97,8 @@ This project is [MIT](https://github.com/next-step/js-youtube-classroom/blob/mai
 
 ### 구현을 시도한 과정 
 
+<br/>
+
 #### 1차 PR
 - [x] youtube data api 키 발급받기
 - [ ] 검색버튼 클릭시 검색어 쿼리에 해당하는 영상의 제목이 콘솔에 뜨도록 출력해보기 (api key 이용 테스트)
@@ -105,8 +107,9 @@ This project is [MIT](https://github.com/next-step/js-youtube-classroom/blob/mai
 - 막힌 부분 : env 파일을 인식시키는 데 실패하였다. 
   dotenv 패키지를 import 로 가져오려고 하니 node_modules 내부의 상대경로로 찾아서 가져와야 했고, 
   require 로 가져오려고 하니 require를 인식못하는 문제가 있었다. (?!?!))
-
   
+<br/>
+
 #### 1차 PR 피드백
 - 내가 구현하려는 방식을 '모듈화'라고 부른다는 것을 알게 되었다. 각각의 파일이 내부 스코프를 가진 클래스로서 하나의 주요기능을 위한 함수들을 갖고, 
 export 하고 필요한 곳에서 import 하여 쓰는 방식을 모듈화라고 한다. 이렇게 하면 각각의 클래스나 함수에서 사용하는 객체들이 전역스코프를 갖지 않기 때문에 관리하기에 수월하다.
@@ -125,9 +128,32 @@ parcel watch index.html
 ```
 
 - index.css 에서 사용하는 @import 가 인식되지 않는 문제가 있음
-  
-  
-``` 
+
+<br/>
+
+#### youtube api 쿼리 패턴 파악
+
+```typescript
+const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&part=snippet&order=viewCount&q=skateboarding+dog&type=video`
+
 ```
 
->>>>>>> 4e48363 (parcel 세팅 및 스타일시트 링크로 변경 (@import는 parcel 에서 지원되지 않음))
+- [youtube data api](https://developers.google.com/youtube/v3/docs/search/list?apix=true&apix_params=%7B%22part%22%3A%22snippet%22%2C%22order%22%3A%22viewCount%22%2C%22q%22%3A%22skateboarding%20dog%22%2C%22type%22%3A%22video%22%2C%22videoDefinition%22%3A%22high%22%7D)
+  
+  - part: ( string ) - id / snippet
+    
+    - snippet 속성은 결과의 제목, 설명 등을 식별하는 다른 속성을 포함한다. 
+    - id 속성은 id 속성만을 포함한다. 
+  
+  - order: ( string ) - date / rating / relevance / title / videoCount / viewCount
+    
+    - default : SEARCH_SORT_RELEVANCE (relevance)
+    - 정렬기준 설정
+  
+  - q: ( string )
+  
+    - 검색어 설정
+  
+  - type: ( string ) - channel / playlist / video
+  
+    - 리소스 유형 설정
