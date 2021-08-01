@@ -20,13 +20,21 @@ describe('racing-car', () => {
             });
         });
         describe('영상 저장', () => {
-            it('영상 저장하면 저장 버튼 보이지 않게 함', () => {});
-            it('저장 가능한 최대 동영상 갯수는 100개', () => {});
-        });
-        describe('키워드 기능', () => {
-            it('모달에 다시 접근 시 가장 마지막에 검색한 키워드 검색 결과 보여줌', () => {});
-            it('최근 검색 키워드 3개까지 화면상에 검색창 하단에 보여줌', () => {});
-            it('최근 검색 키워드 클릭하면 해당 키워드로 검색한 결과 보여줌', () => {});
+            it('저장 버튼을 클릭하면 저장 취소 버튼이 보이게 함', () => {
+                cy.searchVideo('BTS');
+                cy.wait(1 * 1000).then(() => {
+                    cy.get('.save-button').first().click();
+                    cy.get('#video-search-result button').first().should('have.text', '↪️ 저장 취소');
+                });
+            });
+            it('영상을 저장하면 볼 영상에 추가', () => {
+                cy.searchVideo('BTS');
+                cy.wait(1 * 1000).then(() => {
+                    cy.get('.save-button').first().click();
+                    cy.get('#modal-close-button').click();
+                    cy.get('#video-list').children().should('have.length', 1);
+                });
+            });
         });
     });
 });
