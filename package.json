@@ -5,7 +5,8 @@
   "main": "src/Controllers/modal.js",
   "scripts": {
     "build": "babel src/js -w -d dist/js",
-    "start": "parcel src/Views/index.html"
+    "start": "parcel src/Views/index.html",
+    "lint": "eslint '**/*.{js, html}'"
   },
   "dependencies": {
     "@babel/runtime": "^7.14.6",
@@ -24,6 +25,11 @@
     "@babel/core": "^7.14.6",
     "@babel/plugin-proposal-class-properties": "^7.14.5",
     "@babel/plugin-transform-runtime": "^7.14.5",
-    "@babel/preset-env": "^7.14.7"
+    "@babel/preset-env": "^7.14.7",
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0"
   }
 }

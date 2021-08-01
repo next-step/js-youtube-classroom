@@ -11,6 +11,7 @@ const getSearchKeyword = async () => {
   if (searchKeyword) {
     const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&part=snippet&order=viewCount&q=${searchKeyword}&type=video`
     const response = await axios.get(url)
+    console.log(response)
   }
 }
 

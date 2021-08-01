@@ -168,3 +168,23 @@ const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&part=sni
 #### 검색결과 UI 모듈화 하기
 
 - html 파일을 모듈로 나누어서 임포트시켜보기
+- 리액트 렌더링을 사용해도 되는가? 사용하는 것이 좋을까? => 판단 기준을 세워야 함
+- 일단 연습 차원에서 리액트 없이 해보기
+
+#### html 임베딩 하는 과정에서 트러블 슈팅
+- The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received null
+<br/>
+  -> import, require 대신 스크립트 태그에 넣어야 함. 
+
+- 하지만 리액트와 달리 render함수를 통해 그리도록 할 수 없다. 
+<br/>
+  -> body.append 로 붙이거나 innerHtml 삽입
+
+```javascript
+  $(document).ready(function(){
+  $('body').append($("#scriptId").html());
+  })
+```
+-> 동적으로 classList 를 붙였다 뗐다 할 수 없음
+
+
