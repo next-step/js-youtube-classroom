@@ -27,4 +27,11 @@ Cypress.Commands.add('searchVideo', (keyword) => {
     cy.get('#search-button').click();
     cy.get('#video-search-input').type(keyword);
     cy.get('#video-search-submit').click();
+    cy.get('#video-search-input').clear();
+});
+
+Cypress.Commands.add('addKeywordSearch', (keyword) => {
+    cy.get('#video-search-input').type(keyword);
+    cy.get('#video-search-submit').click();
+    cy.get('#video-search-input').clear();
 });
