@@ -2,10 +2,10 @@
   "name": "newnorm",
   "version": "1.0.0",
   "description": "js youtube classroom",
-  "main": "src/js/index.js",
+  "main": "src/Controllers/modal.js",
   "scripts": {
     "build": "babel src/js -w -d dist/js",
-    "start": "parcel index.html"
+    "start": "parcel src/Views/index.html"
   },
   "dependencies": {
     "@babel/runtime": "^7.14.6",

@@ -1,5 +1,5 @@
 <p align="middle" >
-  <img width="200px;" src="./src/images/readme/laptop_with_youtube_logo.png"/>
+  <img width="200px;" src="src/assets/readme/laptop_with_youtube_logo.png"/>
 </p>
 <h2 align="middle">level1 - 나만의 유튜브 강의실</h2>
 <p align="middle">자바스크립트와 외부 API를 이용해 구현 하는 나만의 유튜브 강의실</p>
@@ -18,7 +18,7 @@
 ## 🔥 Projects!
 
 <p align="middle">
-  <img src="./src/images/readme/youtube_classroom_preview.png">
+  <img src="src/assets/readme/youtube_classroom_preview.png">
 </p>
 
 ### 🎯 step1 검색 기능 UI
@@ -157,3 +157,14 @@ const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&part=sni
   - type: ( string ) - channel / playlist / video
   
     - 리소스 유형 설정
+
+<br/>
+
+#### 검색어를 받아서 파싱하기 
+
+- input 처리하는 함수 (클래스) 모듈화해서 임포트해서 사용하기
+- 띄어쓰기 처리를 따로 안 해도 될 것 같음
+
+#### 검색결과 UI 모듈화 하기
+
+- html 파일을 모듈로 나누어서 임포트시켜보기
