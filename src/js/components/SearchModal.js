@@ -32,6 +32,15 @@ export default function SearchModal($el) {
         $el.addEventListener('click', ({target}) => {
             if (target.closest('[data-click=close]')) {
                 closeModal();
+                return;
+            }
+
+            if (target.dataset.click === 'change-keyword') {
+                const keyword = target.dataset.keyword;
+                if (state.searchKeyword !== keyword) {
+                    submitSearch(keyword);
+                }
+                return;
             }
         });
 
@@ -62,7 +71,7 @@ export default function SearchModal($el) {
 
     const submitSearch = (searchKeyword) => {
         const {articles} = state;
-        const latestSearchKeywords = [searchKeyword, ...state.latestSearchKeywords].slice(0, 3);
+        const latestSearchKeywords = [searchKeyword, ...state.latestSearchKeywords.filter(keyword => keyword !== searchKeyword)].slice(0, 3);
 
         loadArticles({isScrollLoad: false, prevArticles: articles, latestSearchKeywords, searchKeyword, pageToken: ''});
     };
@@ -82,7 +91,7 @@ export default function SearchModal($el) {
         const savedVideos = videoStore.getSavedVideos();
 
         const {latestSearchKeywords, searchKeyword, articles} = state;
-        const latestSearchKeywordButtons = latestSearchKeywords.map(keyword => `<a class="chip">${keyword}</a>`)
+        const latestSearchKeywordButtons = latestSearchKeywords.map(keyword => `<a class="chip" data-click="change-keyword" data-keyword="${keyword}">${keyword}</a>`)
                                                                .join('');
 
         $el.innerHTML = `
