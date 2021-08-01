@@ -185,6 +185,14 @@ const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&part=sni
   $('body').append($("#scriptId").html());
   })
 ```
--> 동적으로 classList 를 붙였다 뗐다 할 수 없음
+-> 동적으로 classList 를 붙였다 뗐다 할 수 없
 
+```javascript
+document.write(`
+
+//코드 막 삽입, 엔터키를 인식하게 하려면 1 왼쪽의 키 특수문자로 따옴표 입력
+
+`)
+
+```
 

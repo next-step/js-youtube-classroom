@@ -2,7 +2,7 @@
   "name": "newnorm",
   "version": "1.0.0",
   "description": "js youtube classroom",
-  "main": "src/Controllers/modal.js",
+  "main": "src/Controllers/handleModal.js",
   "scripts": {
     "build": "babel src/js -w -d dist/js",
     "start": "parcel src/Views/index.html",
