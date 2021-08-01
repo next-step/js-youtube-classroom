@@ -1,0 +1,11 @@
+{
+  "name": "js-youtube-classroom",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "cypress run --spec cypress/integration/youtube-classroom.spec.js"
+  },
+  "author": "inhyuck",
+  "devDependencies": {
+    "cypress": "^8.1.0"
+  }
+}

@@ -1,4 +1,4 @@
-const SAVED_VIDEO_STORE_KEY = 'SAVED_VIDEO_STORE_KEY';
+export const SAVED_VIDEO_STORE_KEY = 'SAVED_VIDEO_STORE_KEY';
 
 let subscribeStoreCallbackFunctions = [];
 

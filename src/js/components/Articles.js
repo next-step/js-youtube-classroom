@@ -80,7 +80,7 @@ export function Articles($el, props) {
     `;
 
     const articlesEmptyTemplate = `
-        <span id="empty-video-list" class="stretch text-center">영상이 없습니다. 😥</span>
+        <span id="empty-video-list" class="stretch text-center" data-test="empty-video-message">영상이 없습니다. 😥</span>
     `;
 
     const loadArticles = async () => {
