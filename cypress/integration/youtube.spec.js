@@ -36,5 +36,24 @@ describe('racing-car', () => {
                 });
             });
         });
+        describe('키워드 기능', () => {
+            it('최근 검색 키워드 3개까지 화면상에 검색창 하단에 보여줌', () => {
+                cy.searchVideo('BTS');
+                cy.addKeywordSearch('여름');
+                cy.addKeywordSearch('가을');
+
+                cy.wait(1 * 1000).then(() => {
+                    cy.get('.js-latest-keyword').should('have.length', 3);
+                });
+            });
+            it('최근 검색 키워드 클릭하면 해당 키워드로 검색한 결과 보여줌', () => {
+                cy.searchVideo('BTS');
+
+                cy.wait(1 * 1000).then(() => {
+                    cy.get('.js-latest-keyword').click();
+                    cy.get('#video-search-result').children().should('have.length', 10);
+                });
+            });
+        });
     });
 });
