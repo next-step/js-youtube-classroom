@@ -4,7 +4,8 @@
   "description": "js youtube classroom",
   "main": "src/js/index.js",
   "scripts": {
-    "build": "babel src/js -w -d dist/js"
+    "build": "babel src/js -w -d dist/js",
+    "start": "parcel index.html"
   },
   "dependencies": {
     "@babel/runtime": "^7.14.6",
