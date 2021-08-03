@@ -16,8 +16,8 @@ export class LectureVideoService {
 
   public addLectureVideos(youtubeClipItem: YoutubeClipItem) {
     const videos = this.fetchLectureVideos();
-    if (videos.length >= 100) {
-      return alert('최대 100개의 강의를 저장할 수 있습니다.');
+    if (videos.length > 100) {
+      return alert('강의는 100개 이하만 저장할 수 있습니다.');
     }
     this.lectureVideoRepository.set([
       ...videos,
