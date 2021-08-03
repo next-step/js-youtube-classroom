@@ -1,5 +1,271 @@
 {
-  "name": "Using fixtures to represent data",
-  "email": "hello@cypress.io",
-  "body": "Fixtures are a great way to mock data for responses to routes"
+  "lectureVideos": [
+    {
+      "id": 1627993922045,
+      "item": {
+        "kind": "youtube#searchResult",
+        "etag": "8WiOzLbS66C8kpj6qVwv2peQrM4",
+        "id": {
+          "kind": "youtube#channel",
+          "channelId": "UCtoXZwnq_tmIGXBgtw3S-MQ"
+        },
+        "snippet": {
+          "publishedAt": "2021-03-14T14:26:28Z",
+          "channelId": "UCtoXZwnq_tmIGXBgtw3S-MQ",
+          "title": "포동이 ASMR podong.e",
+          "description": "ASMR 위주로 합니다 문의:podong.e0103@gmail.com.",
+          "thumbnails": {
+            "default": {
+              "url": "https://yt3.ggpht.com/ytc/AKedOLTqmPLK6xkA6FYlTFHqUT_urr45U7sch5Tog87Z=s88-c-k-c0xffffffff-no-rj-mo"
+            },
+            "medium": {
+              "url": "https://yt3.ggpht.com/ytc/AKedOLTqmPLK6xkA6FYlTFHqUT_urr45U7sch5Tog87Z=s240-c-k-c0xffffffff-no-rj-mo"
+            },
+            "high": {
+              "url": "https://yt3.ggpht.com/ytc/AKedOLTqmPLK6xkA6FYlTFHqUT_urr45U7sch5Tog87Z=s800-c-k-c0xffffffff-no-rj-mo"
+            }
+          },
+          "channelTitle": "포동이 ASMR podong.e",
+          "liveBroadcastContent": "none",
+          "publishTime": "2021-03-14T14:26:28Z"
+        }
+      },
+      "isLike": false,
+      "viewed": true
+    },
+    {
+      "id": 1627997518980,
+      "item": {
+        "kind": "youtube#searchResult",
+        "etag": "0iqJG7oSnKjDjmyNao9OQahNMmU",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "bZsFdL4hMO8"
+        },
+        "snippet": {
+          "publishedAt": "2021-06-02T01:44:46Z",
+          "channelId": "UComhAmtkBwTPF_PvwN8Gc6w",
+          "title": "단국대가 죽전으로 간 이유? 독립운동가가 세운 학교 &#39;단국&#39;의 동문들 [인사이드 스토리]",
+          "description": "독립운동가 백범 김구 선생이 특별하게 생각했다는 '단국대학교'. 유서깊은 역사를 자랑하는 단국대학교는 광복 후 최초의 정규 4년제 민족사학으로 알려져있습니다.",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/bZsFdL4hMO8/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/bZsFdL4hMO8/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/bZsFdL4hMO8/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "OBS뉴스",
+          "liveBroadcastContent": "none",
+          "publishTime": "2021-06-02T01:44:46Z"
+        }
+      },
+      "isLike": true,
+      "viewed": false
+    },
+    {
+      "id": 1627997530742,
+      "item": {
+        "kind": "youtube#searchResult",
+        "etag": "ajRUl2YwGB0RNIUgWqx2zrEqMCs",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "Z3PP-84wKJU"
+        },
+        "snippet": {
+          "publishedAt": "2020-06-22T06:01:50Z",
+          "channelId": "UCUExeJrHQ7Z5RdHQD7iDJtw",
+          "title": "숭실 vs 단국 이렇게 비슷해도 되는거니....? (feat. 입결, 취업률등으로 비교해보기)",
+          "description": "숭실 vs 단국 이렇게 비슷해도 되는거니....? (feat. 입결, 취업률등으로 비교해보기) 안녕하세요 솔루션연구소입니다. 이번 영상은 숭실대학교와 단국대학교를 비교해 ...",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/Z3PP-84wKJU/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/Z3PP-84wKJU/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/Z3PP-84wKJU/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "솔루션연구소",
+          "liveBroadcastContent": "none",
+          "publishTime": "2020-06-22T06:01:50Z"
+        }
+      },
+      "isLike": false,
+      "viewed": false
+    },
+    {
+      "id": 1627997545986,
+      "item": {
+        "kind": "youtube#searchResult",
+        "etag": "RukLZoBtuGs4hWU1l16yd0UDsG8",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "CxcDe3okmIs"
+        },
+        "snippet": {
+          "publishedAt": "2021-06-01T09:54:31Z",
+          "channelId": "UC6QKyk9Df_TRemQTjM5BwMA",
+          "title": "통합리듬짝, 서울구로 포동이원장&amp;부산명품학원 영아쌤 시연, 각학원 수강생 수시모집",
+          "description": "서울구로 포동이원장 ☎ 010-9785-6566 ☎ 부산명품학원 ☎ 010-2069-7375 ☎ 학원홍보 및 시연영상 제작문의: 춤추는딴따라 010-8707-1111 동영상 제작자: ...",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/CxcDe3okmIs/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/CxcDe3okmIs/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/CxcDe3okmIs/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "춤추는딴따라",
+          "liveBroadcastContent": "none",
+          "publishTime": "2021-06-01T09:54:31Z"
+        }
+      },
+      "isLike": false,
+      "viewed": false
+    },
+    {
+      "id": 1627997547852,
+      "item": {
+        "kind": "youtube#searchResult",
+        "etag": "909XhXyEttw6R5Tf_OaQ_VPHi4o",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "85rsMRGSFz0"
+        },
+        "snippet": {
+          "publishedAt": "2021-04-05T10:01:07Z",
+          "channelId": "UCtoXZwnq_tmIGXBgtw3S-MQ",
+          "title": "ASMR]사탕이팅사운드(치아소리),입소리,뽀뽀소리/주사위캔디,추파춥스/die candy eatting sound,mouth sound,Chupa Chups",
+          "description": "ASMR이란? autonomous sensory meridian response) 자율 감각 쾌락 반응의 약자예요. ASMR은 숙면을 취하거나 스트레스 해소, 안정을 위해 듣는답니다! 더 길게 ...",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/85rsMRGSFz0/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/85rsMRGSFz0/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/85rsMRGSFz0/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "포동이 ASMR podong.e",
+          "liveBroadcastContent": "none",
+          "publishTime": "2021-04-05T10:01:07Z"
+        }
+      },
+      "isLike": false,
+      "viewed": false
+    },
+    {
+      "id": 1627997548297,
+      "item": {
+        "kind": "youtube#searchResult",
+        "etag": "qeFJcIOaSPWLQDlKyVgOaHgbpYo",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "O7LhgCHIoQ8"
+        },
+        "snippet": {
+          "publishedAt": "2019-10-18T09:00:08Z",
+          "channelId": "UCWklve34yV5A9A69-1sRLBA",
+          "title": "몸속 여행",
+          "description": "안녕하세요, 여러분! 저와 함께 역사적인 여행을 떠나볼까요? 인간 몸속으로 말이에요! 겁먹지 마세요! 완전 안전하니까요! 입에서 시작할게요. 왜냐하면 거기가 ...",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/O7LhgCHIoQ8/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/O7LhgCHIoQ8/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/O7LhgCHIoQ8/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "밝은 면 Bright Side Korea",
+          "liveBroadcastContent": "none",
+          "publishTime": "2019-10-18T09:00:08Z"
+        }
+      },
+      "isLike": false,
+      "viewed": false
+    },
+    {
+      "id": 1627997606051,
+      "item": {
+        "kind": "youtube#searchResult",
+        "etag": "07h8cArKDOW7Q9XeJXslji5WDCo",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "EZAOrRmXERU"
+        },
+        "snippet": {
+          "publishedAt": "2020-02-20T07:43:08Z",
+          "channelId": "UCgeiclpv1w6zfVc3Qk2ue3A",
+          "title": "[단국대학교] 천안캠퍼스 소개! 단국대 천안캠퍼스에는 뭐가 있을까?!",
+          "description": "[학교왕] 안녕하세요. 오늘은 #단국대학교 천안캠퍼스 소개 영상을 준비했습니다. #단국대 천안캠퍼스는 버스커버스커 꽃송이가 가사에도 등장하는 단대 호수가 ...",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/EZAOrRmXERU/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/EZAOrRmXERU/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/EZAOrRmXERU/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "학교왕TV",
+          "liveBroadcastContent": "none",
+          "publishTime": "2020-02-20T07:43:08Z"
+        }
+      },
+      "isLike": false,
+      "viewed": false
+    }
+  ]
 }
