@@ -31,6 +31,7 @@ export const Movies = ({ videos, updateLectureVideo, removeLectureVideo }: Movie
   })
 
   addEvent('.remove', 'click', e => {
+    if (!confirm('정말로 삭제하시겠습니까?')) return;
     const target = e.target as HTMLElement;
     const id = Number(selectParent('[data-id]', target).dataset.id);
     removeLectureVideo(id);
