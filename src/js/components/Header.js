@@ -43,7 +43,7 @@ export function Header($el, props) {
                 <h2 class="text-center font-bold">👩🏻‍💻 나만의 유튜브 강의실 👨🏻‍💻</h2>
                 <nav class="d-flex justify-center">
                     ${buttons.join('')}
-                    <button class="btn mx-1 rounded-full" data-click="openSearchModal">🔍</button>
+                    <button class="btn mx-1 rounded-full" data-click="openSearchModal" data-test="open-search-modal-btn">🔍</button>
                 </nav>
             </header>
         `;

@@ -21,12 +21,26 @@ describe('유튜브 검색 테스트', () => {
           .should('be.visible');
     });
 
-    // it('동영상 검색 버튼을 클릭 시 모달을 화면에 띄운다.', () => {
-    // });
-    //
-    // it('검색 결과가 없는 경우 결과 없음 이미지와 메세지를 화면에 띄운다.', () => {
-    // });
-    //
+    it('동영상 검색 버튼을 클릭 시 모달을 화면에 띄운다.', () => {
+        cy.getBySel('open-search-modal-btn')
+          .click();
+
+        cy.getBySel('search-modal-wrap')
+          .should('be.visible');
+    });
+
+    it('검색 결과가 없는 경우 결과 없음 이미지와 메세지를 화면에 띄운다.', () => {
+        cy.getBySel('open-search-modal-btn')
+          .click();
+        cy.getBySel('search-modal-input')
+          .type('aflkjdsjfldksjf');
+        cy.getBySel('search-modal-form')
+          .submit();
+
+        cy.getBySel('search-modal-not-exist-result')
+          .should('be.visible');
+    });
+
     // it(`최초 검색결과는 10개까지만 보여준다.`, () => {
     // });
     //

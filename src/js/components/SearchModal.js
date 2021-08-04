@@ -95,7 +95,7 @@ export default function SearchModal($el) {
                                                                .join('');
 
         $el.innerHTML = `
-            <div class="modal ${isShowModal && 'open'}">
+            <div class="modal ${isShowModal && 'open'}" data-test="search-modal-wrap">
                 <div class="modal-inner p-8" data-scroll>
                     <button class="modal-close" data-click="close">
                         <svg viewBox="0 0 40 40">
@@ -105,8 +105,8 @@ export default function SearchModal($el) {
                     <header>
                         <h2 class="text-center">🔎 유튜브 검색</h2>
                     </header>
-                    <form class="d-flex" data-submit="submitSearch">
-                        <input type="text" name="searchKeyword" class="w-100 mr-2 pl-2" placeholder="검색" value="${searchKeyword}"/>
+                    <form class="d-flex" data-submit="submitSearch" data-test="search-modal-form">
+                        <input type="text" name="searchKeyword" class="w-100 mr-2 pl-2" placeholder="검색" value="${searchKeyword}" data-test="search-modal-input"/>
                         <button type="submit" class="btn bg-cyan-500">검색</button>
                     </form>
                     <section class="mt-2">
