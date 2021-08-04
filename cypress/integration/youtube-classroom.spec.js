@@ -10,6 +10,8 @@ describe('유튜브 검색 테스트', () => {
           })
           .as('dataGetFirst');
         cy.wait('@dataGetFirst'); //메인페이지 접근 시 youtube API 호출 대기
+
+
     });
 
     afterEach(() => {
@@ -41,12 +43,35 @@ describe('유튜브 검색 테스트', () => {
           .should('be.visible');
     });
 
-    // it(`최초 검색결과는 10개까지만 보여준다.`, () => {
-    // });
-    //
-    // it(`스크롤을 끝까지 내렸을 때, 추가로 10개의 검색 결과를 가지고 온다.`, () => {
-    // });
-    //
+    it(`최초 검색결과는 10개까지만 보여준다.`, () => {
+        cy.getBySel('open-search-modal-btn')
+          .click();
+        cy.getBySel('search-modal-input')
+          .type('hello');
+        cy.getBySel('search-modal-form')
+          .submit();
+
+        cy.getBySel('search-modal-article')
+          .should('have.length', 10);
+    });
+
+    it(`스크롤을 끝까지 내렸을 때, 추가로 10개의 검색 결과를 가지고 온다.`, () => {
+        cy.getBySel('open-search-modal-btn')
+          .click();
+        cy.getBySel('search-modal-input')
+          .type('hello');
+        cy.getBySel('search-modal-form')
+          .submit();
+        cy.getBySel('search-modal-article')
+          .should('have.length', 10);
+
+        cy.getBySel('search-modal-wrap-scroll')
+          .scrollTo('bottom');
+
+        cy.getBySel('search-modal-article')
+          .should('have.length', 20);
+    });
+
     // it('동영상의 저장 버튼을 누르면, 동영상의 id를 localStorage에 저장한다.', () => {
     // });
     //

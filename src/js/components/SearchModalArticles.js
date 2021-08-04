@@ -56,7 +56,7 @@ export function SearchModalArticles($el, props) {
         .join('');
 
     const articleNormalTemplate = ({videoId, title, channelId, channelTitle, publishedAt, isSaved}) => `
-        <article class="clip">
+        <article class="clip" data-test="search-modal-article">
             <div class="preview-container">
                 <iframe
                     width="100%"

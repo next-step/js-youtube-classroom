@@ -96,7 +96,7 @@ export default function SearchModal($el) {
 
         $el.innerHTML = `
             <div class="modal ${isShowModal && 'open'}" data-test="search-modal-wrap">
-                <div class="modal-inner p-8" data-scroll>
+                <div class="modal-inner p-8" data-scroll data-test="search-modal-wrap-scroll">
                     <button class="modal-close" data-click="close">
                         <svg viewBox="0 0 40 40">
                             <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30"/>
