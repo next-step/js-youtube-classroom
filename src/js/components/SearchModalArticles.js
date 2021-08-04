@@ -4,7 +4,7 @@
  * @param {[object]} props.articles
  * @constructor
  */
-import {addSavedVideo} from '../store/videoStore.js';
+import videoStore from '../store/videoStore.js';
 
 export function SearchModalArticles($el, props) {
 
@@ -13,15 +13,23 @@ export function SearchModalArticles($el, props) {
             if (click === 'saveVideo') {
                 saveVideo(videoId);
             }
+
+            if (click === 'unsaveVideo') {
+                unsaveVideo(videoId);
+            }
         });
     };
 
     const saveVideo = (videoId) => {
-        addSavedVideo(videoId);
+        videoStore.addSavedVideo({videoId});
+    };
+
+    const unsaveVideo = (videoId) => {
+        videoStore.deleteSavedVideo({videoId});
     };
 
     const articleNotFoundTemplate = `
-        <div class="stretch d-flex flex-col items-center">
+        <div class="stretch d-flex flex-col items-center" data-test="search-modal-not-exist-result">
             <img src="../../src/images/status/not_found.png" width="100px" alt="not found">
             <h2>검색결과가 없습니다.</h2>
             <div>다른 검색어를 시도해 보거나 검색 필터를 삭제하세요.</div>
@@ -47,8 +55,8 @@ export function SearchModalArticles($el, props) {
         `)
         .join('');
 
-    const articleNormalTemplate = ({videoId, title, channelId, channelTitle, publishedAt}) => `
-        <article class="clip">
+    const articleNormalTemplate = ({videoId, title, channelId, channelTitle, publishedAt, isSaved}) => `
+        <article class="clip" data-test="search-modal-article">
             <div class="preview-container">
                 <iframe
                     width="100%"
@@ -73,7 +81,9 @@ export function SearchModalArticles($el, props) {
                         <p>${publishedAt}</p>
                     </div>
                     <div class="d-flex justify-end">
-                        <button class="btn" data-click="saveVideo" data-video-id="${videoId}">⬇️ 저장</button>
+                        <button class="btn ${isSaved && 'js-save-cancel-button'}" data-click="${isSaved ? 'unsaveVideo' : 'saveVideo'}" data-video-id="${videoId}">
+                            ${isSaved ? '↪️ 저장 취소' : '⬇️ 저장'}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -89,13 +99,13 @@ export function SearchModalArticles($el, props) {
             return articleNotFoundTemplate;
         }
 
+        const savedVideosSet = new Set(videoStore.getSavedVideos()
+                                                 .map(({videoId}) => videoId));
         return articles.map(({
-                                 videoId,
-                                 channelId,
-                                 channelTitle,
-                                 title,
-                                 publishedAt,
-                             }) => articleNormalTemplate({videoId, title, channelId, channelTitle, publishedAt}))
+                                 videoId, channelId, channelTitle, title, publishedAt,
+                             }) => articleNormalTemplate({
+                           videoId, title, channelId, channelTitle, publishedAt, isSaved: savedVideosSet.has(videoId),
+                       }))
                        .join('');
     };
 

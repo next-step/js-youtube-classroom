@@ -108,3 +108,6 @@ dist
 
 # youtube api key
 /src/js/apis/secretKey.js
+
+# cypress
+/cypress/videos/

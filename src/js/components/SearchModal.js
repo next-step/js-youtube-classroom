@@ -1,20 +1,18 @@
 import {findAllBySearchKey} from '../apis/youtubeApis.js';
 import {$} from '../utils/selector.js';
 import {SearchModalArticles} from './SearchModalArticles.js';
+import modalStore from '../store/modalStore.js';
+import videoStore from '../store/videoStore.js';
 
 /**
  * 검색 모달
  * @param $el
- * @param props
- * @param {boolean} props.isShowModal
- * @param {function} props.closeModal
  * @constructor
  */
 
-export default function SearchModal($el, props) {
+export default function SearchModal($el) {
 
     const state = {
-        isShowModal: props.isShowModal,
         latestSearchKeywords: [],
         searchKeyword: '',
         nextPageToken: '',
@@ -34,6 +32,15 @@ export default function SearchModal($el, props) {
         $el.addEventListener('click', ({target}) => {
             if (target.closest('[data-click=close]')) {
                 closeModal();
+                return;
+            }
+
+            if (target.dataset.click === 'change-keyword') {
+                const keyword = target.dataset.keyword;
+                if (state.searchKeyword !== keyword) {
+                    submitSearch(keyword);
+                }
+                return;
             }
         });
 
@@ -59,12 +66,12 @@ export default function SearchModal($el, props) {
     };
 
     const closeModal = () => {
-        props.closeModal();
+        modalStore.closeModal();
     };
 
     const submitSearch = (searchKeyword) => {
         const {articles} = state;
-        const latestSearchKeywords = [searchKeyword, ...state.latestSearchKeywords].slice(0, 3);
+        const latestSearchKeywords = [searchKeyword, ...state.latestSearchKeywords.filter(keyword => keyword !== searchKeyword)].slice(0, 3);
 
         loadArticles({isScrollLoad: false, prevArticles: articles, latestSearchKeywords, searchKeyword, pageToken: ''});
     };
@@ -80,13 +87,16 @@ export default function SearchModal($el, props) {
     };
 
     const render = () => {
-        const {isShowModal, latestSearchKeywords, searchKeyword, articles} = state;
-        const latestSearchKeywordButtons = latestSearchKeywords.map(keyword => `<a class="chip">${keyword}</a>`)
+        const isShowModal = modalStore.getIsShowModal();
+        const savedVideos = videoStore.getSavedVideos();
+
+        const {latestSearchKeywords, searchKeyword, articles} = state;
+        const latestSearchKeywordButtons = latestSearchKeywords.map(keyword => `<a class="chip" data-click="change-keyword" data-keyword="${keyword}">${keyword}</a>`)
                                                                .join('');
 
         $el.innerHTML = `
-            <div class="modal ${isShowModal && 'open'}">
-                <div class="modal-inner p-8" data-scroll>
+            <div class="modal ${isShowModal && 'open'}" data-test="search-modal-wrap">
+                <div class="modal-inner p-8" data-scroll data-test="search-modal-wrap-scroll">
                     <button class="modal-close" data-click="close">
                         <svg viewBox="0 0 40 40">
                             <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30"/>
@@ -95,8 +105,8 @@ export default function SearchModal($el, props) {
                     <header>
                         <h2 class="text-center">🔎 유튜브 검색</h2>
                     </header>
-                    <form class="d-flex" data-submit="submitSearch">
-                        <input type="text" name="searchKeyword" class="w-100 mr-2 pl-2" placeholder="검색" value="${searchKeyword}"/>
+                    <form class="d-flex" data-submit="submitSearch" data-test="search-modal-form">
+                        <input type="text" name="searchKeyword" class="w-100 mr-2 pl-2" placeholder="검색" value="${searchKeyword}" data-test="search-modal-input"/>
                         <button type="submit" class="btn bg-cyan-500">검색</button>
                     </form>
                     <section class="mt-2">
@@ -105,7 +115,7 @@ export default function SearchModal($el, props) {
                     </section>
                     <section>
                         <div class="d-flex justify-end text-gray-700">
-                            저장된 영상 갯수: 50개
+                            저장된 영상 갯수: ${savedVideos.length}개
                         </div>
                         <div data-component="search-modal-articles"></div>
                     </section>
@@ -119,4 +129,6 @@ export default function SearchModal($el, props) {
 
     render();
     bindEvents();
+    modalStore.subscribeStore(() => render());
+    videoStore.subscribeStore(() => render());
 }
